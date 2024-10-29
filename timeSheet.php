@@ -22,7 +22,7 @@ add_shortcode('timeSheetPanel', 'timeSheetPanel_shortcode');
 
 function timeSheetPanel_shortcode (){
     ob_start();
-    include plugin_dir_path(__FILE__) . 'views/trabalho/add.php';
+    include plugin_dir_path(__FILE__) . 'views/alteracao/add.php';
     return ob_get_clean();
 }
 
