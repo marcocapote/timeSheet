@@ -2,33 +2,26 @@
 if (!defined('ABSPATH')) exit; // Impede acesso direto
 
 class AlteracaoController {
-    public static function processarFormulario() {
-        if (isset($_POST['inserirAlteracao'])) {
-            global $wpdb;
-            $tabela = $wpdb->prefix . 'timesheet_alteracoes';
 
-            // Coleta e sanitiza os dados do formulário
-            $dados = [
-                'idTrabalho' => intval($_POST['idTrabalho']),
-                'editor'     => sanitize_text_field($_POST['editor']),
-                'inicio'     => $_POST['inicio'],
-                'fim'        => $_POST['fim'],
-                'descricao'  => sanitize_textarea_field($_POST['descricao']),
-            ];
-
-            // Calcula as horas gastas
-            $dados['horasGastas'] = (strtotime($dados['fim']) - strtotime($dados['inicio'])) / 3600;
-
-            // Insere no banco de dados
-            $resultado = $wpdb->insert($tabela, $dados);
-
-            if ($resultado) {
-                wp_redirect(home_url('/pagina-de-sucesso')); // Redireciona em caso de sucesso
-                exit;
-            } else {
-                echo "<p>Erro ao salvar a alteração.</p>";
-            }
-        }
+    
+    public static function inserirAlteracao($dados) {
+        global $wpdb;
+        $tabela = $wpdb->prefix . 'timesheet_alteracoes';
+        $tabelaTrabalho = $wpdb->prefix . 'timesheet_trabalhos';
+    
+        
+    
+        // Insere a alteração na tabela
+        $wpdb->insert($tabela, [
+           // 'idTrabalho' => intval($idTrabalho),
+            'editor'     => sanitize_text_field($dados['editor']),
+            'inicio'     => $dados['inicio'],
+            'fim'        => $dados['fim'],
+            'descricao'  => sanitize_textarea_field($dados['descricao']),
+        ]);
+    
+        // Retorna o ID da inserção ou false em caso de falha
+        return $wpdb->insert_id ? $wpdb->insert_id : false;
     }
 
     public static function buscar_trabalho($numOs) {
