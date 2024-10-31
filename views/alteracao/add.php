@@ -2,25 +2,32 @@
 if (!defined('ABSPATH')) exit; // Impede acesso direto
 
 // Verifica se foi enviado um número de OS ou Orçamento
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_alteracao'])) {
-    $idAltercao = AlteracaoController::inserirAlteracao($_POST);
+    $idAlteracao = AlteracaoController::inserirAlteracao($_POST);
     if ($idAlteracao) {
         echo "<p>Trabalho adicionado com sucesso! ID: $idAlteracao</p>";
     } else {
         echo "<p>Erro ao adicionar o trabalho.</p>";
     }
 }
+
+
 ?>
 
 <h2>Registrar Alteração</h2>
 
-<form method="post" action="">
-    <label for="numOs">Numero da OS:</label>
+<form method="post" action="" id="formAtualizar">
+    <h5>Buscar Trabalho:</h5>
+    <label for="numOs">Número da OS:</label>
     <input type="text" id="numOs" name="numOs" required>
     <br>
-    <label for="numOrcamento">Numero do Orçamento:</label>
+    <label for="numOrcamento">Número do Orçamento:</label>
     <input type="text" id="numOrcamento" name="numOrcamento" required>
+    <br>
+    <button type="button" id="buscarTrabalho">Buscar Trabalho</button>
+    <br>
+    <label for="titulo">Título do Trabalho</label>
+    <input type="text" id="titulo" name="titulo" required>
     <br>
     <label for="nomeCliente">Cliente:</label>
     <input type="text" id="nomeCliente" name="nomeCliente" required>
@@ -46,24 +53,60 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_alteracao'])) 
     <p>Horas Gastas: <span id="horasGastas">0</span> horas</p>
 
     <button type="submit" name="submit_alteracao">Salvar</button>
-
 </form>
 
-
 <script>
-    // Função para calcular horas gastas
-    document.getElementById('fim').addEventListener('input', calcularHorasGastas);
-    document.getElementById('inicio').addEventListener('input', calcularHorasGastas);
 
-    function calcularHorasGastas() {
-        const inicio = document.getElementById('inicio').value;
-        const fim = document.getElementById('fim').value;
+document.getElementById('buscarTrabalho').addEventListener('click', () => {
+    const numOs = document.getElementById('numOs').value;
+    const numOrcamento = document.getElementById('numOrcamento').value;
 
-        if (inicio && fim) {
-            const diff = (new Date(fim) - new Date(inicio)) / 3600000;
-            document.getElementById('horasGastas').innerText = diff.toFixed(2);
-        }
+    // Verifica se pelo menos um campo foi preenchido
+    if (!numOs && !numOrcamento) {
+        alert('Por favor, preencha pelo menos um dos campos: Número da OS ou Número do Orçamento.');
+        return;
     }
 
+    fetch('<?php echo admin_url("admin-ajax.php"); ?>', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+            action: 'buscar_trabalho',
+            numOs: numOs,
+            numOrcamento: numOrcamento
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            preencherCampos(data.data);
+        } else {
+            console.error('Trabalho não encontrado');
+            alert('Trabalho não encontrado.');
+        }
+    })
+    .catch(error => console.error('Erro na requisição:', error));
+});
 
+function preencherCampos(trabalho) {
+    document.getElementById('titulo').value = trabalho.titulo || '';
+    document.getElementById('nomeCliente').value = trabalho.nome || '';
+    document.getElementById('vendedor').value = trabalho.vendedor || '';
+    document.getElementById('observacoes').value = trabalho.observacoes || '';
+}
+
+
+// Função para calcular horas gastas
+document.getElementById('fim').addEventListener('input', calcularHorasGastas);
+document.getElementById('inicio').addEventListener('input', calcularHorasGastas);
+
+function calcularHorasGastas() {
+    const inicio = document.getElementById('inicio').value;
+    const fim = document.getElementById('fim').value;
+
+    if (inicio && fim) {
+        const diff = (new Date(fim) - new Date(inicio)) / 3600000;
+        document.getElementById('horasGastas').innerText = diff.toFixed(2);
+    }
+}
 </script>

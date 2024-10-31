@@ -17,6 +17,10 @@ register_activation_hook(__FILE__, 'create_tables');
 
 register_uninstall_hook(__FILE__, 'drop_tables');
 
+$controller = new AlteracaoController();
+add_action('wp_ajax_buscar_trabalho', [$controller, 'buscar_trabalho_ajax']);
+add_action('wp_ajax_nopriv_buscar_trabalho', [$controller, 'buscar_trabalho_ajax']);
+
 
 add_shortcode('timeSheetPanel', 'timeSheetPanel_shortcode');
 
