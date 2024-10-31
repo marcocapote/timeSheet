@@ -27,8 +27,9 @@ class AlteracaoController {
         $numOs = sanitize_text_field($_POST['numOs']);
         $numOrcamento = sanitize_text_field($_POST['numOrcamento']);
         $tabela = $wpdb->prefix . 'timesheet_trabalhos';
-    
+        $tabelaCliente = $wpdb->prefix . 'timesheet_clientes';
         $trabalho = null;
+        $cliente = null;
     
         // Verifica se o número da OS foi preenchido
         if (!empty($numOs)) {
@@ -44,9 +45,13 @@ class AlteracaoController {
     
         if ($trabalho) {
             // Retorna os dados em formato JSON
+            $queryNome = $wpdb->prepare("SELECT nome FROM $tabelaCliente WHERE idCliente = %s", $trabalho->idCliente);
+            $cliente = $wpdb->get_row($queryNome);
             wp_send_json_success([
+                'numOrcamento' => $trabalho->numOrcamento,
+                'numOs' => $trabalho->numOs,
                 'titulo' => $trabalho->titulo,
-                'nome' => $trabalho->nome,
+                'nome' => $cliente->nome,
                 'vendedor' => $trabalho->vendedor,
                 'observacoes' => $trabalho->observacoes
             ]);

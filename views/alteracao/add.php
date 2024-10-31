@@ -29,8 +29,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_alteracao'])) 
     <label for="titulo">Título do Trabalho</label>
     <input type="text" id="titulo" name="titulo" required>
     <br>
-    <label for="nomeCliente">Cliente:</label>
-    <input type="text" id="nomeCliente" name="nomeCliente" required>
+    <label for="nome">Cliente:</label>
+    <input type="text" id="nome" name="nome" required>
     <br>
     <label for="vendedor">Vendedor:</label>
     <input type="text" id="vendedor" name="vendedor" required>
@@ -89,10 +89,17 @@ document.getElementById('buscarTrabalho').addEventListener('click', () => {
 });
 
 function preencherCampos(trabalho) {
+
     document.getElementById('titulo').value = trabalho.titulo || '';
-    document.getElementById('nomeCliente').value = trabalho.nome || '';
+    document.getElementById('nome').value = trabalho.nome || '';
     document.getElementById('vendedor').value = trabalho.vendedor || '';
     document.getElementById('observacoes').value = trabalho.observacoes || '';
+    if (!document.getElementById('numOrcamento').value){
+        document.getElementById('numOrcamento').value = trabalho.numOrcamento || '';
+    }
+    if (!document.getElementById('numOs').value){
+        document.getElementById('numOs').value = trabalho.numOs || '';
+    }
 }
 
 
