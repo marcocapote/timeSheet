@@ -9,7 +9,9 @@ $teste = "teste123";
 
 
 <h2>Painel de Timesheets</h2>
-
+<a href="?pagina=alteracao" class="button">Adicionar Alteração</a>
+<a href="?pagina=trabalho" class="button">Adicionar Trabalho</a>
+<!-- Tabela e conteúdo da página -->
 <!-- Tabela HTML para exibir os dados -->
 <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
     <thead>

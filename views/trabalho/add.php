@@ -11,6 +11,9 @@ $clientes = TrabalhoController::listarClientes();
 ?>
 
 <h2>Cadastrar Novo Trabalho</h2>
+<a href="?pagina=alteracao" class="button">Adicionar alteracao</a>
+<a href="?pagina=timeSheet" class="button">Voltar para TimeSheet</a>
+
 
 <form method="post">
     <label for="idCliente">Cliente:</label>

@@ -1,5 +1,5 @@
 <?php 
-if (!defined('ABSPATH')) exit; // Impede acesso direto
+//if (!defined('ABSPATH')) exit; // Impede acesso direto
 
 // Verifica se foi enviado um número de OS ou Orçamento
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_alteracao'])) {
@@ -8,6 +8,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_alteracao'])) 
 
 
 ?>
+
+<h2>Adicionar Alteração</h2>
+<a href="?pagina=timeSheet" class="button">Voltar ao Painel de Timesheets</a>
+<a href="?pagina=trabalho" class="button">Adicionar Trabalho</a>
+<!-- Formulário e conteúdo da página de alteração -->
+
 
 <h2>Registrar Alteração</h2>
 

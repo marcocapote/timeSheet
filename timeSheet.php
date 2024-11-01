@@ -23,12 +23,21 @@ add_action('wp_ajax_buscar_trabalho', [$controller, 'buscar_trabalho_ajax']);
 add_action('wp_ajax_nopriv_buscar_trabalho', [$controller, 'buscar_trabalho_ajax']);
 
 
-add_shortcode('timeSheetPanel', 'timeSheetPanel_shortcode');
+function timeSheetPanel_shortcode() {
+    // Obtém o valor da página a partir do parâmetro GET (ou usa "alteracao" como padrão)
+    $pagina = isset($_GET['pagina']) ? sanitize_text_field($_GET['pagina']) : 'alteracao';
 
-function timeSheetPanel_shortcode (){
     ob_start();
-    include plugin_dir_path(__FILE__) . 'views/timeSheet/view.php';
+    if ($pagina === "alteracao") {
+        include plugin_dir_path(__FILE__) . 'views/alteracao/add.php';
+    } elseif ($pagina === "timeSheet") {
+        include plugin_dir_path(__FILE__) . 'views/timeSheet/view.php';
+    } elseif ($pagina === "trabalho"){
+        include plugin_dir_path( __FILE__ ) . 'views/trabalho/add.php';
+    }
     return ob_get_clean();
 }
+add_shortcode('timeSheetPanel', 'timeSheetPanel_shortcode');
+
 
 ?>
