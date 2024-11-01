@@ -4,11 +4,6 @@ if (!defined('ABSPATH')) exit; // Impede acesso direto
 // Verifica se foi enviado um número de OS ou Orçamento
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_alteracao'])) {
     $idAlteracao = AlteracaoController::inserirAlteracao($_POST);
-    if ($idAlteracao) {
-        echo "<p>Trabalho adicionado com sucesso! ID: $idAlteracao</p>";
-    } else {
-        echo "<p>Erro ao adicionar o trabalho.</p>";
-    }
 }
 
 
@@ -24,7 +19,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_alteracao'])) 
     <label for="numOrcamento">Número do Orçamento:</label>
     <input type="text" id="numOrcamento" name="numOrcamento" required>
     <br>
+
     <button type="button" id="buscarTrabalho">Buscar Trabalho</button>
+
+    <input type="text" id="idTrabalho" name="idTrabalho" hidden></input>
     <br>
     <label for="titulo">Título do Trabalho</label>
     <input type="text" id="titulo" name="titulo" required>
@@ -89,7 +87,7 @@ document.getElementById('buscarTrabalho').addEventListener('click', () => {
 });
 
 function preencherCampos(trabalho) {
-
+    document.getElementById('idTrabalho').value =trabalho.idTrabalho || '';
     document.getElementById('titulo').value = trabalho.titulo || '';
     document.getElementById('nome').value = trabalho.nome || '';
     document.getElementById('vendedor').value = trabalho.vendedor || '';

@@ -7,6 +7,7 @@ $dados_timesheet = TimeSheetController::buscar_dados_timesheet();
 $teste = "teste123";
 ?>
 
+
 <h2>Painel de Timesheets</h2>
 
 <!-- Tabela HTML para exibir os dados -->
@@ -45,6 +46,3 @@ $teste = "teste123";
     </tbody>
 </table>
 
-<script>
-   alert("<?php echo $dados_timesheet->numOs?>");
-</script>

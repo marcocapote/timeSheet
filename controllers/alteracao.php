@@ -12,12 +12,18 @@ class AlteracaoController {
 
         // Insere a alteração na tabela
         $wpdb->insert($tabela, [
+            'idTrabalho' => intval($dados['idTrabalho']),
             'editor'     => sanitize_text_field($dados['editor']),
             'inicio'     => $dados['inicio'],
             'fim'        => $dados['fim'],
             'descricao'  => sanitize_textarea_field($dados['descricao']),
         ]);
 
+        $idAlteracao = $wpdb->insert_id;
+
+        if ($idAlteracao){
+            TimeSheetController::inserir_alteracao_timesheet($idAlteracao);
+        }
         // Retorna o ID da inserção ou false em caso de falha
         return $wpdb->insert_id ? $wpdb->insert_id : false;
     }
@@ -50,6 +56,7 @@ class AlteracaoController {
             wp_send_json_success([
                 'numOrcamento' => $trabalho->numOrcamento,
                 'numOs' => $trabalho->numOs,
+                'idTrabalho' => $trabalho->idTrabalho,
                 'titulo' => $trabalho->titulo,
                 'nome' => $cliente->nome,
                 'vendedor' => $trabalho->vendedor,

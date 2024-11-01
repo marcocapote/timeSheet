@@ -4,11 +4,6 @@ if (!defined('ABSPATH')) exit; // Impede acesso direto
 // Verifica se o formulário foi submetido
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_trabalho'])) {
     $idTrabalho = TrabalhoController::inserirTrabalho($_POST);
-    if ($idTrabalho) {
-        echo "<p>Trabalho adicionado com sucesso! ID: $idTrabalho</p>";
-    } else {
-        echo "<p>Erro ao adicionar o trabalho.</p>";
-    }
 }
 
 // Recupera a lista de clientes
@@ -39,6 +34,9 @@ $clientes = TrabalhoController::listarClientes();
 
     <label for="numOrcamento">Número Orçamento:</label>
     <input type="text" name="numOrcamento" required><br><br>
+
+    <label for="titulo">Titulo do Trabalho:</label>
+    <input type="titulo" name="titulo" required><br><br>
 
     <label for="vendedor">Vendedor:</label>
     <input type="text" name="vendedor" required><br><br>

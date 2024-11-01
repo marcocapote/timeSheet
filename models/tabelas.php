@@ -48,7 +48,7 @@ function create_table_trabalhos() {
     idCliente INT NOT NULL,
     numOs VARCHAR(6),
     numOrcamento VARCHAR(10),
-    titrulo VARCHAR(40),
+    titulo VARCHAR(40),
     FOREIGN KEY (idCliente) REFERENCES {$wpdb->prefix}timesheet_clientes (idCliente),
     vendedor VARCHAR(100),
     observacoes TEXT,
