@@ -29,6 +29,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_alteracao'])) 
     <button type="button" id="buscarTrabalho">Buscar Trabalho</button>
 
     <input type="text" id="idTrabalho" name="idTrabalho" hidden></input>
+    <input type="text" id="idCliente" name="idCliente" hidden></input>
+
     <br>
     <label for="titulo">Título do Trabalho</label>
     <input type="text" id="titulo" name="titulo" required>
@@ -94,6 +96,7 @@ document.getElementById('buscarTrabalho').addEventListener('click', () => {
 
 function preencherCampos(trabalho) {
     document.getElementById('idTrabalho').value =trabalho.idTrabalho || '';
+    document.getElementById('idCliente').value =trabalho.idCliente || '';
     document.getElementById('titulo').value = trabalho.titulo || '';
     document.getElementById('nome').value = trabalho.nome || '';
     document.getElementById('vendedor').value = trabalho.vendedor || '';
@@ -104,6 +107,7 @@ function preencherCampos(trabalho) {
     if (!document.getElementById('numOs').value){
         document.getElementById('numOs').value = trabalho.numOs || '';
     }
+    
 }
 
 

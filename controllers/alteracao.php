@@ -22,7 +22,7 @@ class AlteracaoController {
         $idAlteracao = $wpdb->insert_id;
 
         if ($idAlteracao){
-            TimeSheetController::inserir_alteracao_timesheet($idAlteracao);
+            TimeSheetController::inserir_alteracao_timesheet($idAlteracao, $dados);
         }
         // Retorna o ID da inserção ou false em caso de falha
         return $wpdb->insert_id ? $wpdb->insert_id : false;
@@ -30,6 +30,7 @@ class AlteracaoController {
 
     function buscar_trabalho_ajax() {
         global $wpdb;
+
         $numOs = sanitize_text_field($_POST['numOs']);
         $numOrcamento = sanitize_text_field($_POST['numOrcamento']);
         $tabela = $wpdb->prefix . 'timesheet_trabalhos';
@@ -57,6 +58,7 @@ class AlteracaoController {
                 'numOrcamento' => $trabalho->numOrcamento,
                 'numOs' => $trabalho->numOs,
                 'idTrabalho' => $trabalho->idTrabalho,
+                'idCliente' => $trabalho->idCliente,
                 'titulo' => $trabalho->titulo,
                 'nome' => $cliente->nome,
                 'vendedor' => $trabalho->vendedor,

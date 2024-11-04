@@ -16,12 +16,15 @@ class TimeSheetController {
         return $wpdb->insert_id;
     }
 
-    public static function inserir_alteracao_timesheet($idAlteracao){
+    public static function inserir_alteracao_timesheet($idAlteracao, $dados){
         global $wpdb;
         $tabela =$wpdb->prefix . 'timesheet_timeSheet';
+        
 
         $wpdb->insert($tabela, [
-            
+            'idTrabalho'     => intval($dados['idTrabalho']),
+            'idCliente'     => intval($dados['idCliente']),
+            'idAlteracao'    => $idAlteracao
         ]);
 
 
