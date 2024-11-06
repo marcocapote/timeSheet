@@ -94,7 +94,7 @@ function create_table_timeSheet(){
     idTimeSheet INT NOT NULL AUTO_INCREMENT,
     idCliente INT NOT NULL,
     idTrabalho INT NOT NULL,
-    idAlteracao INT NOT NULL
+    idAlteracao INT NOT NULL,
 
     PRIMARY KEY (idTimeSheet),
     FOREIGN KEY (idCliente) REFERENCES {$wpdb->prefix}timesheet_clientes (idCliente),
