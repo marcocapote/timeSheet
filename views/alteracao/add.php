@@ -56,7 +56,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_alteracao'])) 
     <label for="fim">Fim:</label>
     <input type="datetime-local" id="fim" name="fim" required>
     <br>
-    <p>Horas Gastas: <span id="horasGastas">0</span> horas</p>
+    <input type="text" id="horasGastas" name="horasGastas">
+    <!-- <p>Horas Gastas: <span id="horasGastas">0</span> horas</p> -->
 
     <button type="submit" name="submit_alteracao">Salvar</button>
 </form>
@@ -122,6 +123,7 @@ function calcularHorasGastas() {
     if (inicio && fim) {
         const diff = (new Date(fim) - new Date(inicio)) / 3600000;
         document.getElementById('horasGastas').innerText = diff.toFixed(2);
+        document.getElementById('horasGastas').value = diff.toFixed(2);
     }
 }
 </script>

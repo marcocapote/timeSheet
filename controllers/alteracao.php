@@ -16,16 +16,20 @@ class AlteracaoController {
             'editor'     => sanitize_text_field($dados['editor']),
             'inicio'     => $dados['inicio'],
             'fim'        => $dados['fim'],
-            'descricao'  => sanitize_textarea_field($dados['descricao']),
+            'descricao'  => sanitize_textarea_field($dados['descricao'])
         ]);
-
+        
         $idAlteracao = $wpdb->insert_id;
 
         if ($idAlteracao){
-            TimeSheetController::inserir_alteracao_timesheet($idAlteracao, $dados);
+            TimeSheetController::inserir_alteracao_timesheet($idAlteracao, $dados); 
+            TrabalhoController::registrarHora($dados);
+            
         }
         // Retorna o ID da inserção ou false em caso de falha
         return $wpdb->insert_id ? $wpdb->insert_id : false;
+
+        
     }
 
     function buscar_trabalho_ajax() {

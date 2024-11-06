@@ -63,6 +63,31 @@ class TrabalhoController {
         }
     }
 
+    public static function registrarHora($dados) {
+        global $wpdb;
+        $tabela = $wpdb->prefix . 'timesheet_trabalhos';
+        // Verifica se os campos necessários estão presentes
+        if (!isset($dados['idTrabalho']) || !isset($dados['horasGastas'])) {
+            error_log("Erro: 'idTrabalho' ou 'horasGastas' não foram passados no array 'dados'");
+            $dados['horasGastas'] ;
+            return;
+        }
+    
+        // Obtém o valor atual de horasGastas no formato de uma única variável
+        $horasAtuais = $wpdb->get_var($wpdb->prepare("SELECT horasGastas FROM $tabela WHERE idTrabalho = %d", $dados['idTrabalho']));
+        
+        // Soma as novas horas às existentes, lidando com o caso em que horasAtuais pode ser nulo
+        $horasGastasTotal = floatval($horasAtuais) + floatval($dados['horasGastas']);
+    
+        // Atualiza o campo horasGastas na tabela
+        $wpdb->update($tabela, 
+            ['horasGastas' => $horasGastasTotal],
+            ['idTrabalho' => $dados['idTrabalho']]
+        );
+    }
+    
+    
+
     public static function deletarTrabalho($idTrabalho) {
         global $wpdb;
         $tabela = $wpdb->prefix . 'timesheet_trabalhos';
