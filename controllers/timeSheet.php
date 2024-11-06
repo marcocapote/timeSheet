@@ -9,8 +9,7 @@ class TimeSheetController {
 
         $wpdb->insert($tabela, [
             'idCliente'     => $idCliente,
-            'idTrabalho'    => $idTrabalho,
-            'horasTotais'   => 0
+            'idTrabalho'    => $idTrabalho
         ]);
 
         return $wpdb->insert_id;
