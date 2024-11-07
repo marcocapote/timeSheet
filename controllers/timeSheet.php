@@ -59,5 +59,37 @@ class TimeSheetController {
     
         return $wpdb->get_results($query);
     }
+    public static function buscar_alteracao_timesheet(){
+        global $wpdb;
+
+        $tabela_timesheet = $wpdb->prefix . 'timesheet_timeSheet';
+        $tabela_clientes = $wpdb->prefix . 'timesheet_clientes';
+        $tabela_trabalhos = $wpdb->prefix . 'timesheet_trabalhos';
+        $tabela_alteracoes = $wpdb->prefix . 'timesheet_alteracoes';
+
+        $query = "
+        SELECT
+            ts.idTimeSheet,
+            c.nome AS nomeCliente,
+            t.numOs,
+            t.numOrcamento,
+            t.titulo AS tituloTrabalho,
+            t.horasEstimadas,
+            t.horasGastas,
+            a.descricao AS descricaoAlteracao,
+            a.inicio AS inicioAlteracao,
+            a.fim AS fimAlteracao
+        FROM 
+            $tabela_timesheet AS ts
+        LEFT JOIN 
+            $tabela_clientes AS c ON ts.idCliente = c.idCliente
+        LEFT JOIN 
+            $tabela_trabalhos AS t ON ts.idTrabalho = t.idTrabalho
+        LEFT JOIN 
+            $tabela_alteracoes AS a ON ts.idAlteracao = a.idAlteracao
+        ";
+
+        return $wpdb->get_results($query);
+    }
 }
 ?>
