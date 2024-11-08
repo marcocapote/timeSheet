@@ -4,6 +4,7 @@ if (!defined('ABSPATH')) exit;
 
 $dados_timesheet = TimeSheetController::buscar_dados_timesheet();
 $dados_alteracao = TimeSheetController::buscar_alteracao_timesheet();
+$dados_trabalho = TimeSheetController::buscar_trabalho_timesheet();
 
 $teste = "teste123";
 ?>
@@ -15,6 +16,7 @@ $teste = "teste123";
 
 <button id="mostrar-alteracoes">Mostrar Alterações</button>
 <button id="mostrar-dados">Mostrar todos os dados</button>
+<button id="mostrar-trabalhos">Mostrar todos os Trabalhos</button>
 <!-- Tabela e conteúdo da página -->
 <!-- Tabela HTML para exibir os dados -->
 
@@ -94,14 +96,57 @@ $teste = "teste123";
 </table>
 </div>
 
+<div id="tabela-trabalhos" style="display:none">
+<table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
+    <thead>
+        <tr style="background-color: #f2f2f2;">
+            <th>Nome do Cliente</th>
+            <th>Número OS</th>
+            <th>Número Orçamento</th>
+            <th>Título do Trabalho</th>
+            <th>Horas Gastas</th>
+            <th>Horas Estimadas</th>
+            <th>Status:</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php if (!empty($dados_trabalho)): ?>
+            <?php foreach ($dados_trabalho as $linha): ?>
+                <tr>
+                    <td><?php echo esc_html($linha->nomeCliente); ?></td>
+                    <td><?php echo esc_html($linha->numOs); ?></td>
+                    <td><?php echo esc_html($linha->numOrcamento); ?></td>
+                    <td><?php echo esc_html($linha->tituloTrabalho); ?></td>
+                    <td><?php echo esc_html($linha->horasGastas); ?></td>
+                    <td><?php echo esc_html($linha->horasEstimadas); ?></td>
+                    <td><?php echo esc_html($linha->statusTrabalho); ?></td>
+                
+                </tr>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <tr>
+                <td colspan="8" style="text-align: center;">Nenhum registro encontrado.</td>
+            </tr>
+        <?php endif; ?>
+    </tbody>
+</table>
+</div>
+
 
 <script>
      document.getElementById('mostrar-alteracoes').addEventListener('click', function() {
         document.getElementById('tabela-principal').style.display = 'none';
         document.getElementById('tabela-alteracoes').style.display = 'block';
+        document.getElementById('tabela-trabalhos').style.display =  'none';
     });
     document.getElementById('mostrar-dados').addEventListener('click', function() {
         document.getElementById('tabela-principal').style.display = 'block';
         document.getElementById('tabela-alteracoes').style.display = 'none';
+        document.getElementById('tabela-trabalhos').style.display = 'none';
+    });
+    document.getElementById('mostrar-trabalhos').addEventListener('click', function(){
+        document.getElementById('tabela-principal').style.display = 'none';
+        document.getElementById('tabela-alteracoes').style.display = 'none';
+        document.getElementById('tabela-trabalhos').style.display = 'block';
     });
 </script>
