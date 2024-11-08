@@ -43,6 +43,7 @@ class TimeSheetController {
                 c.nome AS nomeCliente,
                 t.numOs,
                 t.numOrcamento,
+                t.statusTrabalho,
                 t.titulo AS tituloTrabalho,
                 a.descricao AS descricaoAlteracao,
                 a.inicio AS inicioAlteracao,
@@ -70,6 +71,7 @@ class TimeSheetController {
         $query = "
         SELECT
             ts.idTimeSheet,
+            ts.idAlteracao,
             c.nome AS nomeCliente,
             t.numOs,
             t.numOrcamento,
@@ -87,6 +89,7 @@ class TimeSheetController {
             $tabela_trabalhos AS t ON ts.idTrabalho = t.idTrabalho
         LEFT JOIN 
             $tabela_alteracoes AS a ON ts.idAlteracao = a.idAlteracao
+        WHERE ts.idAlteracao <> 0
         ";
 
         return $wpdb->get_results($query);

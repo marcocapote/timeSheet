@@ -44,6 +44,7 @@ class TrabalhoController {
         // Insere o trabalho na tabela 'trabalhos'
         $wpdb->insert($tabela, [
             'idCliente'     => $idCliente,
+            'statusTrabalho'=> "Solicitação",
             'numOs'         => sanitize_text_field($dados['numOs']),
             'numOrcamento'  => sanitize_text_field($dados['numOrcamento']),
             'titulo'        => sanitize_text_field($dados['titulo']),

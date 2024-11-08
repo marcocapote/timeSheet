@@ -13,8 +13,8 @@ $teste = "teste123";
 <a href="?pagina=alteracao" class="button">Adicionar Alteração</a>
 <a href="?pagina=trabalho" class="button">Adicionar Trabalho</a>
 
-<button id="mostrar-alteracoes">Mostrar Alteração</button>
-<button id="mostrar-dados">Mostrar Dados</button>
+<button id="mostrar-alteracoes">Mostrar Alterações</button>
+<button id="mostrar-dados">Mostrar todos os dados</button>
 <!-- Tabela e conteúdo da página -->
 <!-- Tabela HTML para exibir os dados -->
 
@@ -65,8 +65,8 @@ $teste = "teste123";
             <th>Número Orçamento</th>
             <th>Título do Trabalho</th>
             <th>Descrição da Alteração</th>
-            <th>Início Alteração</th>
-            <th>Fim Alteração</th>
+            <th>Horas Gastas</th>
+            <th>Status:</th>
         </tr>
     </thead>
     <tbody>
@@ -78,8 +78,9 @@ $teste = "teste123";
                     <td><?php echo esc_html($linha->numOrcamento); ?></td>
                     <td><?php echo esc_html($linha->tituloTrabalho); ?></td>
                     <td><?php echo esc_html($linha->descricaoAlteracao); ?></td>
-                    <td><?php echo esc_html(date('d/m/Y H:i', strtotime($linha->inicioAlteracao))); ?></td>
-                    <td><?php echo esc_html(date('d/m/Y H:i', strtotime($linha->fimAlteracao))); ?></td>
+                    <td><?php echo esc_html($linha->horasGastas); ?></td>
+                    <td><?php echo esc_html($linha->statusTrabalho); ?></td>
+                
                 </tr>
             <?php endforeach; ?>
         <?php else: ?>
@@ -96,5 +97,9 @@ $teste = "teste123";
      document.getElementById('mostrar-alteracoes').addEventListener('click', function() {
         document.getElementById('tabela-principal').style.display = 'none';
         document.getElementById('tabela-alteracoes').style.display = 'block';
+    });
+    document.getElementById('mostrar-dados').addEventListener('click', function() {
+        document.getElementById('tabela-principal').style.display = 'block';
+        document.getElementById('tabela-alteracoes').style.display = 'none';
     });
 </script>

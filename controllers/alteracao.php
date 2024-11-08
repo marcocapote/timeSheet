@@ -24,6 +24,9 @@ class AlteracaoController {
         if ($idAlteracao){
             TimeSheetController::inserir_alteracao_timesheet($idAlteracao, $dados); 
             TrabalhoController::registrarHora($dados);
+            $wpdb->update($tabela, [
+                ['statusTrabalho' => "Trabalho em andamento"]
+            ]);
             
         }
         // Retorna o ID da inserção ou false em caso de falha

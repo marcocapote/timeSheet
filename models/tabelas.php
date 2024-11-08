@@ -46,6 +46,7 @@ function create_table_trabalhos() {
     $sql = "CREATE TABLE $nome_tabela (
     idTrabalho INT NOT NULL AUTO_INCREMENT,
     idCliente INT NOT NULL,
+    statusTrabalho VARCHAR(20),
     numOs VARCHAR(6),
     numOrcamento VARCHAR(10),
     titulo VARCHAR(40),
