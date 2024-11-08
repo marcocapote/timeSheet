@@ -47,8 +47,6 @@ $clientes = TrabalhoController::listarClientes();
     <label for="observacoes">Observações:</label>
     <textarea name="observacoes" required></textarea><br><br>
 
-    <label for="arquivo">Arquivo:</label>
-    <input type="text" name="arquivo" required><br><br>
 
     <label for="horasEstimadas">Horas Estimadas:</label>
     <input type="number" name="horasEstimadas" required><br><br>

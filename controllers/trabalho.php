@@ -49,7 +49,6 @@ class TrabalhoController {
             'titulo'        => sanitize_text_field($dados['titulo']),
             'vendedor'      => sanitize_text_field($dados['vendedor']),
             'observacoes'   => sanitize_textarea_field($dados['observacoes']),
-            'arquivo'       => sanitize_text_field($dados['arquivo']),
             'horasEstimadas' => intval($dados['horasEstimadas']),
         ]);
        
