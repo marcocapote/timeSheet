@@ -9,6 +9,7 @@ class AlteracaoController {
     public static function inserirAlteracao($dados) {
         global $wpdb;
         $tabela = $wpdb->prefix . 'timesheet_alteracoes';
+        $tabelaTrabalho = $wpdb->prefix . 'timesheet_trabalhos';
 
         // Insere a alteração na tabela
         $wpdb->insert($tabela, [
@@ -24,9 +25,6 @@ class AlteracaoController {
         if ($idAlteracao){
             TimeSheetController::inserir_alteracao_timesheet($idAlteracao, $dados); 
             TrabalhoController::registrarHora($dados);
-            $wpdb->update($tabela, [
-                ['statusTrabalho' => "Trabalho em andamento"]
-            ]);
             
         }
         // Retorna o ID da inserção ou false em caso de falha

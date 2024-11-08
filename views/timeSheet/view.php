@@ -28,8 +28,7 @@ $teste = "teste123";
             <th>Número Orçamento</th>
             <th>Título do Trabalho</th>
             <th>Descrição da Alteração</th>
-            <th>Início Alteração</th>
-            <th>Fim Alteração</th>
+            <th>Status:</th>
         </tr>
     </thead>
     <tbody>
@@ -42,8 +41,7 @@ $teste = "teste123";
                     <td><?php echo esc_html($linha->numOrcamento); ?></td>
                     <td><?php echo esc_html($linha->tituloTrabalho); ?></td>
                     <td><?php echo esc_html($linha->descricaoAlteracao); ?></td>
-                    <td><?php echo esc_html(date('d/m/Y H:i', strtotime($linha->inicioAlteracao))); ?></td>
-                    <td><?php echo esc_html(date('d/m/Y H:i', strtotime($linha->fimAlteracao))); ?></td>
+                    <td><?php echo esc_html($linha->statusTrabalho); ?></td>
                 </tr>
             <?php endforeach; ?>
         <?php else: ?>
@@ -67,6 +65,8 @@ $teste = "teste123";
             <th>Descrição da Alteração</th>
             <th>Horas Gastas</th>
             <th>Status:</th>
+            <th>Início Alteração</th>
+            <th>Fim Alteração</th>
         </tr>
     </thead>
     <tbody>
@@ -80,6 +80,8 @@ $teste = "teste123";
                     <td><?php echo esc_html($linha->descricaoAlteracao); ?></td>
                     <td><?php echo esc_html($linha->horasGastas); ?></td>
                     <td><?php echo esc_html($linha->statusTrabalho); ?></td>
+                    <td><?php echo esc_html(date('d/m/Y H:i', strtotime($linha->inicioAlteracao))); ?></td>
+                    <td><?php echo esc_html(date('d/m/Y H:i', strtotime($linha->fimAlteracao))); ?></td>
                 
                 </tr>
             <?php endforeach; ?>

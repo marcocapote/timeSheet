@@ -81,10 +81,14 @@ class TrabalhoController {
     
         // Atualiza o campo horasGastas na tabela
         $wpdb->update($tabela, 
-            ['horasGastas' => $horasGastasTotal],
+            [
+                'horasGastas' => $horasGastasTotal,
+                'statusTrabalho' => "Em andamento"
+        ],
             ['idTrabalho' => $dados['idTrabalho']]
         );
     }
+
     
     
 
