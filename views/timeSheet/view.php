@@ -107,6 +107,7 @@ $teste = "teste123";
             <th>Horas Gastas</th>
             <th>Horas Estimadas</th>
             <th>Status:</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -120,6 +121,7 @@ $teste = "teste123";
                     <td><?php echo esc_html($linha->horasGastas); ?></td>
                     <td><?php echo esc_html($linha->horasEstimadas); ?></td>
                     <td><?php echo esc_html($linha->statusTrabalho); ?></td>
+                    <td><button class="mais-info-btn" value="<?php echo esc_html($linha->idTrabalho); ?>">Mais Informações</button></td>
                 
                 </tr>
             <?php endforeach; ?>
@@ -149,4 +151,12 @@ $teste = "teste123";
         document.getElementById('tabela-alteracoes').style.display = 'none';
         document.getElementById('tabela-trabalhos').style.display = 'block';
     });
+    // Seleciona todos os botões com a classe 'mais-info-btn' e adiciona o evento de clique a cada um
+    document.querySelectorAll('.mais-info-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            var id_trabalho = this.value;
+            alert(id_trabalho);
+        });
+    });
+
 </script>

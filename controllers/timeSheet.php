@@ -108,6 +108,7 @@ class TimeSheetController {
             c.nome AS nomeCliente,
             t.statusTrabalho,
             t.numOs,
+            t.idTrabalho,
             t.numOrcamento,
             t.titulo AS tituloTrabalho,
             t.horasEstimadas,
