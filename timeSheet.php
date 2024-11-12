@@ -20,10 +20,12 @@ register_uninstall_hook(__FILE__, 'drop_tables');
 
 $controller = new AlteracaoController();
 $controllerTimesheet = new TimeSheetController();
+$controllerTrabalho = new TrabalhoController();
 add_action('wp_ajax_buscar_trabalho', [$controller, 'buscar_trabalho_ajax']);
 add_action('wp_ajax_nopriv_buscar_trabalho', [$controller, 'buscar_trabalho_ajax']);
 add_action('wp_ajax_alteracoes_especificas', [$controllerTimesheet, 'buscar_alteracoes_por_trabalho']);
 add_action('wp_ajax_nopriv_alteracoes_especificas', [$controllerTimesheet, 'buscar_alteracoes_por_trabalho']);
+add_action('wp_ajax_finalizar_trabalho', [$controllerTrabalho, 'ajax_finalizar_trabalho']);
 
 
 function timeSheetPanel_shortcode() {

@@ -98,5 +98,43 @@ class TrabalhoController {
 
         $wpdb->delete($tabela, ['idTrabalho' => intval($idTrabalho)]);
     }
+
+    public static function ajax_finalizar_trabalho(){
+        global $wpdb;
+        $tabela = $wpdb->prefix . 'timesheet_trabalhos';
+
+        
+
+        // Verifique se o ID do trabalho foi fornecido
+        if (!isset($_POST['id_trabalho'])) {
+            wp_send_json_error(array('message' => 'ID do trabalho não informado'));
+        }
+
+        $idTrabalho = intval($_POST['id_trabalho']);
+        $horasGastas = $wpdb->get_var($wpdb->prepare("SELECT horasGastas FROM $tabela WHERE idTrabalho = %d", $idTrabalho));
+
+        // Verifique se o ID do trabalho é válido
+        if ($idTrabalho <= 0) {
+            wp_send_json_error(array('message' => 'ID do trabalho inválido'));
+        }else if ($horasGastas == 0){
+            wp_send_json_error(array('message' => 'trabalho não iniciado'));
+        }
+
+        // Atualize o status do trabalho para 'finalizado'
+        $resultado = $wpdb->update(
+            $tabela,
+            ['statusTrabalho' => 'finalizado'],  // O status que você deseja definir
+            ['idTrabalho' => $idTrabalho],       // Condição para o trabalho específico
+            ['%s'],  // Tipo de dado para o status (string)
+            ['%d']   // Tipo de dado para o ID do trabalho (inteiro)
+        );
+
+        // Verifique se a atualização foi bem-sucedida
+        if ($resultado !== false) {
+            wp_send_json_success(array('message' => 'Trabalho finalizado com sucesso'));
+        } else {
+            wp_send_json_error(array('message' => 'Erro ao finalizar o trabalho'));
+        }
+        }
 }
 ?>
