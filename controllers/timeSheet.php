@@ -78,10 +78,10 @@ class TimeSheetController {
             t.numOrcamento,
             t.titulo AS tituloTrabalho,
             t.horasEstimadas,
-            t.horasGastas,
             a.descricao AS descricaoAlteracao,
             a.inicio AS inicioAlteracao,
-            a.fim AS fimAlteracao
+            a.fim AS fimAlteracao,
+            TIMESTAMPDIFF(HOUR, a.inicio, a.fim) AS horasGastas
         FROM 
             $tabela_timesheet AS ts
         LEFT JOIN 
@@ -95,6 +95,43 @@ class TimeSheetController {
 
         return $wpdb->get_results($query);
     }
+
+    public static function buscar_alteracao_especifica_timesheet($idTrabalho){
+        global $wpdb;
+
+        $tabela_timesheet = $wpdb->prefix . 'timesheet_timeSheet';
+        $tabela_clientes = $wpdb->prefix . 'timesheet_clientes';
+        $tabela_trabalhos = $wpdb->prefix . 'timesheet_trabalhos';
+        $tabela_alteracoes = $wpdb->prefix . 'timesheet_alteracoes';
+
+        $query = "
+        SELECT
+            ts.idTimeSheet,
+            ts.idAlteracao,
+            c.nome AS nomeCliente,
+            t.statusTrabalho,
+            t.numOs,
+            t.numOrcamento,
+            t.titulo AS tituloTrabalho,
+            t.horasEstimadas,
+            a.descricao AS descricaoAlteracao,
+            a.inicio AS inicioAlteracao,
+            a.fim AS fimAlteracao,
+            TIMESTAMPDIFF(HOUR, a.inicio, a.fim) AS horasGastas
+        FROM 
+            $tabela_timesheet AS ts
+        LEFT JOIN 
+            $tabela_clientes AS c ON ts.idCliente = c.idCliente
+        LEFT JOIN 
+            $tabela_trabalhos AS t ON ts.idTrabalho = t.idTrabalho
+        LEFT JOIN 
+            $tabela_alteracoes AS a ON ts.idAlteracao = a.idAlteracao
+        WHERE ts.idAlteracao <> 0 
+        ";
+
+        return $wpdb->get_results($query);
+    }
+
     public static function buscar_trabalho_timesheet(){
         global $wpdb;
 
@@ -126,5 +163,91 @@ class TimeSheetController {
 
         return $wpdb->get_results($query);
     }
+
+    public static function buscar_solicitacao_timesheet(){
+        global $wpdb;
+
+        $tabela_timesheet = $wpdb->prefix . 'timesheet_timeSheet';
+        $tabela_clientes = $wpdb->prefix . 'timesheet_clientes';
+        $tabela_trabalhos = $wpdb->prefix . 'timesheet_trabalhos';
+        $tabela_alteracoes = $wpdb->prefix . 'timesheet_alteracoes';
+
+        $query = "
+        SELECT
+            c.nome AS nomeCliente,
+            t.statusTrabalho,
+            t.numOs,
+            t.idTrabalho,
+            t.numOrcamento,
+            t.titulo AS tituloTrabalho,
+            t.horasEstimadas,
+            t.horasGastas
+        FROM 
+            $tabela_timesheet AS ts
+        LEFT JOIN 
+            $tabela_clientes AS c ON ts.idCliente = c.idCliente
+        LEFT JOIN 
+            $tabela_trabalhos AS t ON ts.idTrabalho = t.idTrabalho
+        LEFT JOIN 
+            $tabela_alteracoes AS a ON ts.idAlteracao = a.idAlteracao
+        WHERE ts.idAlteracao = 0 AND t.statusTrabalho = 'Solicitação'
+        ";
+
+        return $wpdb->get_results($query);
+    }
+
+    // controllers/timeSheet.php
+
+public static function buscar_alteracoes_por_trabalho() {
+    if (!isset($_POST['id_trabalho'])) {
+        wp_send_json_error(['message' => 'ID do trabalho não fornecido']);
+        wp_die();
+    }
+
+    $id_trabalho = intval($_POST['id_trabalho']);
+    global $wpdb;
+    $tabela_timesheet = $wpdb->prefix . 'timesheet_timeSheet';
+    $tabela_clientes = $wpdb->prefix . 'timesheet_clientes';
+    $tabela_trabalhos = $wpdb->prefix . 'timesheet_trabalhos';
+    $tabela_alteracoes = $wpdb->prefix . 'timesheet_alteracoes';
+
+    $query = "
+        SELECT
+            c.nome AS nomeCliente,
+            t.statusTrabalho,
+            t.numOs,
+            t.idTrabalho,
+            t.numOrcamento,
+            t.titulo AS tituloTrabalho,
+            t.horasEstimadas,
+            t.horasGastas,
+            a.descricao,
+            a.inicio AS inicioAlteracao,
+            a.fim AS fimAlteracao,
+            TIMESTAMPDIFF(HOUR, a.inicio, a.fim) AS horasGastas
+        FROM 
+            $tabela_timesheet AS ts
+        LEFT JOIN 
+            $tabela_clientes AS c ON ts.idCliente = c.idCliente
+        LEFT JOIN 
+            $tabela_trabalhos AS t ON ts.idTrabalho = t.idTrabalho
+        LEFT JOIN 
+            $tabela_alteracoes AS a ON ts.idAlteracao = a.idAlteracao
+        WHERE ts.idAlteracao <> 0 AND ts.idtrabalho = $id_trabalho
+        ";
+
+    $alteracoes = $wpdb->get_results(
+        $wpdb->prepare($query)
+    );
+
+    if (empty($alteracoes)) {
+        wp_send_json_error(['message' => 'Nenhuma alteração encontrada para esse trabalho']);
+    } else {
+        wp_send_json_success($alteracoes);
+    }
+
+    wp_die();
+}
+
 }
 ?>

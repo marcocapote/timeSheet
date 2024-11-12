@@ -19,8 +19,11 @@ register_activation_hook(__FILE__, 'create_tables');
 register_uninstall_hook(__FILE__, 'drop_tables');
 
 $controller = new AlteracaoController();
+$controllerTimesheet = new TimeSheetController();
 add_action('wp_ajax_buscar_trabalho', [$controller, 'buscar_trabalho_ajax']);
 add_action('wp_ajax_nopriv_buscar_trabalho', [$controller, 'buscar_trabalho_ajax']);
+add_action('wp_ajax_alteracoes_especificas', [$controllerTimesheet, 'buscar_alteracoes_por_trabalho']);
+add_action('wp_ajax_nopriv_alteracoes_especificas', [$controllerTimesheet, 'buscar_alteracoes_por_trabalho']);
 
 
 function timeSheetPanel_shortcode() {
@@ -38,6 +41,8 @@ function timeSheetPanel_shortcode() {
     return ob_get_clean();
 }
 add_shortcode('timeSheetPanel', 'timeSheetPanel_shortcode');
+
+
 
 
 ?>
