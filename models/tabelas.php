@@ -75,7 +75,7 @@ function create_table_alteracoes() {
     editor VARCHAR(50),
     inicio DATETIME NOT NULL,
     fim DATETIME NOT NULL,
-    descricao TEXT,
+    descricao TEXT NOT NULL,
     PRIMARY KEY (idAlteracao),
     FOREIGN KEY (idTrabalho) REFERENCES {$wpdb->prefix}timesheet_trabalhos (idTrabalho)
 

@@ -13,8 +13,9 @@ $dados_solicitacao = TimeSheetController::buscar_solicitacao_timesheet();
 
 
 <h2>Painel de Timesheets</h2>
-<a href="?pagina=alteracao" class="button">Adicionar Alteração</a>
+<a href="?pagina=alteracao" class="button" style="margin-right: 5%;">Adicionar Alteração</a>
 <a href="?pagina=trabalho" class="button">Adicionar Trabalho</a>
+<br><br>
 
 <button id="mostrar-alteracoes">Mostrar Alterações</button>
 <button id="mostrar-dados">Mostrar todos os dados</button>
@@ -34,6 +35,7 @@ $dados_solicitacao = TimeSheetController::buscar_solicitacao_timesheet();
             <th>Número Orçamento</th>
             <th>Título do Trabalho</th>
             <th>Descrição da Alteração</th>
+            <th>Arquivo</th>
             <th>Status:</th>
         </tr>
     </thead>
@@ -47,6 +49,7 @@ $dados_solicitacao = TimeSheetController::buscar_solicitacao_timesheet();
                     <td><?php echo esc_html($linha->numOrcamento); ?></td>
                     <td><?php echo esc_html($linha->tituloTrabalho); ?></td>
                     <td><?php echo esc_html($linha->descricaoAlteracao); ?></td>
+                    <td><a href="<?php echo esc_html($linha->arquivo);?>">Baixar Arquivo</a></td>
                     <td><?php echo esc_html($linha->statusTrabalho); ?></td>
                 </tr>
             <?php endforeach; ?>
@@ -308,6 +311,8 @@ $dados_solicitacao = TimeSheetController::buscar_solicitacao_timesheet();
     button.addEventListener('click', function() {
         var id_trabalho = this.value;
 
+        alert(id_trabalho);
+
        
         fetch('<?php echo admin_url("admin-ajax.php"); ?>', {
             method: 'POST',
@@ -368,7 +373,7 @@ $dados_solicitacao = TimeSheetController::buscar_solicitacao_timesheet();
                     </tr>`;
                     tbody.innerHTML += row;
                     thead.innerHTML = ` 
-                                        <tr> <th colspan="8"> <p>Alterações feitas em ${alteracao.tituloTrabalho}</p>
+                                        <tr> <th colspan="8"> <p>Histórico do trabalho: ${alteracao.tituloTrabalho}</p>
                                            
                                         </th> </tr>
                                         

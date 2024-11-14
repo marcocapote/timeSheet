@@ -15,7 +15,7 @@ $clientes = TrabalhoController::listarClientes();
 <a href="?pagina=timeSheet" class="button">Voltar para TimeSheet</a>
 
 
-<form method="post">
+<form method="post" enctype="multipart/form-data">
     <label for="idCliente">Cliente:</label>
     <select name="idCliente" id="idCliente" required onchange="toggleNovoCliente(this)">
         <option value="">Selecione um cliente</option>
@@ -47,6 +47,8 @@ $clientes = TrabalhoController::listarClientes();
     <label for="observacoes">Observações:</label>
     <textarea name="observacoes" required></textarea><br><br>
 
+    <label for="arquivo">Arquivo do trabalho: </label>
+    <input type="file" name="arquivo" required><br><br>
 
     <label for="horasEstimadas">Horas Estimadas:</label>
     <input type="number" name="horasEstimadas" required><br><br>

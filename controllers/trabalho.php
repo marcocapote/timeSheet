@@ -41,6 +41,23 @@ class TrabalhoController {
             return false;
         }
 
+        $arquivo_url = '';
+        if (!empty($_FILES['arquivo']) && $_FILES['arquivo']['error'] === UPLOAD_ERR_OK) {
+             // Inclui a biblioteca de upload do WordPress
+            if (!function_exists('wp_handle_upload')) {
+                require_once(ABSPATH . 'wp-admin/includes/file.php');
+            }
+            
+            // Usa a função de upload do WordPress para armazenar o arquivo
+            $upload = wp_handle_upload($_FILES['arquivo'], ['test_form' => false]);
+    
+            if (isset($upload['url'])) {
+                $arquivo_url = $upload['url'];
+            } else {
+                return false; // Retorna false se o upload falhar
+            }
+        }
+
         // Insere o trabalho na tabela 'trabalhos'
         $wpdb->insert($tabela, [
             'idCliente'     => $idCliente,
@@ -51,6 +68,7 @@ class TrabalhoController {
             'vendedor'      => sanitize_text_field($dados['vendedor']),
             'observacoes'   => sanitize_textarea_field($dados['observacoes']),
             'horasEstimadas' => intval($dados['horasEstimadas']),
+            'arquivo'        => $arquivo_url
         ]);
        
         $idTrabalho = $wpdb->insert_id;

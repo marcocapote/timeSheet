@@ -44,6 +44,7 @@ class TimeSheetController {
                 t.numOs,
                 t.numOrcamento,
                 t.statusTrabalho,
+                t.arquivo,
                 t.titulo AS tituloTrabalho,
                 a.descricao AS descricaoAlteracao,
                 a.inicio AS inicioAlteracao,
@@ -254,11 +255,11 @@ public static function buscar_alteracoes_por_trabalho() {
             t.numOrcamento,
             t.titulo AS tituloTrabalho,
             t.horasEstimadas,
-            t.horasGastas,
-            a.descricao,
+            IFNULL(t.horasGastas, '0'),
+            IFNULL(a.descricao, 'Trabalho solicitado') AS descricao,
             a.inicio AS inicioAlteracao,
             a.fim AS fimAlteracao,
-            TIMESTAMPDIFF(HOUR, a.inicio, a.fim) AS horasGastas
+            IFNULL(TIMESTAMPDIFF(HOUR, a.inicio, a.fim), 'Trabalho não iniciado') AS horasGastas
         FROM 
             $tabela_timesheet AS ts
         LEFT JOIN 
@@ -267,7 +268,7 @@ public static function buscar_alteracoes_por_trabalho() {
             $tabela_trabalhos AS t ON ts.idTrabalho = t.idTrabalho
         LEFT JOIN 
             $tabela_alteracoes AS a ON ts.idAlteracao = a.idAlteracao
-        WHERE ts.idAlteracao <> 0 AND ts.idtrabalho = $id_trabalho
+        WHERE ts.idtrabalho = $id_trabalho
         ";
 
     $alteracoes = $wpdb->get_results(
@@ -279,6 +280,7 @@ public static function buscar_alteracoes_por_trabalho() {
     } else {
         wp_send_json_success($alteracoes);
     }
+
 
     wp_die();
 }
