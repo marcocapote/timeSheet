@@ -30,7 +30,7 @@ add_action('wp_ajax_finalizar_trabalho', [$controllerTrabalho, 'ajax_finalizar_t
 
 function timeSheetPanel_shortcode() {
     // Obtém o valor da página a partir do parâmetro GET (ou usa "alteracao" como padrão)
-    $pagina = isset($_GET['pagina']) ? sanitize_text_field($_GET['pagina']) : 'alteracao';
+    $pagina = isset($_GET['pagina']) ? sanitize_text_field($_GET['pagina']) : 'timeSheet';
 
     ob_start();
     if ($pagina === "alteracao") {

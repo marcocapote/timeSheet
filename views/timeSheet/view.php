@@ -8,25 +8,33 @@ $dados_trabalho = TimeSheetController::buscar_trabalho_timesheet();
 $dados_trabalho_finalizado = TimeSheetController::buscar_trabalho_finalizado_timesheet();
 $dados_solicitacao = TimeSheetController::buscar_solicitacao_timesheet();
 
+include( plugin_dir_path( __FILE__ ) .'../header.php');
+
 
 ?>
 
+<div class="container bg-light shadow-lg w-100 pt-3">
+<div class="container bg-secondary rounded text-white mt-0 pb-4 shadow-lg">
+    <div class="row"><div class="col-12 text-center mt-4"><h2>Painel de Timesheets</h2></div></div>
+</div>
 
-<h2>Painel de Timesheets</h2>
-<a href="?pagina=alteracao" class="button" style="margin-right: 5%;">Adicionar Alteração</a>
-<a href="?pagina=trabalho" class="button">Adicionar Trabalho</a>
-<br><br>
+<div class="row pl-3">
+<a href="?pagina=alteracao" class="button bg-success rounded shadow text-white m-2 p-2" style="margin-right: 5%;">Adicionar Alteração</a>
+<a href="?pagina=trabalho" class="button bg-success rounded shadow text-white m-2 p-2">Adicionar Trabalho</a>
 
-<button id="mostrar-alteracoes">Mostrar Alterações</button>
-<button id="mostrar-dados">Mostrar todos os dados</button>
-<button id="mostrar-trabalhos">Mostrar todos os Trabalhos</button>
-<button id="mostrar-solicitacoes">Mostrar todas as Solicitações</button>
-<button id="mostrar-trabalhos-finalizados">Mostrar Trabalhos finalizados</button>
+</div>
+
+
+<button class="mb-1 mt-1" id="mostrar-alteracoes">Mostrar Alterações</button>
+<button class="mb-1 mt-1" id="mostrar-dados">Mostrar todos os dados</button>
+<button class="mb-1 mt-1" id="mostrar-trabalhos">Mostrar todos os Trabalhos</button>
+<button class="mb-1 mt-1" id="mostrar-solicitacoes">Mostrar todas as Solicitações</button>
+<button class="mb-1 mt-1" id="mostrar-trabalhos-finalizados">Mostrar Trabalhos finalizados</button>
 <!-- Tabela e conteúdo da página -->
 <!-- Tabela HTML para exibir os dados -->
 
 <div id="tabela-principal">
-<table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
+<table class="table" border="1">
     <thead>
         <tr style="background-color: #f2f2f2;">
             <th>ID Timesheet</th>
@@ -49,7 +57,7 @@ $dados_solicitacao = TimeSheetController::buscar_solicitacao_timesheet();
                     <td><?php echo esc_html($linha->numOrcamento); ?></td>
                     <td><?php echo esc_html($linha->tituloTrabalho); ?></td>
                     <td><?php echo esc_html($linha->descricaoAlteracao); ?></td>
-                    <td><a href="<?php echo esc_html($linha->arquivo);?>">Baixar Arquivo</a></td>
+                    <td><a class="bg-primary p-1 rounded text-white" href="<?php echo esc_html($linha->arquivo);?>">Baixar Arquivo</a></td>
                     <td><?php echo esc_html($linha->statusTrabalho); ?></td>
                 </tr>
             <?php endforeach; ?>
@@ -264,7 +272,7 @@ $dados_solicitacao = TimeSheetController::buscar_solicitacao_timesheet();
     </tbody>
 </table>
 </div>
-
+</div>  
 <style>
     /* Define a cor vermelha para as linhas com a classe "classe-vermelha" */
     .classe-vermelha {

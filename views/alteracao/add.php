@@ -6,9 +6,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_alteracao'])) 
     $idAlteracao = AlteracaoController::inserirAlteracao($_POST);
 }
 
+include( plugin_dir_path( __FILE__ ) .'../header.php');
 
 ?>
 
+<div class="container bg-light">
+    
 <h2>Adicionar Alteração</h2>
 <a href="?pagina=timeSheet" class="button">Voltar ao Painel de Timesheets</a>
 <a href="?pagina=trabalho" class="button">Adicionar Trabalho</a>
@@ -61,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_alteracao'])) 
 
     <button type="submit" name="submit_alteracao">Salvar</button>
 </form>
-
+</div>
 <script>
 
 document.getElementById('buscarTrabalho').addEventListener('click', () => {
