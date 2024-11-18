@@ -59,6 +59,8 @@ function create_table_trabalhos() {
     dataCriacao DATETIME,
     PRIMARY KEY (idTrabalho)
 
+    
+
     ) $charset_collate;
     "; 
 
