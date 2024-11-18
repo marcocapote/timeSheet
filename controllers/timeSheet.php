@@ -97,42 +97,6 @@ class TimeSheetController {
         return $wpdb->get_results($query);
     }
 
-    public static function buscar_alteracao_especifica_timesheet($idTrabalho){
-        global $wpdb;
-
-        $tabela_timesheet = $wpdb->prefix . 'timesheet_timeSheet';
-        $tabela_clientes = $wpdb->prefix . 'timesheet_clientes';
-        $tabela_trabalhos = $wpdb->prefix . 'timesheet_trabalhos';
-        $tabela_alteracoes = $wpdb->prefix . 'timesheet_alteracoes';
-
-        $query = "
-        SELECT
-            ts.idTimeSheet,
-            ts.idAlteracao,
-            c.nome AS nomeCliente,
-            t.statusTrabalho,
-            t.numOs,
-            t.numOrcamento,
-            t.titulo AS tituloTrabalho,
-            t.horasEstimadas,
-            a.descricao AS descricaoAlteracao,
-            a.inicio AS inicioAlteracao,
-            a.fim AS fimAlteracao,
-            TIMESTAMPDIFF(HOUR, a.inicio, a.fim) AS horasGastas
-        FROM 
-            $tabela_timesheet AS ts
-        LEFT JOIN 
-            $tabela_clientes AS c ON ts.idCliente = c.idCliente
-        LEFT JOIN 
-            $tabela_trabalhos AS t ON ts.idTrabalho = t.idTrabalho
-        LEFT JOIN 
-            $tabela_alteracoes AS a ON ts.idAlteracao = a.idAlteracao
-        WHERE ts.idAlteracao <> 0 
-        ";
-
-        return $wpdb->get_results($query);
-    }
-
     public static function buscar_trabalho_timesheet(){
         global $wpdb;
 
@@ -261,7 +225,9 @@ public static function buscar_alteracoes_por_trabalho() {
             IFNULL(a.descricao, 'Trabalho solicitado') AS descricao,
             a.inicio AS inicioAlteracao,
             a.fim AS fimAlteracao,
-            IFNULL(TIMESTAMPDIFF(HOUR, a.inicio, a.fim), 'Trabalho não iniciado') AS horasGastas
+            IFNULL(TIMESTAMPDIFF(HOUR, a.inicio, a.fim), 'Trabalho não iniciado') AS horasGastas,
+            IF(ts.idAlteracao = 0, t.dataCriacao, a.inicio) AS inicioAlteracao, 
+            IF(ts.idAlteracao = 0, t.dataCriacao, a.fim) AS fimAlteracao
         FROM 
             $tabela_timesheet AS ts
         LEFT JOIN 
