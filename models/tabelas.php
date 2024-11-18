@@ -56,6 +56,7 @@ function create_table_trabalhos() {
     observacoes TEXT,
     horasEstimadas INT NOT NULL,
     horasGastas INT NOT NULL,
+    dataCriacao DATETIME,
     PRIMARY KEY (idTrabalho)
 
     ) $charset_collate;

@@ -27,7 +27,7 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
     </div>
 </div>
 
-<div class="container mb-2 mt-3">
+<div class="container mb-2 mt-3 d-flex justify-content-around">
 <button class="btn btn-outline-danger mb-1 mt-1" id="mostrar-alteracoes">Mostrar Alterações</button>
 <button class="btn btn-outline-danger mb-1 mt-1" id="mostrar-dados">Mostrar todos os dados</button>
 <button class="btn btn-outline-danger mb-1 mt-1" id="mostrar-trabalhos">Mostrar todos os Trabalhos</button>
@@ -181,7 +181,9 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
                     <td class="<?php echo $classeVermelha; ?>"><?php echo esc_html($linha->horasEstimadas); ?></td>
                     <td><?php echo esc_html($linha->statusTrabalho); ?></td>
                     <td class="pl-3"><button class="mais-info-btn mb-2 btn btn-outline-primary" value="<?php echo esc_html($linha->idTrabalho); ?>">Mais Informações</button>
-                    <button class="finalizar-trabalho btn btn-outline-danger" value="<?php echo esc_html($linha->idTrabalho); ?>">Finalizar Trabalho</button>
+                    <button class="finalizar-trabalho mb-2 btn btn-outline-danger" value="<?php echo esc_html($linha->idTrabalho); ?>">Finalizar Trabalho</button>
+                    <br>
+                    <a class="btn btn-outline-primary rounded" href="<?php echo esc_html($linha->arquivo);?>">Baixar Arquivo</a>
                 </td>
                 
                 </tr>
@@ -223,7 +225,6 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
                     <td class="<?php echo $classeVermelha; ?>"><?php echo esc_html($linha->horasEstimadas); ?></td>
                     <td><?php echo esc_html($linha->statusTrabalho); ?></td>
                     <td><button class="mais-info-btn mb-2 btn btn-outline-primary" value="<?php echo esc_html($linha->idTrabalho); ?>">Mais Informações</button>
-                    <button class="finalizar-trabalho btn btn-outline-danger" value="<?php echo esc_html($linha->idTrabalho); ?>">Finalizar Trabalho</button>
                 </td>
                 
                 </tr>
@@ -250,7 +251,7 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
             <th>Horas Gastas</th>
             <th>Horas Estimadas</th>
             <th>Status:</th>
-            <th></th>
+            <th>Ações</th>
         </tr>
     </thead>
     <tbody>
@@ -264,7 +265,9 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
                     <td><?php echo esc_html($linha->horasGastas); ?></td>
                     <td><?php echo esc_html($linha->horasEstimadas); ?></td>
                     <td><?php echo esc_html($linha->statusTrabalho); ?></td>
-                    <td><button class="mais-info-btn" value="<?php echo esc_html($linha->idTrabalho); ?>">Mais Informações</button></td>
+                    <td><button class="mais-info-btn mb-2" value="<?php echo esc_html($linha->idTrabalho); ?>">Mais Informações</button>
+                    <a class="btn btn-outline-primary rounded" href="<?php echo esc_html($linha->arquivo);?>">Baixar Arquivo</a>
+                </td>
                 
                 </tr>
             <?php endforeach; ?>

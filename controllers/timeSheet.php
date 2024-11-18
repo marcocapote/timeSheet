@@ -149,6 +149,7 @@ class TimeSheetController {
             t.numOs,
             t.idTrabalho,
             t.numOrcamento,
+            t.arquivo,
             t.titulo AS tituloTrabalho,
             t.horasEstimadas,
             t.horasGastas
@@ -213,6 +214,7 @@ class TimeSheetController {
             t.statusTrabalho,
             t.numOs,
             t.idTrabalho,
+            t.arquivo,
             t.numOrcamento,
             t.titulo AS tituloTrabalho,
             t.horasEstimadas,
