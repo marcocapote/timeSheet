@@ -13,23 +13,27 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
 
 ?>
 
-<div class="container bg-light shadow-lg w-100 pt-3">
+<div class="container bg-light shadow-lg w-100 pt-3 pb-2">
 <div class="container bg-secondary rounded text-white mt-0 pb-4 shadow-lg">
     <div class="row"><div class="col-12 text-center mt-4"><h2>Painel de Timesheets</h2></div></div>
 </div>
 
-<div class="row pl-3">
-<a href="?pagina=alteracao" class="button bg-success rounded shadow text-white m-2 p-2" style="margin-right: 5%;">Adicionar Alteração</a>
-<a href="?pagina=trabalho" class="button bg-success rounded shadow text-white m-2 p-2">Adicionar Trabalho</a>
-
+<div class="row mb-2 mt-0 border-bottom p-3">
+    <div class="col-5">
+        <div class="row d-flex mt-2">
+            <div class="col pr-0"><a href="?pagina=alteracao" class="btn btn-success rounded shadow text-white m-0 p-2" style="margin-right: 5%;">Adicionar Alteração</a></div>
+            <div class="col p-0"><a href="?pagina=trabalho" class="btn btn-success rounded shadow text-white m-0 p-2">Adicionar Trabalho</a></div>
+        </div>
+    </div>
 </div>
 
-
-<button class="mb-1 mt-1" id="mostrar-alteracoes">Mostrar Alterações</button>
-<button class="mb-1 mt-1" id="mostrar-dados">Mostrar todos os dados</button>
-<button class="mb-1 mt-1" id="mostrar-trabalhos">Mostrar todos os Trabalhos</button>
-<button class="mb-1 mt-1" id="mostrar-solicitacoes">Mostrar todas as Solicitações</button>
-<button class="mb-1 mt-1" id="mostrar-trabalhos-finalizados">Mostrar Trabalhos finalizados</button>
+<div class="container mb-2 mt-3">
+<button class="btn btn-outline-danger mb-1 mt-1" id="mostrar-alteracoes">Mostrar Alterações</button>
+<button class="btn btn-outline-danger mb-1 mt-1" id="mostrar-dados">Mostrar todos os dados</button>
+<button class="btn btn-outline-danger mb-1 mt-1" id="mostrar-trabalhos">Mostrar todos os Trabalhos</button>
+<button class="btn btn-outline-danger mb-1 mt-1" id="mostrar-solicitacoes">Mostrar todas as Solicitações</button>
+<button class="btn btn-outline-danger mb-1 mt-1" id="mostrar-trabalhos-finalizados">Mostrar Trabalhos finalizados</button>
+</div>
 <!-- Tabela e conteúdo da página -->
 <!-- Tabela HTML para exibir os dados -->
 
@@ -161,7 +165,7 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
             <th>Horas Gastas</th>
             <th>Horas Estimadas</th>
             <th>Status:</th>
-            <th></th>
+            <th>Ações</th>
         </tr>
     </thead>
     <tbody>
@@ -176,8 +180,8 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
                     <td class="<?php echo $classeVermelha; ?>"><?php echo esc_html($linha->horasGastas); ?></td>
                     <td class="<?php echo $classeVermelha; ?>"><?php echo esc_html($linha->horasEstimadas); ?></td>
                     <td><?php echo esc_html($linha->statusTrabalho); ?></td>
-                    <td><button class="mais-info-btn" value="<?php echo esc_html($linha->idTrabalho); ?>">Mais Informações</button>
-                    <button class="finalizar-trabalho" value="<?php echo esc_html($linha->idTrabalho); ?>">Finalizar Trabalho</button>
+                    <td class="pl-3"><button class="mais-info-btn mb-2 btn btn-outline-primary" value="<?php echo esc_html($linha->idTrabalho); ?>">Mais Informações</button>
+                    <button class="finalizar-trabalho btn btn-outline-danger" value="<?php echo esc_html($linha->idTrabalho); ?>">Finalizar Trabalho</button>
                 </td>
                 
                 </tr>
@@ -203,7 +207,7 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
             <th>Horas Gastas</th>
             <th>Horas Estimadas</th>
             <th>Status:</th>
-            <th></th>
+            <th>Ações</th>
         </tr>
     </thead>
     <tbody>
@@ -218,8 +222,8 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
                     <td class="<?php echo $classeVermelha; ?>"><?php echo esc_html($linha->horasGastas); ?></td>
                     <td class="<?php echo $classeVermelha; ?>"><?php echo esc_html($linha->horasEstimadas); ?></td>
                     <td><?php echo esc_html($linha->statusTrabalho); ?></td>
-                    <td><button class="mais-info-btn" value="<?php echo esc_html($linha->idTrabalho); ?>">Mais Informações</button>
-                    <button class="finalizar-trabalho" value="<?php echo esc_html($linha->idTrabalho); ?>">Finalizar Trabalho</button>
+                    <td><button class="mais-info-btn mb-2 btn btn-outline-primary" value="<?php echo esc_html($linha->idTrabalho); ?>">Mais Informações</button>
+                    <button class="finalizar-trabalho btn btn-outline-danger" value="<?php echo esc_html($linha->idTrabalho); ?>">Finalizar Trabalho</button>
                 </td>
                 
                 </tr>
@@ -260,7 +264,7 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
                     <td><?php echo esc_html($linha->horasGastas); ?></td>
                     <td><?php echo esc_html($linha->horasEstimadas); ?></td>
                     <td><?php echo esc_html($linha->statusTrabalho); ?></td>
-                    <td><button id="mais-info-btn" value="<?php echo esc_html($linha->idTrabalho); ?>">Mais Informações</button></td>
+                    <td><button class="mais-info-btn" value="<?php echo esc_html($linha->idTrabalho); ?>">Mais Informações</button></td>
                 
                 </tr>
             <?php endforeach; ?>
@@ -381,7 +385,7 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
                     </tr>`;
                     tbody.innerHTML += row;
                     thead.innerHTML = ` 
-                                        <tr> <th colspan="8"> <p>Histórico do trabalho: ${alteracao.tituloTrabalho}</p>
+                                        <tr> <th colspan="8"> <h4>Histórico do trabalho: ${alteracao.tituloTrabalho}</h4>
                                            
                                         </th> </tr>
                                         

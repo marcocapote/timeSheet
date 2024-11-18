@@ -8,14 +8,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_trabalho'])) {
 
 // Recupera a lista de clientes
 $clientes = TrabalhoController::listarClientes();
+include( plugin_dir_path( __FILE__ ) .'../header.php');
+
+
 ?>
 
-<h2>Cadastrar Novo Trabalho</h2>
-<a href="?pagina=alteracao" class="button">Adicionar alteracao</a>
-<a href="?pagina=timeSheet" class="button">Voltar para TimeSheet</a>
+<div class="container bg-light shadow-lg w-100 pt-3">
+<div class="container bg-secondary rounded text-white pb-4 shadow-lg">
+    <div class="row"><div class="col-12 text-center mt-4"><h2>Cadastrar Novo Trabalho</h2></div></div>
+</div>
+
+<div class="row mb-2 border-bottom p-3">
+    <div class="col-6">
+        <div class="row d-flex mt-2">
+            <div class="col"><a href="?pagina=timeSheet" class="btn btn-success rounded shadow text-white m-0 p-2">Voltar ao Painel de Timesheets</a></div>
+            <div class="col"><a href="?pagina=alteracao" class="btn btn-success rounded shadow text-white m-0 p-2">Adicionar alteracao</a></div>
+        </div>
+    </div>
+</div>
 
 
-<form method="post" enctype="multipart/form-data">
+
+
+
+<form method="post" enctype="multipart/form-data" class="p-3">
     <label for="idCliente">Cliente:</label>
     <select name="idCliente" id="idCliente" required onchange="toggleNovoCliente(this)">
         <option value="">Selecione um cliente</option>
@@ -39,7 +55,7 @@ $clientes = TrabalhoController::listarClientes();
     <input type="text" name="numOrcamento" required><br><br>
 
     <label for="titulo">Titulo do Trabalho:</label>
-    <input type="titulo" name="titulo" required><br><br>
+    <input type="text" name="titulo" required><br><br>
 
     <label for="vendedor">Vendedor:</label>
     <input type="text" name="vendedor" required><br><br>
@@ -48,13 +64,15 @@ $clientes = TrabalhoController::listarClientes();
     <textarea name="observacoes" required></textarea><br><br>
 
     <label for="arquivo">Arquivo do trabalho: </label>
-    <input type="file" name="arquivo" required><br><br>
+    <input type="file" class="form-control" name="arquivo" required><br><br>
+
 
     <label for="horasEstimadas">Horas Estimadas:</label>
     <input type="number" name="horasEstimadas" required><br><br>
 
-    <button type="submit" name="submit_trabalho">Salvar</button>
+    <button type="submit" name="submit_trabalho" class="mb-3">Salvar</button>
 </form>
+</div>
 
 
 <script>

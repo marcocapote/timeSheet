@@ -10,15 +10,27 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
 
 ?>
 
-<div class="container bg-light">
+<link rel="stylesheet" href="../src/styles/style.css">
+
+
+<div class="container rounded bg-light shadow-lg pt-3">
+    <div class="container bg-secondary rounded text-white pb-4 shadow-lg">
+        <div class="row"><div class="col-12 text-center mt-4"><h2>Adicionar Alteração</h2></div></div>
+    </div>
     
-<h2>Adicionar Alteração</h2>
-<a href="?pagina=timeSheet" class="button">Voltar ao Painel de Timesheets</a>
-<a href="?pagina=trabalho" class="button">Adicionar Trabalho</a>
+<div class="row mb-2 border-bottom p-3">
+    <div class="col-6">
+        <div class="row d-flex mt-2">
+            <div class="col"><a href="?pagina=timeSheet" class="button bg-success rounded shadow text-white m-0 p-2">Voltar ao Painel de Timesheets</a></div>
+            <div class="col"><a href="?pagina=trabalho" class="button bg-success rounded shadow text-white m-0 p-2">Adicionar Trabalho</a></div>
+        </div>
+    </div>
+</div>
+
+
 <!-- Formulário e conteúdo da página de alteração -->
 
 
-<h2>Registrar Alteração</h2>
 
 <form method="post" action="" id="formAtualizar">
     <h5>Buscar Trabalho:</h5>
@@ -29,10 +41,12 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
     <input type="text" id="numOrcamento" name="numOrcamento" required>
     <br>
 
-    <button type="button" id="buscarTrabalho">Buscar Trabalho</button>
+    <button type="button" id="buscarTrabalho" class="mt-3 mb-4">Buscar Trabalho</button>
 
     <input type="text" id="idTrabalho" name="idTrabalho" hidden></input>
     <input type="text" id="idCliente" name="idCliente" hidden></input>
+
+    <div class="esconder" id="esconder" style="display: none;">
 
     <br>
     <label for="titulo">Título do Trabalho</label>
@@ -53,20 +67,42 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
     <label for="descricao">Descrição da alteração</label>
     <input type="text" id="descricao" name="descricao" required>
     <br>
-    <label for="inicio">Início:</label>
-    <input type="datetime-local" id="inicio" name="inicio" required>
-    <br>
-    <label for="fim">Fim:</label>
-    <input type="datetime-local" id="fim" name="fim" required>
-    <br>
-    <input type="text" id="horasGastas" name="horasGastas">
-    <!-- <p>Horas Gastas: <span id="horasGastas">0</span> horas</p> -->
+    <!-- <table class="mt-2">
+        <tr>
+            <td>
+            <label for="inicio">Início:</label>
+            <input type="datetime-local" id="inicio" name="inicio" required>
+            </td>
 
-    <button type="submit" name="submit_alteracao">Salvar</button>
+            <td>
+            <label for="fim">Fim:</label>
+            <input type="datetime-local" id="fim" name="fim" required>
+            </td>
+        </tr>
+    </table> -->
+    <br>    
+    <div class="row">
+        <div class="col">
+        <label for="inicio">Início:</label>
+        <input type="datetime-local" id="inicio" name="inicio" required>
+        </div>
+        <div class="col">
+        <label for="fim">Fim:</label>
+        <input type="datetime-local" id="fim" name="fim" required>
+        </div>
+    </div>
+    <br>
+    
+    <input type="text" id="horasGastas" name="horasGastas">
+    <p>Horas Gastas: <span id="horasGastas">0</span> horas</p>
+
+    <button type="submit" name="submit_alteracao" class="mb-3">Salvar</button>
+
+    </div>
 </form>
 </div>
 <script>
-
+    
 document.getElementById('buscarTrabalho').addEventListener('click', () => {
     const numOs = document.getElementById('numOs').value;
     const numOrcamento = document.getElementById('numOrcamento').value;
@@ -90,9 +126,12 @@ document.getElementById('buscarTrabalho').addEventListener('click', () => {
     .then(data => {
         if (data.success) {
             preencherCampos(data.data);
+            document.getElementById('esconder').style.display = "block";
         } else {
             console.error('Trabalho não encontrado');
+            document.getElementById('esconder').style.display = "none";
             alert('Trabalho não encontrado.');
+            
         }
     })
     .catch(error => console.error('Erro na requisição:', error));
@@ -105,12 +144,13 @@ function preencherCampos(trabalho) {
     document.getElementById('nome').value = trabalho.nome || '';
     document.getElementById('vendedor').value = trabalho.vendedor || '';
     document.getElementById('observacoes').value = trabalho.observacoes || '';
-    if (!document.getElementById('numOrcamento').value){
+    if (document.getElementById('numOrcamento').value != trabalho.numOrcamento){
         document.getElementById('numOrcamento').value = trabalho.numOrcamento || '';
-    }
-    if (!document.getElementById('numOs').value){
+    } else if (document.getElementById('numOs').value != trabalho.numOs){
         document.getElementById('numOs').value = trabalho.numOs || '';
     }
+
+
     
 }
 
@@ -130,3 +170,4 @@ function calcularHorasGastas() {
     }
 }
 </script>
+
