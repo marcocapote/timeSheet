@@ -38,15 +38,22 @@ class AlteracaoController {
 
         $numOs = sanitize_text_field($_POST['numOs']);
         $numOrcamento = sanitize_text_field($_POST['numOrcamento']);
+        $idTrabalho = sanitize_text_field($_POST['idTrabalho']);
         $tabela = $wpdb->prefix . 'timesheet_trabalhos';
         $tabelaCliente = $wpdb->prefix . 'timesheet_clientes';
         $trabalho = null;
         $cliente = null;
+
     
         // Verifica se o número da OS foi preenchido
         if (!empty($numOs)) {
             $queryOs = $wpdb->prepare("SELECT * FROM $tabela WHERE numOs = %s", $numOs);
             $trabalho = $wpdb->get_row($queryOs);
+        }
+
+        if (!empty($idTrabalho)){
+            $queryTrabalho = $wpdb->prepare("SELECT * FROM $tabela WHERE idTrabalho = %s", $idTrabalho);
+            $trabalho = $wpdb->get_row($queryTrabalho);
         }
     
         // Verifica se o número do orçamento foi preenchido
@@ -73,6 +80,8 @@ class AlteracaoController {
             wp_send_json_error('Trabalho não encontrado.');
         }
     }
+
+    
 }
 
 

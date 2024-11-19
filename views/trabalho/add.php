@@ -14,39 +14,26 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
 ?>
 
 <div class="container bg-light shadow-lg w-100 pt-3">
-<div class="container bg-secondary rounded text-white pb-4 shadow-lg">
+<div class="container bg-secondary rounded text-white shadow-lg">
     <div class="row"><div class="col-12 text-center mt-4"><h2>Cadastrar Novo Trabalho</h2></div></div>
-</div>
-
-<div class="row mb-2 border-bottom p-3">
-    <div class="col-6">
-        <div class="row d-flex mt-2">
-            <div class="col"><a href="?pagina=timeSheet" class="btn btn-success rounded shadow text-white m-0 p-2">Voltar ao Painel de Timesheets</a></div>
-            <div class="col"><a href="?pagina=alteracao" class="btn btn-success rounded shadow text-white m-0 p-2">Adicionar alteracao</a></div>
+    <div class="row p-3">
+    <div class="col-7">
+        <div class="row d-flex">
+            <div class="col-5"><a href="?pagina=timeSheet" class="btn btn-outline-light rounded shadow m-0 p-2">Voltar ao Painel de Timesheets</a></div>
+            <div class="col-4"><a href="?pagina=alteracao" class="btn btn-outline-light rounded shadow m-0 p-2">Adicionar alteracao</a></div>
         </div>
     </div>
 </div>
+</div>
+
+
 
 
 
 
 
 <form method="post" enctype="multipart/form-data" class="p-3">
-    <label for="idCliente">Cliente:</label>
-    <select name="idCliente" id="idCliente" required onchange="toggleNovoCliente(this)">
-        <option value="">Selecione um cliente</option>
-        <?php foreach ($clientes as $cliente): ?>
-            <option value="<?php echo $cliente->idCliente; ?>">
-                <?php echo esc_html($cliente->nome); ?>
-            </option>
-        <?php endforeach; ?>
-        <option value="0">Outro (especificar)</option>
-    </select><br><br>
-
-    <div id="novoClienteContainer" style="display: none;">
-        <label for="novoCliente">Nome do Novo Cliente:</label>
-        <input type="text" name="novoCliente" id="novoCliente"><br><br>
-    </div>
+    
 
     <label for="numOs">Número OS:</label>
     <input type="text" name="numOs" required><br><br>
@@ -56,6 +43,22 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
 
     <label for="titulo">Titulo do Trabalho:</label>
     <input type="text" name="titulo" required><br><br>
+
+    <label for="idCliente">Cliente:</label>
+    <select name="idCliente" id="idCliente" required onchange="toggleNovoCliente(this)">
+        <option value="">Selecione um cliente</option>
+        <?php foreach ($clientes as $cliente): ?>
+            <option value="<?php echo $cliente->idCliente; ?>">
+                <?php echo esc_html($cliente->nome); ?>
+            </option>
+        <?php endforeach; ?>
+        <option value="0">Outro (especificar)</option>
+    </select><br>
+
+    <div id="novoClienteContainer" style="display: none;">
+        <label for="novoCliente">Nome do Novo Cliente:</label>
+        <input type="text" name="novoCliente" id="novoCliente"><br><br>
+    </div>
 
     <label for="vendedor">Vendedor:</label>
     <input type="text" name="vendedor" required><br><br>

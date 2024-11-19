@@ -14,31 +14,29 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
 ?>
 
 <div class="container bg-light shadow-lg w-100 pt-3 pb-2">
-<div class="container bg-secondary rounded text-white mt-0 pb-4 shadow-lg">
+<div class="container bg-secondary rounded text-white mt-0  shadow-lg">
     <div class="row"><div class="col-12 text-center mt-4"><h2>Painel de Timesheets</h2></div></div>
-</div>
-
-<div class="row mb-2 mt-0 border-bottom p-3">
+    <div class="row mt-0 p-3">
     <div class="col-5">
-        <div class="row d-flex mt-2">
-            <div class="col pr-0"><a href="?pagina=alteracao" class="btn btn-success rounded shadow text-white m-0 p-2" style="margin-right: 5%;">Adicionar Alteração</a></div>
-            <div class="col p-0"><a href="?pagina=trabalho" class="btn btn-success rounded shadow text-white m-0 p-2">Adicionar Trabalho</a></div>
+        <div class="row d-flex">
+            <div class="col-5 pr-0"><a href="?pagina=alteracao" class="btn btn-outline-light rounded shadow m-0 p-2">Adicionar Alteração</a></div>
+            <div class="col-4 p-0"><a href="?pagina=trabalho" class="btn btn-outline-light rounded shadow m-0 p-2">Adicionar Trabalho</a></div>
         </div>
     </div>
 </div>
+</div>
+
+
 
 <div class="container mb-2 mt-3 d-flex justify-content-around">
-<button class="btn btn-outline-danger mb-1 mt-1" id="mostrar-alteracoes">Mostrar Alterações</button>
-<button class="btn btn-outline-danger mb-1 mt-1" id="mostrar-dados">Mostrar todos os dados</button>
-<button class="btn btn-outline-danger mb-1 mt-1" id="mostrar-trabalhos">Mostrar todos os Trabalhos</button>
-<button class="btn btn-outline-danger mb-1 mt-1" id="mostrar-solicitacoes">Mostrar todas as Solicitações</button>
-<button class="btn btn-outline-danger mb-1 mt-1" id="mostrar-trabalhos-finalizados">Mostrar Trabalhos finalizados</button>
+
 </div>
 <!-- Tabela e conteúdo da página -->
 <!-- Tabela HTML para exibir os dados -->
-
+<div class="row">
+    <div class="col-9">
 <div id="tabela-principal">
-<table class="table" border="1">
+<table class="table" border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
     <thead>
         <tr style="background-color: #f2f2f2;">
             <th>ID Timesheet</th>
@@ -61,7 +59,7 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
                     <td><?php echo esc_html($linha->numOrcamento); ?></td>
                     <td><?php echo esc_html($linha->tituloTrabalho); ?></td>
                     <td><?php echo esc_html($linha->descricaoAlteracao); ?></td>
-                    <td><a class="bg-primary p-1 rounded text-white" href="<?php echo esc_html($linha->arquivo);?>">Baixar Arquivo</a></td>
+                    <td><a class="btn btn-primary p-0 rounded text-white" href="<?php echo esc_html($linha->arquivo);?>">Baixar Arquivo</a></td>
                     <td><?php echo esc_html($linha->statusTrabalho); ?></td>
                 </tr>
             <?php endforeach; ?>
@@ -78,6 +76,7 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
 <div id="tabela-alteracoes" style="display:none">
 <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
     <thead>
+    <tr><th colspan="8"><h4>Alterações feitas em todos os trabalhos:</h4></th></tr>
         <tr style="background-color: #f2f2f2;">
             <th>Nome do Cliente</th>
             <th>Número OS</th>
@@ -117,7 +116,6 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
     
 <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
     <thead>
-
         <tr style="background-color: #f2f2f2;">
             <th>Nome do Cliente</th>
             <th>Número OS</th>
@@ -157,6 +155,8 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
 <div id="tabela-trabalhos" style="display:none">
 <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
     <thead>
+    <tr><th colspan="8"><h4>Lista de todos os trabalhos e solicitações:</h4></th></tr>
+        
         <tr style="background-color: #f2f2f2;">
             <th>Nome do Cliente</th>
             <th>Número OS</th>
@@ -183,7 +183,7 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
                     <td class="pl-3"><button class="mais-info-btn mb-2 btn btn-outline-primary" value="<?php echo esc_html($linha->idTrabalho); ?>">Mais Informações</button>
                     <button class="finalizar-trabalho mb-2 btn btn-outline-danger" value="<?php echo esc_html($linha->idTrabalho); ?>">Finalizar Trabalho</button>
                     <br>
-                    <a class="btn btn-outline-primary rounded" href="<?php echo esc_html($linha->arquivo);?>">Baixar Arquivo</a>
+                    <a class="btn btn-outline-primary rounded" href="<?php echo esc_html($linha->arquivo);?>">Ver Arquivo</a>
                 </td>
                 
                 </tr>
@@ -201,6 +201,8 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
 <div id="tabela-trabalhos-finalizados" style="display:none">
 <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
     <thead>
+    <tr><th colspan="8"><h4>Trabalhos finalizados:</h4></th></tr>
+        
         <tr style="background-color: #f2f2f2;">
             <th>Nome do Cliente</th>
             <th>Número OS</th>
@@ -242,7 +244,9 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
 <div id="tabela-solicitacoes" style="display:none">
 <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
     <thead>
-        <h4>Trabalhos ainda não iniciados:</h4>
+
+        <tr><th colspan="8"><h4>Trabalhos ainda não iniciados:</h4></th></tr>
+        
         <tr style="background-color: #f2f2f2;">
             <th>Nome do Cliente</th>
             <th>Número OS</th>
@@ -266,7 +270,7 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
                     <td><?php echo esc_html($linha->horasEstimadas); ?></td>
                     <td><?php echo esc_html($linha->statusTrabalho); ?></td>
                     <td><button class="mais-info-btn mb-2" value="<?php echo esc_html($linha->idTrabalho); ?>">Mais Informações</button>
-                    <a class="btn btn-outline-primary rounded" href="<?php echo esc_html($linha->arquivo);?>">Baixar Arquivo</a>
+                    <a class="btn btn-outline-primary rounded" href="<?php echo esc_html($linha->arquivo);?>">Ver Arquivo</a>
                 </td>
                 
                 </tr>
@@ -280,6 +284,23 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
 </table>
 </div>
 </div>  
+
+<div class="col-3">
+    <div class="list-group">
+        <button class="btn list-group-item list-group-item-action mb-1 mt-1" id="mostrar-alteracoes">Mostrar Alterações</button>
+        <button class="btn list-group-item list-group-item-action mb-1 mt-1" id="mostrar-dados">Mostrar todos os dados</but>
+        <button class="btn list-group-item list-group-item-action mb-1 mt-1" id="mostrar-trabalhos">Mostrar todos os Trabalhos</button>
+        <button class="btn list-group-item list-group-item-action mb-1 mt-1" id="mostrar-solicitacoes">Mostrar todas as Solicitações</button>
+        <button class="btn list-group-item list-group-item-action mb-1 mt-1" id="mostrar-trabalhos-finalizados">Mostrar Trabalhos finalizados</button>
+    </div>
+
+</div>
+
+</div>
+
+
+
+</div>
 <style>
     /* Define a cor vermelha para as linhas com a classe "classe-vermelha" */
     .classe-vermelha {
@@ -388,7 +409,7 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
                     </tr>`;
                     tbody.innerHTML += row;
                     thead.innerHTML = ` 
-                                        <tr> <th colspan="8"> <h4>Histórico do trabalho: ${alteracao.tituloTrabalho}</h4>
+                                        <tr> <th colspan="8"><div class="row"> <div class="col-9"><h4>Histórico do trabalho: ${alteracao.tituloTrabalho}</h4></div> <div class="col"> <a href="?pagina=alteracao&idTrabalho=${alteracao.idTrabalho}" class="btn btn-success">Adicionar Alteração</a> </div>  </div>
                                            
                                         </th> </tr>
                                         
