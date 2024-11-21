@@ -136,7 +136,6 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
     function buscarTrabalho(){
     const numOs = document.getElementById('numOs').value;
     const numOrcamento = document.getElementById('numOrcamento').value;
-    const idTrabalho = document.getElementById('idTrabalho');
 
     // Verifica se pelo menos um campo foi preenchido
 
@@ -147,8 +146,7 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
         body: new URLSearchParams({
             action: 'buscar_trabalho',
             numOs: numOs,
-            numOrcamento: numOrcamento,
-            idTrabalho: idTrabalho
+            numOrcamento: numOrcamento
         })
     })
     .then(response => response.json())
