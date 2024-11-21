@@ -58,6 +58,10 @@ class TrabalhoController {
             }
         }
 
+        $horasEstimadas = str_replace(',', '.', $dados['horasEstimadas']); // Substitui vírgulas por pontos
+        $horasEstimadas = floatval($horasEstimadas); // Converte para número decimal
+
+
         // Insere o trabalho na tabela 'trabalhos'
         $wpdb->insert($tabela, [
             'idCliente'     => $idCliente,
@@ -67,10 +71,13 @@ class TrabalhoController {
             'titulo'        => sanitize_text_field($dados['titulo']),
             'vendedor'      => sanitize_text_field($dados['vendedor']),
             'observacoes'   => sanitize_textarea_field($dados['observacoes']),
-            'horasEstimadas' => intval($dados['horasEstimadas']),
+            'horasEstimadas' => $horasEstimadas,
             'dataCriacao'   => current_time('mysql'),
             'arquivo'        => $arquivo_url
         ]);
+
+        error_log("Horas estimadas recebidas: " . print_r($dados['horasEstimadas'], true));
+
        
         $idTrabalho = $wpdb->insert_id;
 

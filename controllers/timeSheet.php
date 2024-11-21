@@ -82,7 +82,13 @@ class TimeSheetController {
             a.descricao AS descricaoAlteracao,
             a.inicio AS inicioAlteracao,
             a.fim AS fimAlteracao,
-            TIMESTAMPDIFF(HOUR, a.inicio, a.fim) AS horasGastas
+            TIMESTAMPDIFF(MINUTE, a.inicio, a.fim) AS totalMinutos,
+            FLOOR(TIMESTAMPDIFF(MINUTE, a.inicio, a.fim) / 60) AS horasGastasHoras,
+            MOD(TIMESTAMPDIFF(MINUTE, a.inicio, a.fim), 60) AS horasGastasMinutos,
+            CONCAT(
+            FLOOR(TIMESTAMPDIFF(MINUTE, a.inicio, a.fim) / 60), 'h', 
+            MOD(TIMESTAMPDIFF(MINUTE, a.inicio, a.fim), 60), 'min'
+        ) AS horasGastas
         FROM 
             $tabela_timesheet AS ts
         LEFT JOIN 
@@ -115,8 +121,14 @@ class TimeSheetController {
             t.numOrcamento,
             t.arquivo,
             t.titulo AS tituloTrabalho,
-            t.horasEstimadas,
-            t.horasGastas
+            CONCAT(
+                FLOOR(t.horasEstimadas), 'h',
+                ROUND((t.horasEstimadas - FLOOR(t.horasEstimadas)) * 60), 'min'
+            ) AS horasEstimadas,
+            CONCAT(
+                FLOOR(t.horasGastas), 'h',
+                ROUND((t.horasGastas - FLOOR(t.horasGastas)) * 60), 'min'
+            ) AS horasGastas
         FROM 
             $tabela_timesheet AS ts
         LEFT JOIN 
@@ -148,8 +160,14 @@ class TimeSheetController {
             t.idTrabalho,
             t.numOrcamento,
             t.titulo AS tituloTrabalho,
-            t.horasEstimadas,
-            t.horasGastas
+            CONCAT(
+                FLOOR(t.horasEstimadas), 'h',
+                ROUND((t.horasEstimadas - FLOOR(t.horasEstimadas)) * 60), 'min'
+            ) AS horasEstimadas,
+            CONCAT(
+                FLOOR(t.horasGastas), 'h',
+                ROUND((t.horasGastas - FLOOR(t.horasGastas)) * 60), 'min'
+            ) AS horasGastas
         FROM 
             $tabela_timesheet AS ts
         LEFT JOIN 
@@ -181,8 +199,11 @@ class TimeSheetController {
             t.arquivo,
             t.numOrcamento,
             t.titulo AS tituloTrabalho,
-            t.horasEstimadas,
-            t.horasGastas
+            CONCAT(
+                FLOOR(t.horasEstimadas), 'h',
+                ROUND((t.horasEstimadas - FLOOR(t.horasEstimadas)) * 60), 'min'
+            ) AS horasEstimadas
+ 
         FROM 
             $tabela_timesheet AS ts
         LEFT JOIN 

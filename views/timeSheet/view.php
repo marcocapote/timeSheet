@@ -252,7 +252,6 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
             <th>Número OS</th>
             <th>Número Orçamento</th>
             <th>Título do Trabalho</th>
-            <th>Horas Gastas</th>
             <th>Horas Estimadas</th>
             <th>Status:</th>
             <th>Ações</th>
@@ -266,7 +265,6 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
                     <td><?php echo esc_html($linha->numOs); ?></td>
                     <td><?php echo esc_html($linha->numOrcamento); ?></td>
                     <td><?php echo esc_html($linha->tituloTrabalho); ?></td>
-                    <td><?php echo esc_html($linha->horasGastas); ?></td>
                     <td><?php echo esc_html($linha->horasEstimadas); ?></td>
                     <td><?php echo esc_html($linha->statusTrabalho); ?></td>
                     <td><button class="mais-info-btn mb-2" value="<?php echo esc_html($linha->idTrabalho); ?>">Mais Informações</button>
