@@ -137,7 +137,7 @@ class TimeSheetController {
             $tabela_trabalhos AS t ON ts.idTrabalho = t.idTrabalho
         LEFT JOIN 
             $tabela_alteracoes AS a ON ts.idAlteracao = a.idAlteracao
-        WHERE ts.idAlteracao = 0 AND t.statusTrabalho <> 'finalizado'
+        WHERE ts.idAlteracao = 0 AND t.statusTrabalho <> 'finalizado' AND t.statusTrabalho <> 'Solicitação'
         ";
 
         return $wpdb->get_results($query);

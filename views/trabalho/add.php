@@ -1,16 +1,26 @@
     <?php 
-    if (!defined('ABSPATH')) exit; // Impede acesso direto
+   if (!defined('ABSPATH')) exit; // Impede acesso direto
 
-    // Verifica se o formulário foi submetido
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_trabalho'])) {
-        $idTrabalho = TrabalhoController::inserirTrabalho($_POST);
-    }
-
-    // Recupera a lista de clientes
-    $clientes = TrabalhoController::listarClientes();
-    include( plugin_dir_path( __FILE__ ) .'../header.php');
-
-
+   // Inicializa variáveis para mensagens
+   $erro = '';
+   $sucesso = '';
+   
+   // Verifica se o formulário foi submetido
+   if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_trabalho'])) {
+       $resultado = TrabalhoController::inserirTrabalho($_POST);
+   
+       if (is_wp_error($resultado)) {
+           $erro = $resultado->get_error_message(); // Captura a mensagem de erro
+       } elseif ($resultado) {
+           $sucesso = "Trabalho inserido com sucesso!";
+       } else {
+           $erro = "Ocorreu um erro ao tentar inserir o trabalho.";
+       }
+   }
+   
+   // Recupera a lista de clientes
+   $clientes = TrabalhoController::listarClientes();
+   include(plugin_dir_path(__FILE__) . '../header.php');
     ?>
 
     <div class="container bg-light shadow-lg w-100 pt-3">
@@ -28,6 +38,17 @@
 
 
 
+    <?php if (!empty($erro)) : ?>
+        <div class="alert alert-danger mt-3" role="alert">
+            <?php echo esc_html($erro); ?>
+        </div>
+    <?php endif; ?>
+
+    <?php if (!empty($sucesso)) : ?>
+        <div class="alert alert-success mt-3" role="alert">
+            <?php echo esc_html($sucesso); ?>
+        </div>
+    <?php endif; ?>
 
 
 

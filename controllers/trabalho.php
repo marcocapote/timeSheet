@@ -61,6 +61,20 @@ class TrabalhoController {
         $horasEstimadas = str_replace(',', '.', $dados['horasEstimadas']); // Substitui vírgulas por pontos
         $horasEstimadas = floatval($horasEstimadas); // Converte para número decimal
 
+        $numOs = sanitize_text_field($dados['numOs']);
+        $numOrcamento = sanitize_text_field($dados['numOrcamento']);
+
+        $existente = $wpdb->get_row(
+            $wpdb->prepare(
+                "SELECT idTrabalho FROM $tabela WHERE numOs = %s OR numOrcamento = %s",
+                $numOs,
+                $numOrcamento
+            )
+        );  
+
+        if ($existente) {
+            return new WP_Error('duplicate_entry', 'Já existe um trabalho com o mesmo número de OS ou orçamento.');
+        }
 
         // Insere o trabalho na tabela 'trabalhos'
         $wpdb->insert($tabela, [

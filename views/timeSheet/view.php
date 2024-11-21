@@ -155,8 +155,7 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
 <div id="tabela-trabalhos" style="display:none">
 <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
     <thead>
-    <tr><th colspan="8"><h4>Lista de todos os trabalhos e solicitações:</h4></th></tr>
-        
+    <tr><th colspan="8"><h4>Lista de todos os trabalhos em andamento:</h4></th></tr>
         <tr style="background-color: #f2f2f2;">
             <th>Nome do Cliente</th>
             <th>Número OS</th>
@@ -227,6 +226,7 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
                     <td class="<?php echo $classeVermelha; ?>"><?php echo esc_html($linha->horasEstimadas); ?></td>
                     <td><?php echo esc_html($linha->statusTrabalho); ?></td>
                     <td><button class="mais-info-btn mb-2 btn btn-outline-primary" value="<?php echo esc_html($linha->idTrabalho); ?>">Mais Informações</button>
+                    <button class="btn btn-outline-danger">Excluir trabalho</button>
                 </td>
                 
                 </tr>
@@ -267,7 +267,7 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
                     <td><?php echo esc_html($linha->tituloTrabalho); ?></td>
                     <td><?php echo esc_html($linha->horasEstimadas); ?></td>
                     <td><?php echo esc_html($linha->statusTrabalho); ?></td>
-                    <td><button class="mais-info-btn mb-2" value="<?php echo esc_html($linha->idTrabalho); ?>">Mais Informações</button>
+                    <td><button class="mais-info-btn mb-2 btn btn-outline-danger" value="<?php echo esc_html($linha->idTrabalho); ?>">Mais Informações</button>
                     <a class="btn btn-outline-primary rounded" href="<?php echo esc_html($linha->arquivo);?>">Ver Arquivo</a>
                 </td>
                 
