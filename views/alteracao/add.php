@@ -41,14 +41,23 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
 
 
 
-<form method="post" action="" id="formAtualizar" class="p-3 mt-3">
+<form method="post" action="" id="formAtualizar" class="form-group p-3 mt-3">
     <h5>Buscar Trabalho:</h5>
-    <label for="numOs">Número da OS:</label>
-    <input type="text" id="numOs" name="numOs" required>
-    <br>
-    <label for="numOrcamento">Número do Orçamento:</label>
-    <input type="text" id="numOrcamento" name="numOrcamento" required>
-    <br>
+    <div class="row mt-4">
+        <div class="col-5">
+            <label for="numOs" class="form-label">Número da OS:</label>
+            <input type="text" id="numOs" class="form-control border-0" name="numOs" placeholder="Digite o numero da OS" required>
+            <br>
+        </div>
+        <div class="col-1 text-center pt-4">OU</div>
+        <div class="col-5">
+            <label for="numOrcamento" class="form-label">Número do Orçamento:</label>
+            <input type="text" id="numOrcamento" name="numOrcamento" class="border-0" placeholder="Digite o numero do orçamento" required>
+            <br>
+        </div>
+    </div>
+    
+    
     
     <input type="text" id="idTrabalho" name="idTrabalho" value="<?= $idTrabalho ?>" hidden>
 
@@ -59,42 +68,60 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
     <div class="esconder" id="esconder" style="display: none;">
 
     <br>
+    <div class="row border mb-4"></div>
     <h5>Detalhes:</h5>
-    <label for="titulo">Título do Trabalho</label>
-    <input type="text" id="titulo" name="titulo" required>
+
+    <div class="row mt-4">
+        <div class="col">
+            <label for="titulo" class="form-label">Título do Trabalho</label>
+            <input type="text" id="titulo" name="titulo" class="form-control border-0" readonly required>
+            <br>
+        </div>
+        <div class="col">
+            <label for="nome">Cliente:</label>
+            <input type="text" id="nome" name="nome" class="form-control border-0" readonly required>
+            <br>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col">
+            <label for="vendedor" class="form-label">Vendedor:</label>
+            <input type="text" id="vendedor" name="vendedor" class="form-control border-0" readonly required>
+            <br>
+        </div>
+        <div class="col">
+            <label for="editor" class="form-label">Editor:</label>
+            <input type="text" name="editor" value="<?php echo wp_get_current_user()->user_login; ?>" class="form-control border-0" readonly>
+            <br>
+        </div>
+    </div>
+    
+    
+    <label for="observacoes" class="form-label">Observações</label>
+    <textarea id="observacoes" name="observacoes" class="form-control border-0" required> </textarea>
     <br>
-    <label for="nome">Cliente:</label>
-    <input type="text" id="nome" name="nome" required>
-    <br>
-    <label for="vendedor">Vendedor:</label>
-    <input type="text" id="vendedor" name="vendedor" required>
-    <br>
-    <label for="observacoes">Observações</label>
-    <input type="text" id="observacoes" name="observacoes" required>
-    <br>
-    <label for="editor">Editor:</label>
-    <input type="text" name="editor" value="<?php echo wp_get_current_user()->user_login; ?>" readonly>
-    <br>
+    <div class="row border"></div>
     <br>
     <h5>Registrar Alteração:</h5>
-    <label for="descricao">Descrição da alteração</label>
-    <input type="text" id="descricao" name="descricao" required>
+    <br>
+    <label for="descricao" class="form-label">Descrição da alteração</label>
+    <input type="textarea" id="descricao" name="descricao" class="form-control border-0" required>
     <br>
     <br>    
     <div class="row">
         <div class="col">
-        <label for="inicio">Início:</label>
-        <input type="datetime-local" id="inicio" name="inicio" required>
+        <label for="inicio" class="form-label">Início:</label>
+        <input type="datetime-local" id="inicio" name="inicio" class="form-control border-0" required>
         </div>
         <div class="col">
-        <label for="fim">Fim:</label>
-        <input type="datetime-local" id="fim" name="fim" required>
+        <label for="fim" class="form-label">Fim:</label>
+        <input type="datetime-local" id="fim" name="fim" class="form-control border-0" required>
         </div>
     </div>
     <br>
     
     <input type="text" id="horasGastas" name="horasGastas">
-    <p>Horas Gastas: <span id="horasGastas">0</span> horas</p>
 
     <button type="submit" name="submit_alteracao" class="mb-3">Salvar</button>
 

@@ -120,6 +120,8 @@ class TimeSheetController {
             t.idTrabalho,
             t.numOrcamento,
             t.arquivo,
+            t.horasEstimadas AS horasEstimadasComp,
+            t.horasGastas AS horasGastasComp,
             t.titulo AS tituloTrabalho,
             CONCAT(
                 FLOOR(t.horasEstimadas), 'h',
@@ -160,6 +162,8 @@ class TimeSheetController {
             t.idTrabalho,
             t.numOrcamento,
             t.titulo AS tituloTrabalho,
+            t.horasEstimadas AS horasEstimadasComp,
+            t.horasGastas AS horasGastasComp,
             CONCAT(
                 FLOOR(t.horasEstimadas), 'h',
                 ROUND((t.horasEstimadas - FLOOR(t.horasEstimadas)) * 60), 'min'

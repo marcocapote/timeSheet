@@ -53,21 +53,29 @@
 
 
 
-    <form method="post" enctype="multipart/form-data" class="p-3">
+    <form method="post" enctype="multipart/form-data" class="p-5 form-gorup">
+
+    <h4>Solicitar um trabalho:</h4>
+    <br>
         
 
-        <label for="numOs">Número OS:</label>
-        <input type="text" name="numOs" required><br><br>
+    <div class="row">
 
-        <label for="numOrcamento">Número Orçamento:</label>
-        <input type="text" name="numOrcamento" required><br><br>
+        <div class="col-6">
+        <label for="numOs" class="form-label">Número OS:</label>
+        <input type="text" name="numOs" class="form-control border-0" placeholder="Digite o numero da OS" required><br><br>
+        </div>
+        <div class="col-6">
+        <label for="numOrcamento" class="form-label">Número Orçamento:</label>
+        <input type="text" name="numOrcamento" class="form-control border-0" placeholder="Digite o Número do Orçamento" required><br><br>
+        </div>
+    </div>
 
-        <label for="titulo">Titulo do Trabalho:</label>
-        <input type="text" name="titulo" required><br><br>
-
-        <label for="idCliente">Cliente:</label>
-        <select name="idCliente" id="idCliente" required onchange="toggleNovoCliente(this)">
-            <option value="">Selecione um cliente</option>
+    <div class="row">
+        <div class="col-6">
+        <label for="idCliente" class="form-label">Cliente:</label>
+        <select name="idCliente" id="idCliente" class="form-control border-light text-muted" required onchange="toggleNovoCliente(this)">
+            <option value="" >Selecione um cliente</option>
             <?php foreach ($clientes as $cliente): ?>
                 <option value="<?php echo $cliente->idCliente; ?>">
                     <?php echo esc_html($cliente->nome); ?>
@@ -77,30 +85,55 @@
         </select><br>
 
         <div id="novoClienteContainer" style="display: none;">
-            <label for="novoCliente">Nome do Novo Cliente:</label>
-            <input type="text" name="novoCliente" id="novoCliente"><br><br>
+            <label for="novoCliente" class="form-label">Nome do Novo Cliente:</label>
+            <input type="text" name="novoCliente" id="novoCliente" class="form-control border-0" placeholder="Digite o nome do novo cliente"><br><br>
+        </div>
         </div>
 
-        <label for="vendedor">Vendedor:</label>
-        <input type="text" name="vendedor" required><br><br>
 
-        <label for="observacoes">Observações:</label>
-        <textarea name="observacoes" required></textarea><br><br>
+        <div class="col-6">
+        <label for="vendedor" class="form-label">Vendedor:</label>
+        <select name="vendedor" id="vendedor" class="form-control border-0 text-muted">
+            <option value="">Selecione um vendedor</option>
+            <option value="Vendedor1">Vendedor1</option>
+            <option value="Vendedor2">Vendedor2</option>
+            <option value="Vendedor3">Vendedor3</option>
+        </select><br><br>
+        </div>
+    </div>
 
-        <label for="arquivo">Arquivo do trabalho: </label>
+    <div class="row">
+        <div class="col-6">
+        <label for="titulo" class="form-label">Titulo do Trabalho:</label> 
+        <input type="text" name="titulo" class="form-control border-0" placeholder="Digite o titulo do trabalho" required><br><br>
+        </div>
+        
+
+        <div class="col">
+        <label for="observacoes" class="form-label">Descrição do trabalho:</label>
+        <textarea name="observacoes" class="form-control" placeholder="Digite a descrição do trabalho" required></textarea><br><br>
+        </div>
+
+        
+    </div>
+        
+
+        <label for="arquivo" class="form-label">Arquivo do trabalho: </label>
         <input type="file" class="form-control" name="arquivo" required><br><br>
 
-        <h5>Tempo estimado:</h5>
+        <h5     >Tempo estimado:</h5>
 
-        <label for="horas">Horas:</label>
-        <input type="number" name="horas" id="horas" required>
+        <div class="row">
+        
+        <div class="col-2">
+        <input type="number" name="horas" id="horas" class="w-50 border-0" placeholder="00" required> Horas
+        </div>
+        <div class="col-2">
+        <input type="number" name="min" id="min" class="w-50 border-0" value="0" placeholder="00" max="59"> Minutos
+        </div>
+        </div>
 
-        <label for="min">Minutos</label>
-        <input type="number" name="min" id="min">
-
-
-        <label for="horasEstimadas">Horas:</label>
-        <input type="text" name="horasEstimadas" id="horasEstimadas" required><br><br>
+        <input type="text" name="horasEstimadas" id="horasEstimadas" required hidden><br><br>
 
         <button type="submit" name="submit_trabalho" class="mb-3">Salvar</button>
     </form>

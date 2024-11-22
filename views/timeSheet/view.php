@@ -18,7 +18,7 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
     <div class="row"><div class="col-12 text-center mt-4"><h2>Painel de Timesheets</h2></div></div>
     <div class="row mt-0 p-3">
     <div class="col-5">
-        <div class="row d-flex">
+        <div class="row d-flex justify-content-around">
             <div class="col-5 pr-0"><a href="?pagina=alteracao" class="btn btn-outline-light rounded shadow m-0 p-2">Adicionar Alteração</a></div>
             <div class="col-4 p-0"><a href="?pagina=trabalho" class="btn btn-outline-light rounded shadow m-0 p-2">Adicionar Trabalho</a></div>
         </div>
@@ -34,8 +34,8 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
 <!-- Tabela e conteúdo da página -->
 <!-- Tabela HTML para exibir os dados -->
 <div class="row">
-    <div class="col-9">
-<div id="tabela-principal">
+    <div class="col-12 text-center">
+<div id="tabela-principal" style="display: none;">
 <table class="table" border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
     <thead>
         <tr style="background-color: #f2f2f2;">
@@ -73,10 +73,19 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
 </div>
 
 
-<div id="tabela-alteracoes" style="display:none">
+<div id="tabela-alteracoes" style="display: block">
 <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
     <thead>
     <tr><th colspan="8"><h4>Alterações feitas em todos os trabalhos:</h4></th></tr>
+    <tr><th colspan="8">
+        <div class="d-flex justify-content-around">
+        <button class="btn alternar-tabela" data-tabela="tabela-alteracoes">Mostrar Alterações</button>
+        <button class="btn alternar-tabela" data-tabela="tabela-trabalhos">Mostrar todos os Trabalhos</button>
+        <button class="btn alternar-tabela" data-tabela="tabela-solicitacoes">Mostrar todas as Solicitações</button>
+        <button class="btn alternar-tabela" data-tabela="tabela-trabalhos-finalizados">Mostrar Trabalhos finalizados</button>
+
+        </div>
+    </th></tr>
         <tr style="background-color: #f2f2f2;">
             <th>Nome do Cliente</th>
             <th>Número OS</th>
@@ -156,6 +165,14 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
 <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
     <thead>
     <tr><th colspan="8"><h4>Lista de todos os trabalhos em andamento:</h4></th></tr>
+    <tr><th colspan="8">
+        <div class="d-flex justify-content-around"> 
+        <button class="btn alternar-tabela" data-tabela="tabela-alteracoes">Mostrar Alterações</button>
+        <button class="btn alternar-tabela" data-tabela="tabela-trabalhos">Mostrar todos os Trabalhos</button>
+        <button class="btn alternar-tabela" data-tabela="tabela-solicitacoes">Mostrar todas as Solicitações</button>
+        <button class="btn alternar-tabela" data-tabela="tabela-trabalhos-finalizados">Mostrar Trabalhos finalizados</button>
+        </div>
+    </th></tr>
         <tr style="background-color: #f2f2f2;">
             <th>Nome do Cliente</th>
             <th>Número OS</th>
@@ -170,7 +187,7 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
     <tbody>
         <?php if (!empty($dados_trabalho)): ?>
             <?php foreach ($dados_trabalho as $linha): ?>
-                <?php $classeVermelha = $linha->horasGastas > $linha->horasEstimadas ? 'classe-vermelha' : '';?>
+                <?php $classeVermelha = $linha->horasGastasComp > $linha->horasEstimadasComp ? 'classe-vermelha' : '';?>
                 <tr>
                     <td><?php echo esc_html($linha->nomeCliente); ?></td>
                     <td><?php echo esc_html($linha->numOs); ?></td>
@@ -201,6 +218,15 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
 <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
     <thead>
     <tr><th colspan="8"><h4>Trabalhos finalizados:</h4></th></tr>
+    <tr><th colspan="8">
+        <div class="d-flex justify-content-around">
+        <button class="btn alternar-tabela" data-tabela="tabela-alteracoes">Mostrar Alterações</button>
+        <button class="btn alternar-tabela" data-tabela="tabela-trabalhos">Mostrar todos os Trabalhos</button>
+        <button class="btn alternar-tabela" data-tabela="tabela-solicitacoes">Mostrar todas as Solicitações</button>
+        <button class="btn alternar-tabela" data-tabela="tabela-trabalhos-finalizados">Mostrar Trabalhos finalizados</button>
+
+        </div>
+    </th></tr>
         
         <tr style="background-color: #f2f2f2;">
             <th>Nome do Cliente</th>
@@ -216,7 +242,7 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
     <tbody>
         <?php if (!empty($dados_trabalho_finalizado)): ?>
             <?php foreach ($dados_trabalho_finalizado as $linha): ?>
-                <?php $classeVermelha = $linha->horasGastas > $linha->horasEstimadas ? 'classe-vermelha' : '';?>
+                <?php $classeVermelha = $linha->horasGastasComp > $linha->horasEstimadasComp ? 'classe-vermelha' : '';?>
                 <tr>
                     <td><?php echo esc_html($linha->nomeCliente); ?></td>
                     <td><?php echo esc_html($linha->numOs); ?></td>
@@ -246,7 +272,15 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
     <thead>
 
         <tr><th colspan="8"><h4>Trabalhos ainda não iniciados:</h4></th></tr>
-        
+        <tr><th colspan="8">
+        <div class="d-flex justify-content-around">
+        <button class="btn alternar-tabela" data-tabela="tabela-alteracoes">Mostrar Alterações</button>
+        <button class="btn alternar-tabela" data-tabela="tabela-trabalhos">Mostrar todos os Trabalhos</button>
+        <button class="btn alternar-tabela" data-tabela="tabela-solicitacoes">Mostrar todas as Solicitações</button>
+        <button class="btn alternar-tabela" data-tabela="tabela-trabalhos-finalizados">Mostrar Trabalhos finalizados</button>
+
+        </div>
+    </th></tr>
         <tr style="background-color: #f2f2f2;">
             <th>Nome do Cliente</th>
             <th>Número OS</th>
@@ -283,16 +317,6 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
 </div>
 </div>  
 
-<div class="col-3">
-    <div class="list-group">
-        <button class="btn list-group-item list-group-item-action mb-1 mt-1" id="mostrar-alteracoes">Mostrar Alterações</button>
-        <button class="btn list-group-item list-group-item-action mb-1 mt-1" id="mostrar-dados">Mostrar todos os dados</but>
-        <button class="btn list-group-item list-group-item-action mb-1 mt-1" id="mostrar-trabalhos">Mostrar todos os Trabalhos</button>
-        <button class="btn list-group-item list-group-item-action mb-1 mt-1" id="mostrar-solicitacoes">Mostrar todas as Solicitações</button>
-        <button class="btn list-group-item list-group-item-action mb-1 mt-1" id="mostrar-trabalhos-finalizados">Mostrar Trabalhos finalizados</button>
-    </div>
-
-</div>
 
 </div>
 
@@ -312,31 +336,23 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
 </style>
 
 <script>
-     function mostrarTabela(tabelaId) {
-        const tabelas = ['tabela-principal', 'tabela-alteracoes', 'tabela-trabalhos', 'tabela-trabalhos-finalizados','tabela-solicitacoes', 'tabela-alteracoes-especifica'];
-        
-        tabelas.forEach(id => {
-            document.getElementById(id).style.display = id === tabelaId ? 'block' : 'none';
-        });
-    }
+    document.addEventListener('DOMContentLoaded', () => {
+    const botoes = document.querySelectorAll('.alternar-tabela');
+    const tabelas = document.querySelectorAll('div[id^="tabela-"]');
 
-    // Eventos de clique para exibir as tabelas desejadas
-    document.getElementById('mostrar-alteracoes').addEventListener('click', function() {
-        mostrarTabela('tabela-alteracoes');
+    botoes.forEach(botao => {
+        botao.addEventListener('click', () => {
+            const tabelaAlvo = botao.dataset.tabela;
+
+            tabelas.forEach(tabela => {
+                tabela.style.display = tabela.id === tabelaAlvo ? 'block' : 'none';
+            });
+        });
     });
-    document.getElementById('mostrar-dados').addEventListener('click', function() {
-        mostrarTabela('tabela-principal');
-    });
-    document.getElementById('mostrar-trabalhos').addEventListener('click', function() {
-        mostrarTabela('tabela-trabalhos');
-    });
-    document.getElementById('mostrar-solicitacoes').addEventListener('click', function() {
-        mostrarTabela('tabela-solicitacoes');
-    });
-    document.getElementById('mostrar-trabalhos-finalizados').addEventListener('click', function(){
-        mostrarTabela('tabela-trabalhos-finalizados');
-    });
-    
+});
+
+
+
 
     
     
@@ -407,8 +423,8 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
                     </tr>`;
                     tbody.innerHTML += row;
                     thead.innerHTML = ` 
-                                        <tr> <th colspan="8"><div class="row"> <div class="col-9"><h4>Histórico do trabalho: ${alteracao.tituloTrabalho}</h4></div> <div class="col"> <a href="?pagina=alteracao&idTrabalho=${alteracao.idTrabalho}" class="btn btn-success">Adicionar Alteração</a> </div>  </div>
-                                           
+                                        <tr> <th colspan="8" class="text-start"><div class="row"> <div class="col-9"><h4>Histórico do trabalho ${alteracao.tituloTrabalho}</h4></div> <div class="col"> <a href="?pagina=alteracao&idTrabalho=${alteracao.idTrabalho}" class="btn btn-success">Adicionar Alteração</a> </div>  </div>
+                                           <h5>Descrição do trabalho:</h5> ${alteracao.observacoes}
                                         </th> </tr>
                                         
                                         <tr style="background-color: #f2f2f2;">
