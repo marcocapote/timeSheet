@@ -11,6 +11,12 @@ class AlteracaoController {
         $tabela = $wpdb->prefix . 'timesheet_alteracoes';
         $tabelaTrabalho = $wpdb->prefix . 'timesheet_trabalhos';
 
+
+            $obs = $wpdb->prepare("SELECT * FROM $tabelaTrabalho WHERE idtrabalho = %d", $dados['idTrabalho']);
+            $obsResults =  $wpdb->get_row($obs);
+        
+        
+        
         // Insere a alteração na tabela
         $wpdb->insert($tabela, [
             'idTrabalho' => intval($dados['idTrabalho']),
@@ -21,6 +27,22 @@ class AlteracaoController {
         ]);
         
         $idAlteracao = $wpdb->insert_id;
+
+        if (!$obs) {
+            // Registra erro ou define um valor padrão
+            $obs = 'Nenhuma observação encontrada'; // Valor padrão ou mensagem
+        }
+        
+
+
+            $wpdb->update($tabelaTrabalho,
+                [
+                    'observacoes' => sanitize_text_field( $dados['observacoes'] )
+                ],
+                ['idTrabalho' => $dados['idTrabalho']]
+            );
+
+        
 
         if ($idAlteracao){
             TimeSheetController::inserir_alteracao_timesheet($idAlteracao, $dados); 

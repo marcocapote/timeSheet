@@ -95,6 +95,7 @@ class TrabalhoController {
        
         $idTrabalho = $wpdb->insert_id;
 
+
         if ($idTrabalho) {
             TimeSheetController::inserir_trabalho_timesheet($idTrabalho, $idCliente);
             return $idTrabalho;
