@@ -16,7 +16,7 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
 <div class="container bg-light shadow-lg w-100 pt-3 pb-2">
 <div class="container bg-secondary rounded text-white mt-0  shadow-lg">
     <div class="row"><div class="col-12 text-center mt-4"><h2>Painel de Timesheets</h2></div></div>
-    <div class="row mt-0 p-3">
+    <div class="row mt-0 p-3">  
     <div class="col-5">
         <div class="row d-flex justify-content-around">
             <div class="col-5 pr-0"><a href="?pagina=alteracao" class="btn btn-outline-light rounded shadow m-0 p-2">Adicionar Alteração</a></div>
@@ -196,7 +196,7 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
                     <td class="<?php echo $classeVermelha; ?>"><?php echo esc_html($linha->horasGastas); ?></td>
                     <td class="<?php echo $classeVermelha; ?>"><?php echo esc_html($linha->horasEstimadas); ?></td>
                     <td><?php echo esc_html($linha->statusTrabalho); ?></td>
-                    <td class="pl-3"><button class="mais-info-btn mb-2 btn btn-outline-primary" value="<?php echo esc_html($linha->idTrabalho); ?>">Mais Informações</button>
+                    <td class="pl-3"><button class="mais-info-btn alternar-tabela mb-2 btn btn-outline-primary" data-tabela="tabela-alteracoes-especifica" value="<?php echo esc_html($linha->idTrabalho); ?>">Mais Informações</button>
                     <button class="finalizar-trabalho mb-2 btn btn-outline-danger" value="<?php echo esc_html($linha->idTrabalho); ?>">Finalizar Trabalho</button>
                     <br>
                     <a class="btn btn-outline-primary rounded" href="<?php echo esc_html($linha->arquivo);?>">Ver Arquivo</a>
@@ -251,7 +251,7 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
                     <td class="<?php echo $classeVermelha; ?>"><?php echo esc_html($linha->horasGastas); ?></td>
                     <td class="<?php echo $classeVermelha; ?>"><?php echo esc_html($linha->horasEstimadas); ?></td>
                     <td><?php echo esc_html($linha->statusTrabalho); ?></td>
-                    <td><button class="mais-info-btn mb-2 btn btn-outline-primary" value="<?php echo esc_html($linha->idTrabalho); ?>">Mais Informações</button>
+                    <td><button class="mais-info-btn alternar-tabela mb-2 btn btn-outline-primary" data-tabela="tabela-alteracoes-especifica" value="<?php echo esc_html($linha->idTrabalho); ?>">Mais Informações</button>
                     <button class="btn btn-outline-danger">Excluir trabalho</button>
                 </td>
                 
@@ -301,7 +301,7 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
                     <td><?php echo esc_html($linha->tituloTrabalho); ?></td>
                     <td><?php echo esc_html($linha->horasEstimadas); ?></td>
                     <td><?php echo esc_html($linha->statusTrabalho); ?></td>
-                    <td><button class="mais-info-btn mb-2 btn btn-outline-danger" value="<?php echo esc_html($linha->idTrabalho); ?>">Mais Informações</button>
+                    <td><button class="mais-info-btn alternar-tabela btn btn-outline-primary" data-tabela="tabela-alteracoes-especifica" value="<?php echo esc_html($linha->idTrabalho); ?>">Mais Informações</button>
                     <a class="btn btn-outline-primary rounded" href="<?php echo esc_html($linha->arquivo);?>">Ver Arquivo</a>
                 </td>
                 
@@ -336,24 +336,46 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
 </style>
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-    const botoes = document.querySelectorAll('.alternar-tabela');
-    const tabelas = document.querySelectorAll('div[id^="tabela-"]');
-
-    botoes.forEach(botao => {
-        botao.addEventListener('click', () => {
-            const tabelaAlvo = botao.dataset.tabela;
-
-            tabelas.forEach(tabela => {
-                tabela.style.display = tabela.id === tabelaAlvo ? 'block' : 'none';
+   document.addEventListener('DOMContentLoaded', function () {
+    // Delegação de eventos para os botões alternar-tabela
+    document.body.addEventListener('click', function (event) {
+        if (event.target.classList.contains('alternar-tabela')) {
+            const tabelaId = event.target.getAttribute('data-tabela');
+            
+            // Ocultar todas as tabelas
+            document.querySelectorAll('div[id^="tabela-"]').forEach(function (tabela) {
+                tabela.style.display = 'none';
             });
-        });
+
+            // Mostrar a tabela correspondente
+            if (tabelaId) {
+                const tabela = document.getElementById(tabelaId);
+                if (tabela) {
+                    tabela.style.display = 'block';
+                }
+            }
+        }
+    });
+
+    // Delegação de eventos para botões "mais-info"
+    document.body.addEventListener('click', function (event) {
+        if (event.target.classList.contains('mais-info-btn')) {
+            const tabelaId = event.target.getAttribute('data-tabela');
+            const idTrabalho = event.target.value;
+
+            if (tabelaId && idTrabalho) {
+                // Aqui você pode adicionar lógica adicional se necessário, como buscar dados via AJAX
+                const tabela = document.getElementById(tabelaId);
+                if (tabela) {
+                    document.querySelectorAll('div[id^="tabela-"]').forEach(function (tabela) {
+                        tabela.style.display = 'none';
+                    });
+                    tabela.style.display = 'block';
+                }
+            }
+        }
     });
 });
-
-
-
-
     
     
     
@@ -426,6 +448,15 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
                                         <tr> <th colspan="8" class="text-start"><div class="row"> <div class="col-9"><h4>Histórico do trabalho ${alteracao.tituloTrabalho}</h4></div> <div class="col"> <a href="?pagina=alteracao&idTrabalho=${alteracao.idTrabalho}" class="btn btn-success">Adicionar Alteração</a> </div>  </div>
                                            <h5>Descrição do trabalho:</h5> ${alteracao.observacoes}
                                         </th> </tr>
+                                        <tr><th colspan="8">
+                                        <div class="d-flex justify-content-around">
+                                        <button class="btn alternar-tabela" data-tabela="tabela-alteracoes">Mostrar Alterações</button>
+                                        <button class="btn alternar-tabela" data-tabela="tabela-trabalhos">Mostrar todos os Trabalhos</button>
+                                        <button class="btn alternar-tabela" data-tabela="tabela-solicitacoes">Mostrar todas as Solicitações</button>
+                                        <button class="btn alternar-tabela" data-tabela="tabela-trabalhos-finalizados">Mostrar Trabalhos finalizados</button>
+
+                                        </div>
+                                        </th></tr>
                                         
                                         <tr style="background-color: #f2f2f2;">
                                         <th>Nome do Cliente</th>
@@ -440,10 +471,11 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
 
                                     `;
                 });
-
-                mostrarTabela('tabela-alteracoes-especifica');
+                // document.getElementById('tabela-alteracoes-especifica').style.display = "block";
+               // mostrarTabela('tabela-alteracoes-especifica');
+               // <button class="btn alternar-tabela" data-tabela="tabela-alteracoes-especifica">Mais informações</button>
             } else {
-                alert(data.data.message || 'Erro ao buscar alterações.');
+                alert(data.data.message || 'Erro ao buscar alterações.');   
             }
         });
     });

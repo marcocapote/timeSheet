@@ -244,6 +244,7 @@ public static function buscar_alteracoes_por_trabalho() {
             t.numOs,
             t.idTrabalho,
             t.numOrcamento,
+            t.observacoes,
             t.titulo AS tituloTrabalho,
             t.horasEstimadas,
             IFNULL(t.horasGastas, '0'),
