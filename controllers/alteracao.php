@@ -15,7 +15,9 @@ class AlteracaoController {
             $obs = $wpdb->prepare("SELECT * FROM $tabelaTrabalho WHERE idtrabalho = %d", $dados['idTrabalho']);
             $obsResults =  $wpdb->get_row($obs);
         
-        
+        if ($dados['horasGastas'] < 0){
+            return;
+        }
         
         // Insere a alteração na tabela
         $wpdb->insert($tabela, [
@@ -108,3 +110,5 @@ class AlteracaoController {
 
 
 ?>
+
+

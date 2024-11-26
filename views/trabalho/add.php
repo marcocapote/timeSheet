@@ -134,7 +134,7 @@
         
 
         <label for="arquivo" class="form-label">Arquivo do trabalho: </label>
-        <input type="file" class="form-control" name="arquivo" required><br><br>
+        <input type="file" class="form-control" name="arquivo"><br><br>
 
         <h5     >Tempo estimado:</h5>
 

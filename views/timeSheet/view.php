@@ -450,7 +450,7 @@ include(plugin_dir_path(__FILE__) . '../header.php');
                         alert('Trabalho finalizado com sucesso!');
                         // Atualizar a tabela ou realizar qualquer outra ação necessária
                     } else {
-                        alert('Falha ao finalizar trabalho.');
+                        alert('Falha ao finalizar trabalho. Um trabalho deve ser iniciado antes de ser finalizado');
                     }
                 })
                 .catch(error => console.error('Erro:', error));

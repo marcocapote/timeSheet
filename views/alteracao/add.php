@@ -135,9 +135,9 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
     </div>
     <br>
     
-    <input type="text" id="horasGastas" class="form-control border-0" name="horasGastas" readonly hidden>
+    <input type="text" id="horasGastas" class="form-control border-0" name="horasGastas" required readonly hidden>
 
-    <input type="text" id="horasGastasShow" class="form-control border-0" name="horasGastasShow" readonly>
+    <input type="text" id="horasGastasShow" class="form-control border-0" name="horasGastasShow" required readonly>
 
     <button type="submit" name="submit_alteracao" class="mb-3 mt-4">Salvar</button>
 
@@ -242,10 +242,18 @@ function calcularHorasGastas() {
         const diff = (new Date(fim) - new Date(inicio)) / 3600000; // Diferença em horas decimais
         const diffFormatado = formatarHorasDecimais(diff); // Converte para o formato 00h00min
 
-        // Atualiza os campos com os valores
+        if (diff < 0) {
+            alert("O horário de início não pode ser maior que o horário de fim.");
+            return;
+        }else{
+            // Atualiza os campos com os valores
         document.getElementById('horasGastas').value = diff.toFixed(2); // Decimal
         document.getElementById('horasGastasShow').value = diffFormatado; // Formatado
+        }
+
+        
     }
+    x
 }
 
 function formatarHorasDecimais(horasDecimais) {
