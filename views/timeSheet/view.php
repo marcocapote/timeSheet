@@ -20,7 +20,7 @@ include(plugin_dir_path(__FILE__) . '../header.php');
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav w-100 text-white me-auto">
                 <li class="nav-item m-1 mt-1">
-                    <h4>Painel de Timesheets</h4>
+                    <h4>Painel Timesheet</h4>
                 </li>
                 <li class="nav-item m-1 mt-0">
                     <a href="?pagina=alteracao" class=" btn text-white m-0 p-2">
@@ -68,12 +68,17 @@ include(plugin_dir_path(__FILE__) . '../header.php');
         </div>
     </div>
 </nav>
+<div class="row d-flex justify-content-center mt-5 mb-5"></div>
+
+<div class="row mt-5">
+    <div class="col-12">
+        <div class="container rounded text-white text-center bg-dark pb-3 pt-3 shadow-lg"><h2>TimeSheet</h2></div>
+    </div>
+</div>
 
 
-<div class="row mt-5 mb-5"></div>
 
-<div class="container bg-white mt-5 shadow-lg w-100 pb-2">
-
+<div class="container bg-white shadow-lg w-100 pb-2">
 
 
     <!-- Tabela e conteúdo da página -->
@@ -123,13 +128,11 @@ include(plugin_dir_path(__FILE__) . '../header.php');
             <div id="tabela-alteracoes" style="display: block">
                 <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
                     <thead>
-                        <div class="container mb-3 bg-dark rounded text-white shadow-lg">
-                            <div class="row">
-                                <div class="col-12 text-center mb-2 mt-4">
-                                    <h2>Alterações feitas em todos os trabalhos</h2>
-                                </div>
-                            </div>
-                        </div>
+                         <tr>
+                            <th colspan="8">
+                                <h4>Alterações feitas em todos os trabalhos:</h4>
+                            </th>
+                        </tr>
                         <tr style="background-color: #f2f2f2;">
                             <th>Nome do Cliente</th>
                             <th>Número OS</th>
@@ -209,13 +212,11 @@ include(plugin_dir_path(__FILE__) . '../header.php');
                 <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
                     <thead>
 
-                    <div class="container mb-3 bg-dark rounded text-white shadow-lg">
-                            <div class="row">
-                                <div class="col-12 text-center mb-2 mt-4">
-                                    <h2>Lista de todos os trabalhos em andamento</h2>
-                                </div>
-                            </div>
-                        </div>
+                          <tr>
+                            <th colspan="8">
+                                <h4>Lista de trabalhos em andamento:</h4>
+                            </th>
+                        </tr>
 
                         <tr style="background-color: #f2f2f2;">
                             <th>Nome do Cliente</th>
@@ -273,22 +274,6 @@ include(plugin_dir_path(__FILE__) . '../header.php');
                                 <h4>Trabalhos finalizados:</h4>
                             </th>
                         </tr>
-                        <tr>
-                            <th colspan="8">
-                                <div class="d-flex justify-content-around">
-                                    <button class="btn alternar-tabela" data-tabela="tabela-alteracoes">Mostrar
-                                        Alterações</button>
-                                    <button class="btn alternar-tabela" data-tabela="tabela-trabalhos">Mostrar todos
-                                        os Trabalhos</button>
-                                    <button class="btn alternar-tabela" data-tabela="tabela-solicitacoes">Mostrar
-                                        todas as Solicitações</button>
-                                    <button class="btn alternar-tabela"
-                                        data-tabela="tabela-trabalhos-finalizados">Mostrar Trabalhos
-                                        finalizados</button>
-
-                                </div>
-                            </th>
-                        </tr>
 
                         <tr style="background-color: #f2f2f2;">
                             <th>Nome do Cliente</th>
@@ -319,7 +304,6 @@ include(plugin_dir_path(__FILE__) . '../header.php');
                                     <td><button class="mais-info-btn alternar-tabela mb-2 btn btn-outline-primary"
                                             data-tabela="tabela-alteracoes-especifica"
                                             value="<?php echo esc_html($linha->idTrabalho); ?>">Mais Informações</button>
-                                        <button class="btn btn-outline-danger">Excluir trabalho</button>
                                     </td>
 
                                 </tr>
@@ -335,28 +319,14 @@ include(plugin_dir_path(__FILE__) . '../header.php');
 
 
             <div id="tabela-solicitacoes" style="display:none">
+
+
                 <table border="0" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
                     <thead>
 
                         <tr>
                             <th colspan="8">
                                 <h4>Trabalhos ainda não iniciados:</h4>
-                            </th>
-                        </tr>
-                        <tr>
-                            <th colspan="8">
-                                <div class="d-flex justify-content-around">
-                                    <button class="btn alternar-tabela" data-tabela="tabela-alteracoes">Mostrar
-                                        Alterações</button>
-                                    <button class="btn alternar-tabela" data-tabela="tabela-trabalhos">Mostrar todos
-                                        os Trabalhos</button>
-                                    <button class="btn alternar-tabela" data-tabela="tabela-solicitacoes">Mostrar
-                                        todas as Solicitações</button>
-                                    <button class="btn alternar-tabela"
-                                        data-tabela="tabela-trabalhos-finalizados">Mostrar Trabalhos
-                                        finalizados</button>
-
-                                </div>
                             </th>
                         </tr>
                         <tr style="background-color: #f2f2f2;">
@@ -465,8 +435,6 @@ include(plugin_dir_path(__FILE__) . '../header.php');
         button.addEventListener('click', function () {
             var id_trabalho = this.value;
 
-            alert(id_trabalho);
-
 
             fetch('<?php echo admin_url("admin-ajax.php"); ?>', {
                 method: 'POST',
@@ -528,7 +496,8 @@ include(plugin_dir_path(__FILE__) . '../header.php');
                             tbody.innerHTML += row;
                             thead.innerHTML = ` 
                                         <tr> <th colspan="8" class="text-start"><div class="row"> <div class="col-9"><h4>Histórico do trabalho ${alteracao.tituloTrabalho}</h4></div> <div class="col"> <a href="?pagina=alteracao&idTrabalho=${alteracao.idTrabalho}" class="btn btn-success">Adicionar Alteração</a> </div>  </div>
-                                           <h5>Descrição do trabalho:</h5> ${alteracao.observacoes}
+                                        <h5>Vendedor: ${alteracao.vendedor} <h5>  
+                                        <h5>Descrição do trabalho:</h5> ${alteracao.observacoes}
                                         </th> </tr>                   
                                         <tr style="background-color: #f2f2f2;">
                                         <th>Nome do Cliente</th>

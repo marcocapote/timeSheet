@@ -24,7 +24,7 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
     <div class="container-fluid">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav w-100 text-white me-auto">
-            <li class="nav-item m-1 mt-1"><h4>Painel de Timesheets</h4></li>
+            <li class="nav-item m-1 mt-1"><h4>Painel Timesheet</h4></li>
                 <li class="nav-item m-1 mt-0">
                     <a href="?pagina=timeSheet" class=" btn text-white m-0 p-2">
                         Painel TimeSheet
@@ -42,7 +42,7 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
 </nav>
 <div class="row mt-5"></div>
 <div class="container rounded bg-light mt-5 shadow-lg pt-3">
-    <div class="container bg-secondary rounded text-white shadow-lg">
+    <div class="container bg-dark rounded text-white shadow-lg">
         <div class="row"><div class="col-12 text-center mb-2 mt-4"><h2>Adicionar Alteração</h2></div></div>
         
 
@@ -120,7 +120,7 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
     <h5>Registrar Alteração:</h5>
     <br>
     <label for="descricao" class="form-label">Descrição da alteração</label>
-    <input type="textarea" id="descricao" name="descricao" class="form-control border-0" required>
+    <input type="textarea" id="descricao" name="descricao" class="form-control border-0" placeholder="Descreva o que foi feito" required>
     <br>
     <br>    
     <div class="row">
@@ -135,9 +135,11 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
     </div>
     <br>
     
-    <input type="text" id="horasGastas" name="horasGastas">
+    <input type="text" id="horasGastas" class="form-control border-0" name="horasGastas" readonly hidden>
 
-    <button type="submit" name="submit_alteracao" class="mb-3">Salvar</button>
+    <input type="text" id="horasGastasShow" class="form-control border-0" name="horasGastasShow" readonly>
+
+    <button type="submit" name="submit_alteracao" class="mb-3 mt-4">Salvar</button>
 
     </div>
 </form>
@@ -237,10 +239,26 @@ function calcularHorasGastas() {
     const fim = document.getElementById('fim').value;
 
     if (inicio && fim) {
-        const diff = (new Date(fim) - new Date(inicio)) / 3600000;
-        document.getElementById('horasGastas').innerText = diff.toFixed(2);
-        document.getElementById('horasGastas').value = diff.toFixed(2);
+        const diff = (new Date(fim) - new Date(inicio)) / 3600000; // Diferença em horas decimais
+        const diffFormatado = formatarHorasDecimais(diff); // Converte para o formato 00h00min
+
+        // Atualiza os campos com os valores
+        document.getElementById('horasGastas').value = diff.toFixed(2); // Decimal
+        document.getElementById('horasGastasShow').value = diffFormatado; // Formatado
     }
 }
+
+function formatarHorasDecimais(horasDecimais) {
+    // Converte o valor decimal em horas e minutos
+    const horas = Math.floor(horasDecimais);
+    const minutos = Math.round((horasDecimais - horas) * 60);
+    
+    // Formata para 00h00min
+    const horasFormatadas = horas.toString().padStart(2, '0');
+    const minutosFormatados = minutos.toString().padStart(2, '0');
+    
+    return `${horasFormatadas}h${minutosFormatados}min`;
+}
+
 </script>
 

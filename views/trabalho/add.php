@@ -28,7 +28,7 @@
     <div class="container-fluid">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav w-100 text-white me-auto">
-            <li class="nav-item m-1 mt-1"><h4>Painel de Timesheets</h4></li>
+            <li class="nav-item m-1 mt-1"><h4>Painel Timesheet</h4></li>
                 <li class="nav-item m-1 mt-0">
                     <a href="?pagina=timeSheet" class=" btn text-white m-0 p-2">
                         Painel TimeSheet
@@ -46,7 +46,7 @@
 </nav>
 <div class="row mt-5 mb-5"></div>
     <div class="container bg-light shadow-lg w-100 pt-3">
-    <div class="container bg-secondary rounded text-white shadow-lg">
+    <div class="container bg-dark rounded text-white shadow-lg">
         <div class="row"><div class="col-12 text-center mt-4 mb-3"><h2>Cadastrar Novo Trabalho</h2></div></div>
         
     </div>

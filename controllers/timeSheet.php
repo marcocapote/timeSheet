@@ -97,7 +97,8 @@ class TimeSheetController {
             $tabela_trabalhos AS t ON ts.idTrabalho = t.idTrabalho
         LEFT JOIN 
             $tabela_alteracoes AS a ON ts.idAlteracao = a.idAlteracao
-        WHERE ts.idAlteracao <> 0
+        WHERE ts.idAlteracao <> 0 
+        ORDER BY ts.idAlteracao DESC 
         ";
 
         return $wpdb->get_results($query);
@@ -140,6 +141,7 @@ class TimeSheetController {
         LEFT JOIN 
             $tabela_alteracoes AS a ON ts.idAlteracao = a.idAlteracao
         WHERE ts.idAlteracao = 0 AND t.statusTrabalho <> 'finalizado' AND t.statusTrabalho <> 'Solicitação'
+         ORDER BY ts.idTrabalho DESC
         ";
 
         return $wpdb->get_results($query);
@@ -181,6 +183,7 @@ class TimeSheetController {
         LEFT JOIN 
             $tabela_alteracoes AS a ON ts.idAlteracao = a.idAlteracao
         WHERE ts.idAlteracao = 0 AND t.statusTrabalho = 'finalizado'
+        ORDER BY t.idTrabalho DESC
         ";
 
         return $wpdb->get_results($query);
@@ -247,6 +250,7 @@ public static function buscar_alteracoes_por_trabalho() {
             t.observacoes,
             t.titulo AS tituloTrabalho,
             t.horasEstimadas,
+            t.vendedor,
             IFNULL(t.horasGastas, '0'),
             IFNULL(a.descricao, 'Trabalho solicitado') AS descricao,
             a.inicio AS inicioAlteracao,
