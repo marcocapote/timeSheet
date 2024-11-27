@@ -26,6 +26,8 @@ add_action('wp_ajax_nopriv_buscar_trabalho', [$controller, 'buscar_trabalho_ajax
 add_action('wp_ajax_alteracoes_especificas', [$controllerTimesheet, 'buscar_alteracoes_por_trabalho']);
 add_action('wp_ajax_nopriv_alteracoes_especificas', [$controllerTimesheet, 'buscar_alteracoes_por_trabalho']);
 add_action('wp_ajax_finalizar_trabalho', [$controllerTrabalho, 'ajax_finalizar_trabalho']);
+add_action('wp_ajax_buscar_trabalho_cliente', [$controllerTimesheet, 'buscar_trabalho_por_cliente']);
+add_action('wp_ajax_nopriv_buscar_trabalho_cliente', [$controllerTimesheet, 'buscar_trabalho_por_cliente']);
 add_filter('show_admin_bar', '__return_false');
 
 function timeSheetPanel_shortcode() {

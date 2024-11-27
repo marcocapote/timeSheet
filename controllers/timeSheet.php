@@ -283,6 +283,60 @@ public static function buscar_alteracoes_por_trabalho() {
     wp_die();
 }
 
+public static function buscar_trabalho_por_cliente() {
+    if (!isset($_POST['id_cliente'])) {
+        wp_send_json_error(['message' => 'ID do cliente não encontrado']);
+        wp_die();
+    }
+    $id_cliente = intval($_POST['id_cliente']);
+    global $wpdb;
+    $tabela_timesheet = $wpdb->prefix . 'timesheet_timeSheet';
+    $tabela_clientes = $wpdb->prefix . 'timesheet_clientes';
+    $tabela_trabalhos = $wpdb->prefix . 'timesheet_trabalhos';
+    $tabela_alteracoes = $wpdb->prefix . 'timesheet_alteracoes';
+
+    $query = "
+        SELECT
+            c.nome AS nomeCliente,
+            t.statusTrabalho,
+            t.numOs,
+            t.idTrabalho,
+            t.numOrcamento,
+            t.observacoes,
+            t.titulo AS tituloTrabalho,
+            t.horasEstimadas,
+            t.vendedor,
+            IFNULL(t.horasGastas, 0) AS horasGastas,
+            IFNULL(a.descricao, 'Trabalho solicitado') AS descricao,
+            a.inicio AS inicioAlteracao,
+            a.fim AS fimAlteracao,
+            IFNULL(TIMESTAMPDIFF(HOUR, a.inicio, a.fim), 'Trabalho não iniciado') AS horasDiferenca,
+            IF(ts.idAlteracao = 0, t.dataCriacao, a.inicio) AS inicioReal, 
+            IF(ts.idAlteracao = 0, t.dataCriacao, a.fim) AS fimReal
+        FROM 
+            $tabela_timesheet AS ts
+        JOIN 
+            $tabela_trabalhos AS t ON ts.idTrabalho = t.idTrabalho
+        LEFT JOIN 
+            $tabela_clientes AS c ON ts.idCliente = c.idCliente
+        LEFT JOIN 
+            $tabela_alteracoes AS a ON ts.idAlteracao = a.idAlteracao
+        WHERE ts.idCliente = %d AND ts.idAlteracao = 0
+    ";
+
+    $trabalhos = $wpdb->get_results(
+        $wpdb->prepare($query, $id_cliente)
+    );
+
+    if (empty($trabalhos)) {
+        wp_send_json_error(['message' => 'Nenhum trabalho encontrado para esse cliente']);
+    } else {
+        wp_send_json_success($trabalhos);
+    }
+
+    wp_die();
+}
+
 
 
 }

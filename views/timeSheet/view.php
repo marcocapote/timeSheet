@@ -9,6 +9,8 @@ $dados_trabalho = TimeSheetController::buscar_trabalho_timesheet();
 $dados_trabalho_finalizado = TimeSheetController::buscar_trabalho_finalizado_timesheet();
 $dados_solicitacao = TimeSheetController::buscar_solicitacao_timesheet();
 
+
+$clientes = TrabalhoController::listarClientes();
 include(plugin_dir_path(__FILE__) . '../header.php');
 
 
@@ -35,12 +37,8 @@ include(plugin_dir_path(__FILE__) . '../header.php');
                 <li class="nav-item m-5 mb-0 mt-0"></li>
 
 
-
-
-
                 <!-- Botão dropdown alinhado à direita -->
                 <li class="nav-item dropdown ms-auto me-5 m-1 mt-0">
-
                     <a class="nav-link btn btn-dark text-white dropdown-toggle" href="#" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
                         Selecione a tabela
@@ -62,8 +60,13 @@ include(plugin_dir_path(__FILE__) . '../header.php');
                             <a class="dropdown-item text-white alternar-tabela"
                                 data-tabela="tabela-trabalhos-finalizados">Mostrar Trabalhos finalizados</a>
                         </li>
+                        <li>
+                            <a class="dropdown-item text-white alternar-tabela" data-tabela="buscar-trabalho-cliente">
+                                Buscar trabalho por cliente
+                            </a>
+                        </li>
                     </ul>
-                </li>
+                    </l>
             </ul>
         </div>
     </div>
@@ -72,7 +75,9 @@ include(plugin_dir_path(__FILE__) . '../header.php');
 
 <div class="row mt-5">
     <div class="col-12">
-        <div class="container rounded text-white text-center bg-dark pb-3 pt-3 shadow-lg"><h2>TimeSheet</h2></div>
+        <div class="container rounded text-white text-center bg-dark pb-3 pt-3 shadow-lg">
+            <h2>TimeSheet</h2>
+        </div>
     </div>
 </div>
 
@@ -128,7 +133,7 @@ include(plugin_dir_path(__FILE__) . '../header.php');
             <div id="tabela-alteracoes" style="display: block">
                 <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
                     <thead>
-                         <tr>
+                        <tr>
                             <th colspan="8">
                                 <h4>Alterações feitas em todos os trabalhos:</h4>
                             </th>
@@ -208,11 +213,67 @@ include(plugin_dir_path(__FILE__) . '../header.php');
                 </table>
             </div>
 
+            <div id="buscar-trabalho-cliente" style="display:none">
+                <div class="container w-50">
+
+                    <label for="idCliente" class="form-label">Cliente:</label>
+                    <select name="idCliente" id="idCliente" class="form-control border-light text-muted" required>
+                        <option value="">Selecione um cliente</option>
+                        <?php foreach ($clientes as $cliente): ?>
+                            <option value="<?php echo $cliente->idCliente; ?>">
+                                <?php echo esc_html($cliente->nome); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select><br>
+                    <button class="btn btn-outline-success btn-buscar-trabalho-cliente"
+                        id="btn-buscar-trabalho-cliente">Buscar trabalhos</button>
+
+                </div>
+
+                <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="background-color: #f2f2f2;">
+                            <th>Nome do Cliente</th>
+                            <th>Número OS</th>
+                            <th>Número Orçamento</th>
+                            <th>Título do Trabalho</th>
+                            <th>Descrição da Alteração</th>
+                            <th>Horas Gastas</th>
+                            <th>Início Alteração</th>
+                            <th>Fim Alteração</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (!empty($dados_alteracao_especifica)): ?>
+                            <?php foreach ($dados_alteracao_especifica as $linha): ?>
+
+                                <tr>
+                                    <td><?php echo esc_html($linha->nomeCliente); ?></td>
+                                    <td><?php echo esc_html($linha->numOs); ?></td>
+                                    <td><?php echo esc_html($linha->numOrcamento); ?></td>
+                                    <td><?php echo esc_html($linha->tituloTrabalho); ?></td>
+                                    <td><?php echo esc_html($linha->descricaoAlteracao); ?></td>
+                                    <td><?php echo esc_html($linha->horasGastas); ?></td>
+                                    <td><?php echo esc_html(date('d/m/Y H:i', strtotime($linha->inicioAlteracao))); ?></td>
+                                    <td><?php echo esc_html(date('d/m/Y H:i', strtotime($linha->fimAlteracao))); ?></td>
+
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="8" style="text-align: center;">Nenhum registro encontrado.</td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+
+            </div>
+
             <div id="tabela-trabalhos" style="display:none">
                 <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
                     <thead>
 
-                          <tr>
+                        <tr>
                             <th colspan="8">
                                 <h4>Lista de trabalhos em andamento:</h4>
                             </th>
@@ -318,6 +379,7 @@ include(plugin_dir_path(__FILE__) . '../header.php');
             </div>
 
 
+
             <div id="tabela-solicitacoes" style="display:none">
 
 
@@ -414,7 +476,27 @@ include(plugin_dir_path(__FILE__) . '../header.php');
             if (event.target.classList.contains('mais-info-btn')) {
                 const tabelaId = event.target.getAttribute('data-tabela');
                 const idTrabalho = event.target.value;
+                alert(idTrabalho);
+                alert("teste3456");
 
+                if (tabelaId && idTrabalho) {
+                    // Aqui você pode adicionar lógica adicional se necessário, como buscar dados via AJAX
+                    const tabela = document.getElementById(tabelaId);
+                    if (tabela) {
+                        document.querySelectorAll('div[id^="tabela-"]').forEach(function (tabela) {
+                            tabela.style.display = 'none';
+                        });
+                        tabela.style.display = 'block';
+                    }
+                }
+            }
+        });
+
+        // Delegação de eventos para botões "mais-info"
+        document.body.addEventListener('click', function (event) {
+            if (event.target.classList.contains('btn-buscar-trabalho-cliente')) {
+                const tabelaId = event.target.getAttribute('data-tabela');
+                
                 if (tabelaId && idTrabalho) {
                     // Aqui você pode adicionar lógica adicional se necessário, como buscar dados via AJAX
                     const tabela = document.getElementById(tabelaId);
@@ -458,11 +540,74 @@ include(plugin_dir_path(__FILE__) . '../header.php');
     });
 
 
+    document.querySelectorAll('.btn-buscar-trabalho-cliente').forEach(button => {
+        button.addEventListener('click', function () {
+            var id_cliente = document.getElementById('idCliente').value;
+
+            fetch('<?php echo admin_url("admin-ajax.php"); ?>', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({
+                    action: 'buscar_trabalho_cliente',
+                    id_cliente: id_cliente
+                })
+            })
+
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const tbody = document.querySelector('#buscar-trabalho-cliente tbody');
+                        tbody.innerHTML = '';
+                        const thead = document.querySelector('#buscar-trabalho-cliente thead');
+                        thead.innerHTML = '';
+
+                        data.data.forEach(trabalho => {
+                            const row = `<tr>
+                            <td>${trabalho.numOs}</td>
+                            <td>${trabalho.numOrcamento}</td>
+                            <td>${trabalho.tituloTrabalho}</td>
+                            <td>${trabalho.descricao}</td>
+                            <td>${trabalho.horasGastas}</td>
+                            <td>${trabalho.horasEstimadas}</td>
+                            <td>${trabalho.statusTrabalho}</td>
+                            <td class="pl-3">
+                            <button class="mais-info-btn alternar-tabela mb-2 btn btn-outline-primary"
+                            data-tabela="tabela-alteracoes-especifica"
+                            value="${trabalho.idTrabalho}">Mais Informações</button>
+                            <button class="finalizar-trabalho mb-2 btn btn-outline-danger"
+                            value="${trabalho.idTrabalho}">Finalizar Trabalho</button>
+                                <br>
+                            <a class="btn btn-outline-primary rounded" href="<?php echo esc_html($linha->arquivo); ?>">Ver Arquivo</a>
+                            </td>
+                        </tr>`;
+
+                            tbody.innerHTML += row;
+                            thead.innerHTML = `
+                            <tr> 
+                                <th> Numero da Os </th>
+                                <th> Numero do Orçamento </th>
+                                <th> Titulo do Trabalho </th>
+                                <th> Descrição </th>
+                                <th> Horas Gastas </th>
+                                <th> Horas Estimadas </th>
+                                <th> Status </th>
+                                <th> Mais Ações </th>
+                            </tr>
+                        `;
+                        })
+                    } else {
+                        alert(data.data.message || 'Erro ao buscar trabalhos.');
+                    }
+                })
+        })
+
+
+    })
 
 
     document.querySelectorAll('.mais-info-btn').forEach(button => {
         button.addEventListener('click', function () {
-
+            
             var id_trabalho = this.value;
 
             fetch('<?php echo admin_url("admin-ajax.php"); ?>', {

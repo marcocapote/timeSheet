@@ -8,7 +8,6 @@
    // Verifica se o formulário foi submetido
    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_trabalho'])) {
        $resultado = TrabalhoController::inserirTrabalho($_POST);
-   
        if (is_wp_error($resultado)) {
            $erro = $resultado->get_error_message(); // Captura a mensagem de erro
        } elseif ($resultado) {
@@ -136,7 +135,7 @@
         <label for="arquivo" class="form-label">Arquivo do trabalho: </label>
         <input type="file" class="form-control" name="arquivo"><br><br>
 
-        <h5     >Tempo estimado:</h5>
+        <h5>Tempo estimado:</h5>
 
         <div class="row">
         
