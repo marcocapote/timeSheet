@@ -61,7 +61,8 @@ include(plugin_dir_path(__FILE__) . '../header.php');
                                 data-tabela="tabela-trabalhos-finalizados">Mostrar Trabalhos finalizados</a>
                         </li>
                         <li>
-                            <a class="dropdown-item text-white alternar-tabela" data-tabela="buscar-trabalho-cliente">
+                            <a class="dropdown-item text-white alternar-tabela"
+                                data-tabela="tabela-buscar-trabalho-cliente">
                                 Buscar trabalho por cliente
                             </a>
                         </li>
@@ -213,7 +214,7 @@ include(plugin_dir_path(__FILE__) . '../header.php');
                 </table>
             </div>
 
-            <div id="buscar-trabalho-cliente" style="display:none">
+            <div id="tabela-buscar-trabalho-cliente" style="display:none">
                 <div class="container w-50">
 
                     <label for="idCliente" class="form-label">Cliente:</label>
@@ -496,7 +497,7 @@ include(plugin_dir_path(__FILE__) . '../header.php');
         document.body.addEventListener('click', function (event) {
             if (event.target.classList.contains('btn-buscar-trabalho-cliente')) {
                 const tabelaId = event.target.getAttribute('data-tabela');
-                
+
                 if (tabelaId && idTrabalho) {
                     // Aqui você pode adicionar lógica adicional se necessário, como buscar dados via AJAX
                     const tabela = document.getElementById(tabelaId);
@@ -508,107 +509,93 @@ include(plugin_dir_path(__FILE__) . '../header.php');
                     }
                 }
             }
-        });
-    });
+            if (event.target.classList.contains('finalizar-trabalho')) {
+                var id_trabalho = event.target.value;
 
 
-
-    document.querySelectorAll('.finalizar-trabalho').forEach(button => {
-        button.addEventListener('click', function () {
-            var id_trabalho = this.value;
-
-
-            fetch('<?php echo admin_url("admin-ajax.php"); ?>', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: new URLSearchParams({
-                    action: 'finalizar_trabalho',
-                    id_trabalho: id_trabalho
+                fetch('<?php echo admin_url("admin-ajax.php"); ?>', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: new URLSearchParams({
+                        action: 'finalizar_trabalho',
+                        id_trabalho: id_trabalho
+                    })
                 })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert('Trabalho finalizado com sucesso!');
-                        // Atualizar a tabela ou realizar qualquer outra ação necessária
-                    } else {
-                        alert('Falha ao finalizar trabalho. Um trabalho deve ser iniciado antes de ser finalizado');
-                    }
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Trabalho finalizado com sucesso!');
+                            // Atualizar a tabela ou realizar qualquer outra ação necessária
+                        } else {
+                            alert('Falha ao finalizar trabalho. Um trabalho deve ser iniciado antes de ser finalizado');
+                        }
+                    })
+                    .catch(error => console.error('Erro:', error));
+            }
+
+            if (event.target.classList.contains('btn-buscar-trabalho-cliente')) {
+                var id_cliente = document.getElementById('idCliente').value;
+
+                fetch('<?php echo admin_url("admin-ajax.php"); ?>', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: new URLSearchParams({
+                        action: 'buscar_trabalho_cliente',
+                        id_cliente: id_cliente
+                    })
                 })
-                .catch(error => console.error('Erro:', error));
-        });
-    });
 
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            const tbody = document.querySelector('#tabela-buscar-trabalho-cliente tbody');
+                            tbody.innerHTML = '';
+                            const thead = document.querySelector('#tabela-buscar-trabalho-cliente thead');
+                            thead.innerHTML = '';
 
-    document.querySelectorAll('.btn-buscar-trabalho-cliente').forEach(button => {
-        button.addEventListener('click', function () {
-            var id_cliente = document.getElementById('idCliente').value;
+                            data.data.forEach(trabalho => {
+                                const row = `<tr>
+                <td>${trabalho.numOs}</td>
+                <td>${trabalho.numOrcamento}</td>
+                <td>${trabalho.tituloTrabalho}</td>
+                <td>${trabalho.descricao}</td>
+                <td>${trabalho.horasGastas}</td>
+                <td>${trabalho.horasEstimadas}</td>
+                <td>${trabalho.statusTrabalho}</td>
+                <td class="pl-3">
+                <button class="mais-info-btn alternar-tabela mb-2 btn btn-outline-primary"
+                data-tabela="tabela-alteracoes-especifica"
+                value="${trabalho.idTrabalho}">Mais Informações</button>
+                <button class="finalizar-trabalho mb-2 btn btn-outline-danger"
+                value="${trabalho.idTrabalho}">Finalizar Trabalho</button>
+                    <br>
+                <a class="btn btn-outline-primary rounded" href="<?php echo esc_html($linha->arquivo); ?>">Ver Arquivo</a>
+                </td>
+            </tr>`;
 
-            fetch('<?php echo admin_url("admin-ajax.php"); ?>', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: new URLSearchParams({
-                    action: 'buscar_trabalho_cliente',
-                    id_cliente: id_cliente
-                })
-            })
+                                tbody.innerHTML += row;
+                                thead.innerHTML = `
+                <tr> 
+                    <th> Numero da Os </th>
+                    <th> Numero do Orçamento </th>
+                    <th> Titulo do Trabalho </th>
+                    <th> Descrição </th>
+                    <th> Horas Gastas </th>
+                    <th> Horas Estimadas </th>
+                    <th> Status </th>
+                    <th> Mais Ações </th>
+                </tr>
+            `;
+                            })
+                        } else {
+                            alert(data.data.message || 'Erro ao buscar trabalhos.');
+                        }
+                    })
+            }
 
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        const tbody = document.querySelector('#buscar-trabalho-cliente tbody');
-                        tbody.innerHTML = '';
-                        const thead = document.querySelector('#buscar-trabalho-cliente thead');
-                        thead.innerHTML = '';
-
-                        data.data.forEach(trabalho => {
-                            const row = `<tr>
-                            <td>${trabalho.numOs}</td>
-                            <td>${trabalho.numOrcamento}</td>
-                            <td>${trabalho.tituloTrabalho}</td>
-                            <td>${trabalho.descricao}</td>
-                            <td>${trabalho.horasGastas}</td>
-                            <td>${trabalho.horasEstimadas}</td>
-                            <td>${trabalho.statusTrabalho}</td>
-                            <td class="pl-3">
-                            <button class="mais-info-btn alternar-tabela mb-2 btn btn-outline-primary"
-                            data-tabela="tabela-alteracoes-especifica"
-                            value="${trabalho.idTrabalho}">Mais Informações</button>
-                            <button class="finalizar-trabalho mb-2 btn btn-outline-danger"
-                            value="${trabalho.idTrabalho}">Finalizar Trabalho</button>
-                                <br>
-                            <a class="btn btn-outline-primary rounded" href="<?php echo esc_html($linha->arquivo); ?>">Ver Arquivo</a>
-                            </td>
-                        </tr>`;
-
-                            tbody.innerHTML += row;
-                            thead.innerHTML = `
-                            <tr> 
-                                <th> Numero da Os </th>
-                                <th> Numero do Orçamento </th>
-                                <th> Titulo do Trabalho </th>
-                                <th> Descrição </th>
-                                <th> Horas Gastas </th>
-                                <th> Horas Estimadas </th>
-                                <th> Status </th>
-                                <th> Mais Ações </th>
-                            </tr>
-                        `;
-                        })
-                    } else {
-                        alert(data.data.message || 'Erro ao buscar trabalhos.');
-                    }
-                })
-        })
-
-
-    })
-
-
-    document.querySelectorAll('.mais-info-btn').forEach(button => {
-        button.addEventListener('click', function () {
-            
-            var id_trabalho = this.value;
+            if (event.target.classList.contains('mais-info-btn')){
+                alert("gerar tabela chamado");
+            var id_trabalho = event.target.value;
 
             fetch('<?php echo admin_url("admin-ajax.php"); ?>', {
                 method: 'POST',
@@ -664,6 +651,7 @@ include(plugin_dir_path(__FILE__) . '../header.php');
                         alert(data.data.message || 'Erro ao buscar alterações.');
                     }
                 });
+            }
         });
     });
 
