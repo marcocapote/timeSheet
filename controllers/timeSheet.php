@@ -1,42 +1,47 @@
 <?php
-if (!defined('ABSPATH')) exit; // Impede acesso direto
+if (!defined('ABSPATH'))
+    exit; // Impede acesso direto
 
-class TimeSheetController {
+class TimeSheetController
+{
 
-    public static function inserir_trabalho_timesheet($idTrabalho, $idCliente){
+    public static function inserir_trabalho_timesheet($idTrabalho, $idCliente)
+    {
         global $wpdb;
         $tabela = $wpdb->prefix . 'timesheet_timeSheet';
 
         $wpdb->insert($tabela, [
-            'idCliente'     => $idCliente,
-            'idTrabalho'    => $idTrabalho
+            'idCliente' => $idCliente,
+            'idTrabalho' => $idTrabalho
         ]);
 
         return $wpdb->insert_id;
     }
 
-    public static function inserir_alteracao_timesheet($idAlteracao, $dados){
+    public static function inserir_alteracao_timesheet($idAlteracao, $dados)
+    {
         global $wpdb;
-        $tabela =$wpdb->prefix . 'timesheet_timeSheet';
-        
+        $tabela = $wpdb->prefix . 'timesheet_timeSheet';
+
 
         $wpdb->insert($tabela, [
-            'idTrabalho'     => intval($dados['idTrabalho']),
-            'idCliente'     => intval($dados['idCliente']),
-            'idAlteracao'    => $idAlteracao
+            'idTrabalho' => intval($dados['idTrabalho']),
+            'idCliente' => intval($dados['idCliente']),
+            'idAlteracao' => $idAlteracao
         ]);
 
 
     }
 
-    public static function buscar_dados_timesheet() {
+    public static function buscar_dados_timesheet()
+    {
         global $wpdb;
-        
+
         $tabela_timesheet = $wpdb->prefix . 'timesheet_timeSheet';
         $tabela_clientes = $wpdb->prefix . 'timesheet_clientes';
         $tabela_trabalhos = $wpdb->prefix . 'timesheet_trabalhos';
         $tabela_alteracoes = $wpdb->prefix . 'timesheet_alteracoes';
-    
+
         $query = "
             SELECT 
                 ts.idTimeSheet,
@@ -58,10 +63,11 @@ class TimeSheetController {
             LEFT JOIN 
                 $tabela_alteracoes AS a ON ts.idAlteracao = a.idAlteracao
         ";
-    
+
         return $wpdb->get_results($query);
     }
-    public static function buscar_alteracao_timesheet(){
+    public static function buscar_alteracao_timesheet()
+    {
         global $wpdb;
 
         $tabela_timesheet = $wpdb->prefix . 'timesheet_timeSheet';
@@ -104,7 +110,8 @@ class TimeSheetController {
         return $wpdb->get_results($query);
     }
 
-    public static function buscar_trabalho_timesheet(){
+    public static function buscar_trabalho_timesheet()
+    {
         global $wpdb;
 
         $tabela_timesheet = $wpdb->prefix . 'timesheet_timeSheet';
@@ -147,7 +154,8 @@ class TimeSheetController {
         return $wpdb->get_results($query);
     }
 
-    public static function buscar_trabalho_finalizado_timesheet(){
+    public static function buscar_trabalho_finalizado_timesheet()
+    {
         global $wpdb;
 
         $tabela_timesheet = $wpdb->prefix . 'timesheet_timeSheet';
@@ -189,7 +197,8 @@ class TimeSheetController {
         return $wpdb->get_results($query);
     }
 
-    public static function buscar_solicitacao_timesheet(){
+    public static function buscar_solicitacao_timesheet()
+    {
         global $wpdb;
 
         $tabela_timesheet = $wpdb->prefix . 'timesheet_timeSheet';
@@ -227,20 +236,21 @@ class TimeSheetController {
 
     // controllers/timeSheet.php
 
-public static function buscar_alteracoes_por_trabalho() {
-    if (!isset($_POST['id_trabalho'])) {
-        wp_send_json_error(['message' => 'ID do trabalho não fornecido']);
-        wp_die();
-    }
+    public static function buscar_alteracoes_por_trabalho()
+    {
+        if (!isset($_POST['id_trabalho'])) {
+            wp_send_json_error(['message' => 'ID do trabalho não fornecido']);
+            wp_die();
+        }
 
-    $id_trabalho = intval($_POST['id_trabalho']);
-    global $wpdb;
-    $tabela_timesheet = $wpdb->prefix . 'timesheet_timeSheet';
-    $tabela_clientes = $wpdb->prefix . 'timesheet_clientes';
-    $tabela_trabalhos = $wpdb->prefix . 'timesheet_trabalhos';
-    $tabela_alteracoes = $wpdb->prefix . 'timesheet_alteracoes';
+        $id_trabalho = intval($_POST['id_trabalho']);
+        global $wpdb;
+        $tabela_timesheet = $wpdb->prefix . 'timesheet_timeSheet';
+        $tabela_clientes = $wpdb->prefix . 'timesheet_clientes';
+        $tabela_trabalhos = $wpdb->prefix . 'timesheet_trabalhos';
+        $tabela_alteracoes = $wpdb->prefix . 'timesheet_alteracoes';
 
-    $query = "
+        $query = "
         SELECT
             c.nome AS nomeCliente,
             t.statusTrabalho,
@@ -269,73 +279,122 @@ public static function buscar_alteracoes_por_trabalho() {
         WHERE ts.idtrabalho = $id_trabalho
         ";
 
-    $alteracoes = $wpdb->get_results(
-        $wpdb->prepare($query)
-    );
+        $alteracoes = $wpdb->get_results(
+            $wpdb->prepare($query)
+        );
 
-    if (empty($alteracoes)) {
-        wp_send_json_error(['message' => 'Nenhuma alteração encontrada para esse trabalho']);
-    } else {
-        wp_send_json_success($alteracoes);
-    }
+        if (empty($alteracoes)) {
+            wp_send_json_error(['message' => 'Nenhuma alteração encontrada para esse trabalho']);
+        } else {
+            wp_send_json_success($alteracoes);
+        }
 
 
-    wp_die();
-}
-
-public static function buscar_trabalho_por_cliente() {
-    if (!isset($_POST['id_cliente'])) {
-        wp_send_json_error(['message' => 'ID do cliente não encontrado']);
         wp_die();
     }
-    $id_cliente = intval($_POST['id_cliente']);
-    global $wpdb;
-    $tabela_timesheet = $wpdb->prefix . 'timesheet_timeSheet';
-    $tabela_clientes = $wpdb->prefix . 'timesheet_clientes';
-    $tabela_trabalhos = $wpdb->prefix . 'timesheet_trabalhos';
-    $tabela_alteracoes = $wpdb->prefix . 'timesheet_alteracoes';
 
-    $query = "
-        SELECT
-            c.nome AS nomeCliente,
-            t.statusTrabalho,
-            t.numOs,
-            t.idTrabalho,
-            t.numOrcamento,
-            t.observacoes,
-            t.titulo AS tituloTrabalho,
-            t.horasEstimadas,
-            t.vendedor,
-            IFNULL(t.horasGastas, 0) AS horasGastas,
-            IFNULL(a.descricao, 'Trabalho solicitado') AS descricao,
-            a.inicio AS inicioAlteracao,
-            a.fim AS fimAlteracao,
-            IFNULL(TIMESTAMPDIFF(HOUR, a.inicio, a.fim), 'Trabalho não iniciado') AS horasDiferenca,
-            IF(ts.idAlteracao = 0, t.dataCriacao, a.inicio) AS inicioReal, 
-            IF(ts.idAlteracao = 0, t.dataCriacao, a.fim) AS fimReal
-        FROM 
-            $tabela_timesheet AS ts
-        JOIN 
-            $tabela_trabalhos AS t ON ts.idTrabalho = t.idTrabalho
-        LEFT JOIN 
-            $tabela_clientes AS c ON ts.idCliente = c.idCliente
-        LEFT JOIN 
-            $tabela_alteracoes AS a ON ts.idAlteracao = a.idAlteracao
-        WHERE ts.idCliente = %d AND ts.idAlteracao = 0
-    ";
+    public static function buscar_trabalho_por_cliente(){
+        if (!empty($_POST['id_cliente'])) {
+            $id_cliente = intval($_POST['id_cliente']);
+            global $wpdb;
+            $tabela_timesheet = $wpdb->prefix . 'timesheet_timeSheet';
+            $tabela_clientes = $wpdb->prefix . 'timesheet_clientes';
+            $tabela_trabalhos = $wpdb->prefix . 'timesheet_trabalhos';
+            $tabela_alteracoes = $wpdb->prefix . 'timesheet_alteracoes';
 
-    $trabalhos = $wpdb->get_results(
-        $wpdb->prepare($query, $id_cliente)
-    );
+            $query = "
+                        SELECT
+                            c.nome AS nomeCliente,
+                            t.statusTrabalho,
+                            t.numOs,
+                            t.idTrabalho,
+                            t.numOrcamento,
+                            t.observacoes,
+                            t.titulo AS tituloTrabalho,
+                            t.horasEstimadas,
+                            t.vendedor,
+                            IFNULL(t.horasGastas, 0) AS horasGastas,
+                            IFNULL(a.descricao, 'Trabalho solicitado') AS descricao,
+                            a.inicio AS inicioAlteracao,
+                            a.fim AS fimAlteracao,
+                            IFNULL(TIMESTAMPDIFF(HOUR, a.inicio, a.fim), 'Trabalho não iniciado') AS horasDiferenca,
+                            IF(ts.idAlteracao = 0, t.dataCriacao, a.inicio) AS inicioReal, 
+                            IF(ts.idAlteracao = 0, t.dataCriacao, a.fim) AS fimReal
+                        FROM 
+                            $tabela_timesheet AS ts
+                        JOIN 
+                            $tabela_trabalhos AS t ON ts.idTrabalho = t.idTrabalho
+                        LEFT JOIN 
+                            $tabela_clientes AS c ON ts.idCliente = c.idCliente
+                        LEFT JOIN 
+                            $tabela_alteracoes AS a ON ts.idAlteracao = a.idAlteracao
+                        WHERE ts.idCliente = %d AND ts.idAlteracao = 0
+                    ";
 
-    if (empty($trabalhos)) {
-        wp_send_json_error(['message' => 'Nenhum trabalho encontrado para esse cliente']);
-    } else {
-        wp_send_json_success($trabalhos);
+            $trabalhos = $wpdb->get_results(
+                $wpdb->prepare($query, $id_cliente)
+            );
+
+            if (empty($trabalhos)) {
+                wp_send_json_error(['message' => 'Nenhum trabalho encontrado para esse cliente']);
+            } else {
+                wp_send_json_success($trabalhos);
+            }
+
+
+
+            
+        } else if(!empty($_POST['vendedor'])){
+            $vendedor = sanitize_text_field($_POST['vendedor']);
+            global $wpdb;
+            $tabela_timesheet = $wpdb->prefix . 'timesheet_timeSheet';
+            $tabela_clientes = $wpdb->prefix . 'timesheet_clientes';
+            $tabela_trabalhos = $wpdb->prefix . 'timesheet_trabalhos';
+            $tabela_alteracoes = $wpdb->prefix . 'timesheet_alteracoes';
+
+            $query = "
+                        SELECT
+                            c.nome AS nomeCliente,
+                            t.statusTrabalho,
+                            t.numOs,
+                            t.idTrabalho,
+                            t.numOrcamento,
+                            t.observacoes,
+                            t.titulo AS tituloTrabalho,
+                            t.horasEstimadas,
+                            t.vendedor,
+                            IFNULL(t.horasGastas, 0) AS horasGastas,
+                            IFNULL(a.descricao, 'Trabalho solicitado') AS descricao,
+                            a.inicio AS inicioAlteracao,
+                            a.fim AS fimAlteracao,
+                            IFNULL(TIMESTAMPDIFF(HOUR, a.inicio, a.fim), 'Trabalho não iniciado') AS horasDiferenca,
+                            IF(ts.idAlteracao = 0, t.dataCriacao, a.inicio) AS inicioReal, 
+                            IF(ts.idAlteracao = 0, t.dataCriacao, a.fim) AS fimReal
+                        FROM 
+                            $tabela_timesheet AS ts
+                        LEFT JOIN 
+                            $tabela_trabalhos AS t ON ts.idTrabalho = t.idTrabalho
+                        LEFT JOIN 
+                            $tabela_clientes AS c ON ts.idCliente = c.idCliente
+                        LEFT JOIN 
+                            $tabela_alteracoes AS a ON ts.idAlteracao = a.idAlteracao
+                        WHERE t.vendedor = %s
+                    ";
+            $trabalhos = $wpdb->get_results(
+                $wpdb->prepare($query, $vendedor)
+            );
+
+            if (empty($trabalhos)) {
+                wp_send_json_error(['message' => 'Nenhum trabalho encontrado para esse vendedor']);
+            } else {
+                wp_send_json_success($trabalhos);
+            }
+            
+
+        }
+
+        wp_die();
     }
-
-    wp_die();
-}
 
 
 
