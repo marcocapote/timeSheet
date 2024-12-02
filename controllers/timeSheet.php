@@ -314,8 +314,8 @@ class TimeSheetController
                 t.numOrcamento,
                 IFNULL(
                                 CASE 
-                                    WHEN CHAR_LENGTH(t.observacoes) > 100 
-                                    THEN CONCAT(LEFT(t.observacoes, 100), '...')
+                                    WHEN CHAR_LENGTH(t.observacoes) > 130 
+                                    THEN CONCAT(LEFT(t.observacoes, 130), '...')
                                     ELSE t.observacoes
                                 END, 
                                 'Sem observações'
@@ -331,7 +331,6 @@ class TimeSheetController
                         ROUND((t.horasGastas - FLOOR(t.horasGastas)) * 60), 'min'
                     ) AS horasGastas,
                 t.vendedor,
-                IFNULL(t.horasGastas, 0) AS horasGastas,
                 IFNULL(a.descricao, 'Trabalho solicitado') AS descricao,
                 a.inicio AS inicioAlteracao,
                 a.fim AS fimAlteracao,
@@ -383,24 +382,24 @@ class TimeSheetController
                             t.numOrcamento,
                             IFNULL(
                                 CASE 
-                                    WHEN CHAR_LENGTH(t.observacoes) > 100 
-                                    THEN CONCAT(LEFT(t.observacoes, 100), '...')
+                                    WHEN CHAR_LENGTH(t.observacoes) > 130 
+                                    THEN CONCAT(LEFT(t.observacoes, 130), '...')
                                     ELSE t.observacoes
                                 END, 
                                 'Sem observações'
                             ) AS observacoes,
                             t.titulo AS tituloTrabalho,
                             t.horasEstimadas,
+                            t.horasGastas,
                             CONCAT(
                                     FLOOR(t.horasEstimadas), 'h',
                                     ROUND((t.horasEstimadas - FLOOR(t.horasEstimadas)) * 60), 'min'
                                 ) AS horasEstimadas,
-                                CONCAT(
+                            CONCAT(
                                     FLOOR(t.horasGastas), 'h',
                                     ROUND((t.horasGastas - FLOOR(t.horasGastas)) * 60), 'min'
                                 ) AS horasGastas,
                             t.vendedor,
-                            IFNULL(t.horasGastas, 0) AS horasGastas,
                             IFNULL(a.descricao, 'Trabalho solicitado') AS descricao,
                             a.inicio AS inicioAlteracao,
                             a.fim AS fimAlteracao,

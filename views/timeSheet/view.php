@@ -200,7 +200,7 @@ include(plugin_dir_path(__FILE__) . '../header.php');
                     </div>
                 </div>
 
-                <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
+                <table border="1" class="table" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
                     <thead>
                         <tr style="background-color: #f2f2f2;">
                             <th>Nome do Cliente</th>
@@ -297,7 +297,7 @@ include(plugin_dir_path(__FILE__) . '../header.php');
             </div>
 
             <div id="tabela-trabalhos" style="display:block">
-                <table border="1" class="table" cellpadding="10" cellspacing="0"
+                <table border="1" class="table" cellspacing="0"
                     style="width: 100%; border-collapse: collapse;">
                     <thead>
 
@@ -331,18 +331,18 @@ include(plugin_dir_path(__FILE__) . '../header.php');
                                         <?php echo esc_html($linha->horasEstimadas); ?>
                                     </td>
                                     <td><?php echo esc_html($linha->statusTrabalho); ?></td>
-                                    <td class="pl-3"><button
-                                            class="mais-info-btn w-75 alternar-tabela mb-2 btn btn-outline-primary"
-                                            data-tabela="tabela-alteracoes-especifica"
+                                    <td class="pl-0"><button
+                                            class="mais-info-btn p-0 m-0 alternar-tabela mb-2 btn btn-outline-primary"
+                                            data-tabela="tabela-alteracoes-especifica" style="width:150px;"
                                             value="<?php echo esc_html($linha->idTrabalho); ?>">Mais Informações</button>
 
                                         <br>
-                                        <a class="btn btn-outline-primary w-75 rounded"
+                                        <a class="btn btn-outline-primary p-0 m-0 rounded" style="width:150px;"
                                             href="<?php echo esc_html($linha->arquivo); ?>">Ver Arquivo</a>
-                                        <button class="finalizar-trabalho mt-2 w-75 btn btn-outline-danger"
+                                            <br>
+                                        <button class="finalizar-trabalho p-0 m-0 mt-2 btn btn-outline-danger" style="width:150px"
                                             value="<?php echo esc_html($linha->idTrabalho); ?>">Finalizar Trabalho</button>
                                     </td>
-
                                 </tr>
                             <?php endforeach; ?>
                         <?php else: ?>
@@ -389,8 +389,8 @@ include(plugin_dir_path(__FILE__) . '../header.php');
                                         <?php echo esc_html($linha->horasEstimadas); ?>
                                     </td>
                                     <td><?php echo esc_html($linha->statusTrabalho); ?></td>
-                                    <td><button class="mais-info-btn alternar-tabela mb-2 btn btn-outline-primary"
-                                            data-tabela="tabela-alteracoes-especifica"
+                                    <td><button class="mais-info-btn alternar-tabela m-0 p-0 mb-2 btn btn-outline-primary"
+                                            data-tabela="tabela-alteracoes-especifica" style="width: 150px;"
                                             value="<?php echo esc_html($linha->idTrabalho); ?>">Mais Informações</button>
                                     </td>
 
@@ -437,10 +437,11 @@ include(plugin_dir_path(__FILE__) . '../header.php');
                                     <td><?php echo esc_html($linha->tituloTrabalho); ?></td>
                                     <td><?php echo esc_html($linha->horasEstimadas); ?></td>
                                     <td><?php echo esc_html($linha->statusTrabalho); ?></td>
-                                    <td><button class="mais-info-btn w-75 alternar-tabela btn btn-outline-primary"
-                                            data-tabela="tabela-alteracoes-especifica"
+                                    <td><button class="mais-info-btn alternar-tabela p-0 m-0 btn btn-outline-primary"
+                                            data-tabela="tabela-alteracoes-especifica" style="width: 150px;"
                                             value="<?php echo esc_html($linha->idTrabalho); ?>">Mais Informações</button>
-                                        <a class="btn w-75 btn-outline-primary rounded mt-2"
+                                            <br>
+                                        <a class="btn btn-outline-primary p-0 m-0 rounded mt-2" style="width: 150px;"
                                             href="<?php echo esc_html($linha->arquivo); ?>">Ver Arquivo</a>
                                     </td>
 
@@ -587,11 +588,11 @@ include(plugin_dir_path(__FILE__) . '../header.php');
                 <td>${trabalho.horasEstimadas}</td>
                 <td>${trabalho.statusTrabalho}</td>
                 <td class="pl-3">
-                <button class="mais-info-btn w-100 alternar-tabela mb-2 btn btn-outline-primary"
-                data-tabela="tabela-alteracoes-especifica"
+                <button class="mais-info-btn alternar-tabela p-0 m-0 mb-2 btn btn-outline-primary"
+                data-tabela="tabela-alteracoes-especifica" style="width: 150px"
                 value="${trabalho.idTrabalho}">Mais Informações</button>    
-                <a class="btn btn-outline-primary rounded" style="width: 100%;" href="<?php echo esc_html($linha->arquivo); ?>">Ver Arquivo</a>
-                <button class="finalizar-trabalho w-100 mt-2 btn btn-outline-danger"
+                <a class="btn btn-outline-primary p-0 m-0 rounded" style="width: 150px;" href="<?php echo esc_html($linha->arquivo); ?>">Ver Arquivo</a>
+                <button class="finalizar-trabalho p-0 m-0 mt-2 btn btn-outline-danger" style="width:150px;"
                 value="${trabalho.idTrabalho}">Finalizar Trabalho</button>
                 </td>
             </tr>`;
