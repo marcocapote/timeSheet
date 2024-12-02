@@ -1,9 +1,19 @@
 <?php 
-//if (!defined('ABSPATH')) exit; // Impede acesso direto
-
+if (!defined('ABSPATH')) exit; // Impede acesso direto
+   // Inicializa variáveis para mensagens
+   $erro = '';
+   $sucesso = '';
+   
 // Verifica se foi enviado um número de OS ou Orçamento
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_alteracao'])) {
     $idAlteracao = AlteracaoController::inserirAlteracao($_POST);
+    if (is_wp_error($idAlteracao)) {
+        $erro = $idAlteracao->get_error_message(); // Captura a mensagem de erro
+    } else if ($idAlteracao) {
+        $sucesso = "Alteração inserida com sucesso!";
+    } else {
+        $erro = "Ocorreu um erro ao tentar inserir a alteração.";
+    }
 }
 
 if (isset($_GET['idTrabalho'])){
@@ -17,7 +27,7 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
 
 ?>
 
-<link rel="stylesheet" href="../src/styles/style.css">
+
 
 
 <nav class="navbar fixed-top bg-secondary border-secondary border-top-0 border-bottom-0 navbar-expand-lg bg-body-tertiary">
@@ -40,6 +50,12 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
         </div>
     </div>
 </nav>
+
+
+
+
+
+
 <div class="row mt-5"></div>
 <div class="container rounded bg-light mt-5 shadow-lg pt-3">
     <div class="container bg-dark rounded text-white shadow-lg">
@@ -49,6 +65,18 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
 
     </div>
     
+    <?php if (!empty($erro)) : ?>
+        <div class="alert alert-danger mt-3" role="alert">
+            <?php echo esc_html($erro); ?>
+        </div>
+    <?php endif; ?>
+
+    <?php if (!empty($sucesso)) : ?>
+        <div class="alert alert-success mt-3" role="alert">
+            <?php echo esc_html($sucesso); ?>
+        </div>
+    <?php endif; ?>
+
 
 
 <!-- Formulário e conteúdo da página de alteração -->
@@ -265,8 +293,7 @@ function formatarHorasDecimais(horasDecimais) {
     const horasFormatadas = horas.toString().padStart(2, '0');
     const minutosFormatados = minutos.toString().padStart(2, '0');
     
-    return `${horasFormatadas}h${minutosFormatados}min`;
+    return `${horasFormatadas}h ${minutosFormatados}min`;
 }
 
 </script>
-

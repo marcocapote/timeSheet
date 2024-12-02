@@ -90,55 +90,16 @@ include(plugin_dir_path(__FILE__) . '../header.php');
 
 
 
-<div class="container bg-white shadow-lg w-100 pb-2">
+<div class="container bg-white shadow-lg w-100 pb-2 mb-5">
 
 
     <!-- Tabela e conteúdo da página -->
     <!-- Tabela HTML para exibir os dados -->
-    <div class="row pt-3">
-        <div class="col-12 text-center">
-            <div id="tabela-principal" style="display: none;">
-                <table class="table" border="1" cellpadding="10" cellspacing="0"
+    <div class="row pt-3 ">
+        <div class="col-12 text-center ">
+            <div id="tabela-alteracoes" style="display: none">
+                <table border="1" class="table" cellpadding="10" cellspacing="0"
                     style="width: 100%; border-collapse: collapse;">
-                    <thead>
-                        <tr style="background-color: #f2f2f2;">
-                            <th>ID Timesheet</th>
-                            <th>Nome do Cliente</th>
-                            <th>Número OS</th>
-                            <th>Número Orçamento</th>
-                            <th>Título do Trabalho</th>
-                            <th>Descrição da Alteração</th>
-                            <th>Arquivo</th>
-                            <th>Status:</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php if (!empty($dados_timesheet)): ?>
-                            <?php foreach ($dados_timesheet as $linha): ?>
-                                <tr>
-                                    <td><?php echo esc_html($linha->idTimeSheet); ?></td>
-                                    <td><?php echo esc_html($linha->nomeCliente); ?></td>
-                                    <td><?php echo esc_html($linha->numOs); ?></td>
-                                    <td><?php echo esc_html($linha->numOrcamento); ?></td>
-                                    <td><?php echo esc_html($linha->tituloTrabalho); ?></td>
-                                    <td class="text-start"><?php echo esc_html($linha->descricaoAlteracao); ?></td>
-                                    <td><a class="btn btn-primary p-0 rounded text-white"
-                                            href="<?php echo esc_html($linha->arquivo); ?>">Baixar Arquivo</a></td>
-                                    <td><?php echo esc_html($linha->statusTrabalho); ?></td>
-                                </tr>
-                            <?php endforeach; ?>
-                        <?php else: ?>
-                            <tr>
-                                <td colspan="8" style="text-align: center;">Nenhum registro encontrado.</td>
-                            </tr>
-                        <?php endif; ?>
-                    </tbody>
-                </table>
-            </div>
-
-
-            <div id="tabela-alteracoes" style="display: block">
-                <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
                     <thead>
                         <tr>
                             <th colspan="8">
@@ -147,7 +108,7 @@ include(plugin_dir_path(__FILE__) . '../header.php');
                         </tr>
                         <tr style="background-color: #f2f2f2;">
                             <th>Nome do Cliente</th>
-                            <th>Número OS</th>
+
                             <th>Número Orçamento</th>
                             <th>Título do Trabalho</th>
                             <th class="text-start">Descrição da Alteração</th>
@@ -161,16 +122,16 @@ include(plugin_dir_path(__FILE__) . '../header.php');
                             <?php foreach ($dados_alteracao as $linha): ?>
                                 <tr>
                                     <td><?php echo esc_html($linha->nomeCliente); ?></td>
-                                    <td><?php echo esc_html($linha->numOs); ?></td>
                                     <td><?php echo esc_html($linha->numOrcamento); ?></td>
                                     <td><?php echo esc_html($linha->tituloTrabalho); ?></td>
                                     <td class="text-start"><?php echo esc_html($linha->descricaoAlteracao); ?></td>
                                     <td><?php echo esc_html($linha->horasGastas); ?></td>
                                     <td class="text-start">
-                                        <?php echo esc_html(date('d/m/Y H:i', strtotime($linha->inicioAlteracao))); ?></td>
+                                        <?php echo esc_html(date('d/m/Y H:i', strtotime($linha->inicioAlteracao))); ?>
+                                    </td>
                                     <td class="text-start">
-                                        <?php echo esc_html(date('d/m/Y H:i', strtotime($linha->fimAlteracao))); ?></td>
-
+                                        <?php echo esc_html(date('d/m/Y H:i', strtotime($linha->fimAlteracao))); ?>
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                         <?php else: ?>
@@ -191,7 +152,7 @@ include(plugin_dir_path(__FILE__) . '../header.php');
                             <th>Número OS</th>
                             <th>Número Orçamento</th>
                             <th>Título do Trabalho</th>
-                            <th>Descrição da Alteração</th>
+                            <th class="text-start">Descrição da Alteração</th>
                             <th>Horas Gastas</th>
                             <th>Início Alteração</th>
                             <th>Fim Alteração</th>
@@ -206,7 +167,7 @@ include(plugin_dir_path(__FILE__) . '../header.php');
                                     <td><?php echo esc_html($linha->numOs); ?></td>
                                     <td><?php echo esc_html($linha->numOrcamento); ?></td>
                                     <td><?php echo esc_html($linha->tituloTrabalho); ?></td>
-                                    <td><?php echo esc_html($linha->descricaoAlteracao); ?></td>
+                                    <td class="text-start"><?php echo esc_html($linha->descricaoAlteracao); ?></td>
                                     <td><?php echo esc_html($linha->horasGastas); ?></td>
                                     <td><?php echo esc_html(date('d/m/Y H:i', strtotime($linha->inicioAlteracao))); ?></td>
                                     <td><?php echo esc_html(date('d/m/Y H:i', strtotime($linha->fimAlteracao))); ?></td>
@@ -237,8 +198,6 @@ include(plugin_dir_path(__FILE__) . '../header.php');
                         <button class="btn btn-outline-success btn-buscar-trabalho-cliente"
                             id="btn-buscar-trabalho-cliente">Buscar trabalhos</button>
                     </div>
-
-
                 </div>
 
                 <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
@@ -267,7 +226,6 @@ include(plugin_dir_path(__FILE__) . '../header.php');
                                     <td><?php echo esc_html($linha->horasGastas); ?></td>
                                     <td><?php echo esc_html(date('d/m/Y H:i', strtotime($linha->inicioAlteracao))); ?></td>
                                     <td><?php echo esc_html(date('d/m/Y H:i', strtotime($linha->fimAlteracao))); ?></td>
-
                                 </tr>
                             <?php endforeach; ?>
                         <?php else: ?>
@@ -338,8 +296,9 @@ include(plugin_dir_path(__FILE__) . '../header.php');
 
             </div>
 
-            <div id="tabela-trabalhos" style="display:none">
-                <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
+            <div id="tabela-trabalhos" style="display:block">
+                <table border="1" class="table" cellpadding="10" cellspacing="0"
+                    style="width: 100%; border-collapse: collapse;">
                     <thead>
 
                         <tr>
@@ -350,7 +309,6 @@ include(plugin_dir_path(__FILE__) . '../header.php');
 
                         <tr style="background-color: #f2f2f2;">
                             <th>Nome do Cliente</th>
-                            <th>Número OS</th>
                             <th>Número Orçamento</th>
                             <th>Título do Trabalho</th>
                             <th>Horas Gastas</th>
@@ -365,7 +323,6 @@ include(plugin_dir_path(__FILE__) . '../header.php');
                                 <?php $classeVermelha = $linha->horasGastasComp > $linha->horasEstimadasComp ? 'classe-vermelha' : ''; ?>
                                 <tr>
                                     <td><?php echo esc_html($linha->nomeCliente); ?></td>
-                                    <td><?php echo esc_html($linha->numOs); ?></td>
                                     <td><?php echo esc_html($linha->numOrcamento); ?></td>
                                     <td><?php echo esc_html($linha->tituloTrabalho); ?></td>
                                     <td class="<?php echo $classeVermelha; ?>"><?php echo esc_html($linha->horasGastas); ?>
@@ -378,11 +335,12 @@ include(plugin_dir_path(__FILE__) . '../header.php');
                                             class="mais-info-btn w-75 alternar-tabela mb-2 btn btn-outline-primary"
                                             data-tabela="tabela-alteracoes-especifica"
                                             value="<?php echo esc_html($linha->idTrabalho); ?>">Mais Informações</button>
-                                        <button class="finalizar-trabalho mb-2 w-75 btn btn-outline-danger"
-                                            value="<?php echo esc_html($linha->idTrabalho); ?>">Finalizar Trabalho</button>
+
                                         <br>
                                         <a class="btn btn-outline-primary w-75 rounded"
                                             href="<?php echo esc_html($linha->arquivo); ?>">Ver Arquivo</a>
+                                        <button class="finalizar-trabalho mt-2 w-75 btn btn-outline-danger"
+                                            value="<?php echo esc_html($linha->idTrabalho); ?>">Finalizar Trabalho</button>
                                     </td>
 
                                 </tr>
@@ -398,7 +356,8 @@ include(plugin_dir_path(__FILE__) . '../header.php');
 
 
             <div id="tabela-trabalhos-finalizados" style="display:none">
-                <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
+                <table border="1" class="table" cellpadding="10" cellspacing="0"
+                    style="width: 100%; border-collapse: collapse;">
                     <thead>
                         <tr>
                             <th colspan="8">
@@ -408,7 +367,6 @@ include(plugin_dir_path(__FILE__) . '../header.php');
 
                         <tr style="background-color: #f2f2f2;">
                             <th>Nome do Cliente</th>
-                            <th>Número OS</th>
                             <th>Número Orçamento</th>
                             <th>Título do Trabalho</th>
                             <th>Horas Gastas</th>
@@ -423,7 +381,6 @@ include(plugin_dir_path(__FILE__) . '../header.php');
                                 <?php $classeVermelha = $linha->horasGastasComp > $linha->horasEstimadasComp ? 'classe-vermelha' : ''; ?>
                                 <tr>
                                     <td><?php echo esc_html($linha->nomeCliente); ?></td>
-                                    <td><?php echo esc_html($linha->numOs); ?></td>
                                     <td><?php echo esc_html($linha->numOrcamento); ?></td>
                                     <td><?php echo esc_html($linha->tituloTrabalho); ?></td>
                                     <td class="<?php echo $classeVermelha; ?>"><?php echo esc_html($linha->horasGastas); ?>
@@ -453,7 +410,8 @@ include(plugin_dir_path(__FILE__) . '../header.php');
             <div id="tabela-solicitacoes" style="display:none">
 
 
-                <table border="0" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
+                <table border="0" class="table" cellpadding="10" cellspacing="0"
+                    style="width: 100%; border-collapse: collapse;">
                     <thead>
 
                         <tr>
@@ -463,7 +421,6 @@ include(plugin_dir_path(__FILE__) . '../header.php');
                         </tr>
                         <tr style="background-color: #f2f2f2;">
                             <th>Nome do Cliente</th>
-                            <th>Número OS</th>
                             <th>Número Orçamento</th>
                             <th>Título do Trabalho</th>
                             <th>Horas Estimadas</th>
@@ -476,7 +433,6 @@ include(plugin_dir_path(__FILE__) . '../header.php');
                             <?php foreach ($dados_solicitacao as $linha): ?>
                                 <tr>
                                     <td><?php echo esc_html($linha->nomeCliente); ?></td>
-                                    <td><?php echo esc_html($linha->numOs); ?></td>
                                     <td><?php echo esc_html($linha->numOrcamento); ?></td>
                                     <td><?php echo esc_html($linha->tituloTrabalho); ?></td>
                                     <td><?php echo esc_html($linha->horasEstimadas); ?></td>
@@ -484,7 +440,7 @@ include(plugin_dir_path(__FILE__) . '../header.php');
                                     <td><button class="mais-info-btn w-75 alternar-tabela btn btn-outline-primary"
                                             data-tabela="tabela-alteracoes-especifica"
                                             value="<?php echo esc_html($linha->idTrabalho); ?>">Mais Informações</button>
-                                        <a class="btn w-75 btn-outline-primary rounded"
+                                        <a class="btn w-75 btn-outline-primary rounded mt-2"
                                             href="<?php echo esc_html($linha->arquivo); ?>">Ver Arquivo</a>
                                     </td>
 
@@ -601,25 +557,79 @@ include(plugin_dir_path(__FILE__) . '../header.php');
                     .catch(error => console.error('Erro:', error));
             }
 
-            if (event.target.classList.contains('btn-buscar-trabalho-cliente') || event.target.classList.contains('btn-buscar-trabalho-vendedor')) {
-
-                if (event.target.classList.contains('btn-buscar-trabalho-cliente')) {
-                    tabela = "#tabela-buscar-trabalho-cliente";
-                } else if (event.target.classList.contains('btn-buscar-trabalho-vendedor')) {
-                    tabela = "#tabela-buscar-trabalho-vendedor";
-                }
-
+            if (event.target.classList.contains('btn-buscar-trabalho-cliente')) {
                 var id_cliente = document.getElementById('idCliente').value;
-                var vendedor = document.getElementById('vendedor').value;
-
-
 
                 fetch('<?php echo admin_url("admin-ajax.php"); ?>', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                     body: new URLSearchParams({
                         action: 'buscar_trabalho_cliente',
-                        id_cliente: id_cliente,
+                        id_cliente: id_cliente
+                    })
+                })
+
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            const tbody = document.querySelector('#tabela-buscar-trabalho-cliente tbody');
+                            tbody.innerHTML = '';
+                            const thead = document.querySelector('#tabela-buscar-trabalho-cliente thead');
+                            thead.innerHTML = '';
+
+                            data.data.forEach(trabalho => {
+                                const row = `<tr>
+                <td>${trabalho.numOrcamento}</td>
+                <td>${trabalho.tituloTrabalho}</td>
+                <td>${trabalho.vendedor}</td>
+                <td class="text-start">${trabalho.observacoes}</td>
+                <td>${trabalho.horasGastas}</td>
+                <td>${trabalho.horasEstimadas}</td>
+                <td>${trabalho.statusTrabalho}</td>
+                <td class="pl-3">
+                <button class="mais-info-btn w-100 alternar-tabela mb-2 btn btn-outline-primary"
+                data-tabela="tabela-alteracoes-especifica"
+                value="${trabalho.idTrabalho}">Mais Informações</button>    
+                <a class="btn btn-outline-primary rounded" style="width: 100%;" href="<?php echo esc_html($linha->arquivo); ?>">Ver Arquivo</a>
+                <button class="finalizar-trabalho w-100 mt-2 btn btn-outline-danger"
+                value="${trabalho.idTrabalho}">Finalizar Trabalho</button>
+                </td>
+            </tr>`;
+
+                                tbody.innerHTML += row;
+                                thead.innerHTML = ` 
+                                <tr>
+                                <th colspan="8">
+                                <h5>Exibindo trabalhos de: ${trabalho.nomeCliente}</h5>
+                                </th>
+                                </tr>
+                <tr> 
+                    <th> Numero do Orçamento </th>
+                    <th> Titulo do Trabalho </th>
+                    <th class="align-middle"> Vendedor </th>
+                    <th class="text-start align-middle"> Descrição </th>
+                    <th> Horas Gastas </th>
+                    <th> Horas Estimadas </th>
+                    <th class="align-middle"> Status </th>
+                    <th class="align-middle"> Mais Ações </th>
+                </tr>
+            `;
+                            })
+                        } else {
+                            alert(data.data.message || 'Erro ao buscar trabalhos.');
+                        }
+                    })
+            }
+
+
+            if (event.target.classList.contains('btn-buscar-trabalho-vendedor')) {
+                var vendedor = document.getElementById('vendedor').value;
+
+                fetch('<?php echo admin_url("admin-ajax.php"); ?>', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: new URLSearchParams({
+                        action: 'buscar_trabalho_vendedor',
                         vendedor: vendedor
                     })
                 })
@@ -627,50 +637,57 @@ include(plugin_dir_path(__FILE__) . '../header.php');
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
-                            const tbody = document.querySelector(tabela + ' tbody');
+                            const tbody = document.querySelector('#tabela-buscar-trabalho-vendedor tbody');
                             tbody.innerHTML = '';
-                            const thead = document.querySelector(tabela + ' thead');
+                            const thead = document.querySelector('#tabela-buscar-trabalho-vendedor thead');
                             thead.innerHTML = '';
 
                             data.data.forEach(trabalho => {
                                 const row = `<tr>
-                                    <td>${trabalho.numOs}</td>
-                                    <td>${trabalho.numOrcamento}</td>
-                                    <td>${trabalho.tituloTrabalho}</td>
-                                    <td class="text-start">${trabalho.observacoes}</td>
-                                    <td>${trabalho.horasGastas}</td>
-                                    <td>${trabalho.horasEstimadas}</td>
-                                    <td>${trabalho.statusTrabalho}</td>
-                                    <td class="pl-3">
-                                    <button class="mais-info-btn w-75 alternar-tabela mb-2 btn btn-outline-primary"
-                                    data-tabela="tabela-alteracoes-especifica"
-                                    value="${trabalho.idTrabalho}">Mais Informações</button>
-                                    <button class="finalizar-trabalho w-75 mb-2 btn btn-outline-danger"
-                                    value="${trabalho.idTrabalho}">Finalizar Trabalho</button>
-                                        <br>
-                                    <a class="btn w-75 btn-outline-primary rounded" href="<?php echo esc_html($linha->arquivo); ?>">Ver Arquivo</a>
-                                    </td>
-                                </tr>`;
+                <td>${trabalho.numOrcamento}</td>
+                <td class="text-start">${trabalho.tituloTrabalho}</td>
+                <td>${trabalho.nomeCliente}</td>
+                <td class="text-start">${trabalho.observacoes}</td>
+                <td >${trabalho.horasGastas}</td>
+                <td >${trabalho.horasEstimadas}</td>
+                <td >${trabalho.statusTrabalho}</td>
+                <td class="pl-3">
+                <button class="mais-info-btn w-100 alternar-tabela mb-2 btn btn-outline-primary"
+                data-tabela="tabela-alteracoes-especifica"
+                value="${trabalho.idTrabalho}">Mais Informações</button>
+                <a class="btn btn-outline-primary rounded" style="width: 100%;" href="<?php echo esc_html($linha->arquivo); ?>">Ver Arquivo</a>
+                    <br>
+                <button class="finalizar-trabalho w-100 mt-2 btn btn-outline-danger"
+                value="${trabalho.idTrabalho}">Finalizar Trabalho</button>
+                </td>
+            </tr>`;
 
                                 tbody.innerHTML += row;
                                 thead.innerHTML = `
-                                    <tr> 
-                                        <th> Numero da Os </th>
-                                        <th> Numero do Orçamento </th>
-                                        <th> Titulo do Trabalho </th>
-                                        <th class="text-start"> Descrição </th>
-                                        <th> Horas Gastas </th>
-                                        <th> Horas Estimadas </th>
-                                        <th> Status </th>
-                                        <th> Mais Ações </th>
-                                    </tr>
-                                `;
+                <tr>
+                    <th colspan="8">
+                    <h5>Exibindo trabalhos de: ${trabalho.vendedor}</h5>
+                    </th>
+                    </tr>
+                <tr> 
+                    <th> Numero do Orçamento </th>
+                    <th> Titulo do Trabalho </th>
+                    <th class="align-middle"> Cliente </th>
+                    <th class="text-start align-middle"> Descrição </th>
+                    <th> Horas Gastas </th>
+                    <th> Horas Estimadas </th>
+                    <th class="align-middle"> Status </th>
+                    <th class="align-middle"> Mais Ações </th>
+                </tr>
+            `;
                             })
                         } else {
-                            alert(data.data.message);
+                            alert(data.data.message || 'Erro ao buscar trabalhos.');
                         }
                     })
             }
+
+
 
             if (event.target.classList.contains('mais-info-btn')) {
                 var id_trabalho = event.target.value;
@@ -698,14 +715,14 @@ include(plugin_dir_path(__FILE__) . '../header.php');
                                     <td>${alteracao.numOs}</td>
                                     <td>${alteracao.numOrcamento}</td>
                                     <td>${alteracao.tituloTrabalho}</td>
-                                    <td>${alteracao.descricao}</td>
+                                    <td class="text-start">${alteracao.descricao}</td>
                                     <td>${alteracao.horasGastas}</td>
-                                    <td>${new Date(alteracao.inicioAlteracao).toLocaleString()}</td>
-                                    <td>${new Date(alteracao.fimAlteracao).toLocaleString()}</td>
+                                    <td class="text-start">${new Date(alteracao.inicioAlteracao).toLocaleString()}</td>
+                                    <td class="text-start">${new Date(alteracao.fimAlteracao).toLocaleString()}</td>
                                 </tr>`;
                                 tbody.innerHTML += row;
                                 thead.innerHTML = ` 
-                                        <tr> <th colspan="8" class="text-start"><div class="row"> <div class="col-9"><h4>Histórico do trabalho ${alteracao.tituloTrabalho}</h4></div> <div class="col"> <a href="?pagina=alteracao&idTrabalho=${alteracao.idTrabalho}" class="btn btn-success">Adicionar Alteração</a> </div>  </div>
+                                        <tr> <th colspan="8" class="text-start"><div class="row"> <div class="col-9"><h4>Histórico do trabalho ${alteracao.tituloTrabalho}</h4></div> <div class="col"> <a href="?pagina=alteracao&idTrabalho=${alteracao.idTrabalho}" class="btn btn-success ms-5">Adicionar Alteração</a> </div>  </div>
                                         <h5>Vendedor: ${alteracao.vendedor} <h5>  
                                         <h5>Descrição do trabalho:</h5> ${alteracao.observacoes}
                                         </th> </tr>                   
@@ -714,10 +731,10 @@ include(plugin_dir_path(__FILE__) . '../header.php');
                                         <th>Número OS</th>
                                         <th>Número Orçamento</th>
                                         <th>Título do Trabalho</th>
-                                        <th>Descrição da Alteração</th>
+                                        <th class="text-start">Descrição da Alteração</th>
                                         <th>Horas Gastas</th>
-                                        <th>Início Alteração</th>
-                                        <th>Fim Alteração</th>
+                                        <th class="text-start">Início Alteração</th>
+                                        <th class="text-start">Fim Alteração</th>
                                     </tr>
 
                                     `;
