@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php
 if (!defined('ABSPATH'))
     exit; // Impede acesso direto
@@ -433,4 +434,3 @@ class TimeSheetController
 
 
 }
-?>
