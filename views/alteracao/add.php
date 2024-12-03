@@ -34,7 +34,11 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
     <div class="container-fluid">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav w-100 text-white me-auto">
-            <li class="nav-item m-1 mt-1"><h4>Painel Timesheet</h4></li>
+            <li class="nav-item m-1 mt-1">
+                     <a href="?pagina=timeSheet" class="text-white">
+                    <h4>Painel Timesheet</h4>
+                    </a>
+            </li>
                 <li class="nav-item m-1 mt-0">
                     <a href="?pagina=timeSheet" class=" btn text-white m-0 p-2">
                         Painel TimeSheet

@@ -21,16 +21,38 @@ register_uninstall_hook(__FILE__, 'drop_tables');
 $controller = new AlteracaoController();
 $controllerTimesheet = new TimeSheetController();
 $controllerTrabalho = new TrabalhoController();
+
+
+
+//Registro aquisições AJAX
+
+//buscar trabalho para alteração
 add_action('wp_ajax_buscar_trabalho', [$controller, 'buscar_trabalho_ajax']);
 add_action('wp_ajax_nopriv_buscar_trabalho', [$controller, 'buscar_trabalho_ajax']);
+
+//buscar alterações de um trabalho especifico
 add_action('wp_ajax_alteracoes_especificas', [$controllerTimesheet, 'buscar_alteracoes_por_trabalho']);
 add_action('wp_ajax_nopriv_alteracoes_especificas', [$controllerTimesheet, 'buscar_alteracoes_por_trabalho']);
+
+//Finalizar trabalho
 add_action('wp_ajax_finalizar_trabalho', [$controllerTrabalho, 'ajax_finalizar_trabalho']);
+
+
+//buscar trabalho por clientes
 add_action('wp_ajax_buscar_trabalho_cliente', [$controllerTimesheet, 'buscar_trabalho_por_cliente']);
 add_action('wp_ajax_nopriv_buscar_trabalho_cliente', [$controllerTimesheet, 'buscar_trabalho_por_cliente']);
+
+
+//buscar trabalho por vendedor
 add_action('wp_ajax_buscar_trabalho_vendedor', [$controllerTimesheet, 'buscar_trabalho_por_vendedor']);
 add_action('wp_ajax_nopriv_buscar_trabalho_vendedor', [$controllerTimesheet, 'buscar_trabalho_por_vendedor']);
 
+//buscar trabalho por titulo
+add_action('wp_ajax_buscar_trabalho_titulo', [$controllerTimesheet, 'buscar_trabalho_por_titulo']);
+add_action('wp_ajax_nopriv_buscar_trabalho_titulo', [$controllerTimesheet, 'buscar_trabalho_por_titulo']);
+
+
+//esconder barra de admin
 add_filter('show_admin_bar', '__return_false');
 
 function timeSheetPanel_shortcode() {

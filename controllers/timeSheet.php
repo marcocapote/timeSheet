@@ -261,6 +261,7 @@ class TimeSheetController
             t.titulo AS tituloTrabalho,
             t.horasEstimadas,
             t.vendedor,
+            t.arquivo,
             IFNULL(t.horasGastas, '0'),
             IFNULL(a.descricao, 'Trabalho solicitado') AS descricao,
             a.inicio AS inicioAlteracao,
@@ -331,6 +332,8 @@ class TimeSheetController
                         ROUND((t.horasGastas - FLOOR(t.horasGastas)) * 60), 'min'
                     ) AS horasGastas,
                 t.vendedor,
+                t.arquivo,
+                IFNULL(t.arquivo, '#') as arquivo,
                 IFNULL(a.descricao, 'Trabalho solicitado') AS descricao,
                 a.inicio AS inicioAlteracao,
                 a.fim AS fimAlteracao,
@@ -429,6 +432,75 @@ class TimeSheetController
         wp_die();
     }
 
+
+    public static function buscar_trabalho_por_titulo(){
+        if(!isset($_POST['titulo'])){
+            wp_send_json_error(['message' => 'Trabalho não encontrado']);
+            wp_die();
+        }
+        $titulo = sanitize_text_field($_POST['titulo']);
+        global $wpdb;
+        $tabela_timesheet = $wpdb->prefix . 'timesheet_timeSheet';
+        $tabela_clientes = $wpdb->prefix . 'timesheet_clientes';
+        $tabela_trabalhos = $wpdb->prefix . 'timesheet_trabalhos';
+        $tabela_alteracoes = $wpdb->prefix . 'timesheet_alteracoes';
+    
+        $query = "
+                    SELECT
+                            c.nome AS nomeCliente,
+                            t.statusTrabalho,
+                            t.numOs,
+                            t.idTrabalho,
+                            t.numOrcamento,
+                            IFNULL(
+                                CASE 
+                                    WHEN CHAR_LENGTH(t.observacoes) > 130 
+                                    THEN CONCAT(LEFT(t.observacoes, 130), '...')
+                                    ELSE t.observacoes
+                                END, 
+                                'Sem observações'
+                            ) AS observacoes,
+                            t.titulo AS tituloTrabalho,
+                            t.horasEstimadas,
+                            t.horasGastas,
+                            CONCAT(
+                                    FLOOR(t.horasEstimadas), 'h',
+                                    ROUND((t.horasEstimadas - FLOOR(t.horasEstimadas)) * 60), 'min'
+                                ) AS horasEstimadas,
+                            CONCAT(
+                                    FLOOR(t.horasGastas), 'h',
+                                    ROUND((t.horasGastas - FLOOR(t.horasGastas)) * 60), 'min'
+                                ) AS horasGastas,
+                            t.vendedor,
+                            IFNULL(a.descricao, 'Trabalho solicitado') AS descricao,
+                            a.inicio AS inicioAlteracao,
+                            a.fim AS fimAlteracao,
+                            IFNULL(TIMESTAMPDIFF(HOUR, a.inicio, a.fim), 'Trabalho não iniciado') AS horasDiferenca,
+                            IF(ts.idAlteracao = 0, t.dataCriacao, a.inicio) AS inicioReal, 
+                            IF(ts.idAlteracao = 0, t.dataCriacao, a.fim) AS fimReal
+                        FROM 
+                            $tabela_timesheet AS ts
+                        LEFT JOIN 
+                            $tabela_trabalhos AS t ON ts.idTrabalho = t.idTrabalho
+                        LEFT JOIN 
+                            $tabela_clientes AS c ON ts.idCliente = c.idCliente
+                        LEFT JOIN 
+                            $tabela_alteracoes AS a ON ts.idAlteracao = a.idAlteracao
+                        WHERE ts.idAlteracao = 0 AND t.titulo LIKE %s
+        ";
+    
+        $trabalhos = $wpdb->get_results(
+            $wpdb->prepare($query, '%' . $wpdb->esc_like($titulo) . '%')
+        );
+    
+        if (empty($trabalhos)) {
+            wp_send_json_error(['message' => 'Nenhum trabalho encontrado com esse título']);
+        } else {
+            wp_send_json_success($trabalhos);
+        }
+        wp_die();
+    }
+    
 
 
 }
