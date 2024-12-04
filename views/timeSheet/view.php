@@ -36,11 +36,27 @@ include(plugin_dir_path(__FILE__) . '../header.php');
                         Adicionar Trabalho
                     </a>
                 </li>
-                <li class="nav-item m-5 mb-0 mt-0"></li>
+                
+                
 
+                <?php
+                $current_user = wp_get_current_user();
+                $roles = $current_user->roles;
+
+                if ($roles[0] == "administrator"): ?>
+                <li class="nav-item m-5 mb-0 mt-0"></li>
+                    <li class="nav-item m-0 mb-0 mt-0 ms-auto me-3">
+                        <button class="btn btn-outline-light rounded m-0 mt-1 p-1 alternar-tabela"
+                            data-tabela="tabela-solicitacoes">Ver Solicitações</button>
+                    </li>
+                <?php endif; 
+                if ($roles[0] != "administrator"):
+                ?>
+                <li class="nav-item m-5 ms-auto mb-0 mt-0"></li>
+                <?php endif;?>
 
                 <!-- Botão dropdown alinhado à direita -->
-                <li class="nav-item dropdown ms-auto me-5 pe-5 m-1 mt-0">
+                <li class="nav-item dropdown me-5 pe-5 m-1 mt-0">
                     <a class="nav-link btn btn-dark text-white dropdown-toggle" href="#" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
                         Selecione a tabela
@@ -54,10 +70,7 @@ include(plugin_dir_path(__FILE__) . '../header.php');
                             <a class="dropdown-item text-white alternar-tabela" data-tabela="tabela-trabalhos">Trabalhos
                                 em andamento</a>
                         </li>
-                        <li>
-                            <a class="dropdown-item text-white alternar-tabela"
-                                data-tabela="tabela-solicitacoes">Solicitações</a>
-                        </li>
+
                         <li>
                             <a class="dropdown-item text-white alternar-tabela"
                                 data-tabela="tabela-trabalhos-finalizados">Trabalhos finalizados</a>
