@@ -156,20 +156,44 @@ include( plugin_dir_path( __FILE__ ) .'../header.php');
     <br>
     <br>    
     <div class="row">
+        <div class="col mb-3">
+            <b>Escolha como deseja registrar o tempo:</b>
+            <br>
+            <input type="radio" name="registroTempo" id="contador" checked="checked">
+            <label for="manual">Usar cronometro</label>
+
+            <input type="radio" name="registroTempo" id="manual">
+            <label for="manual">Registrar manualmente</label> 
+        </div>
+    </div>
+    <div class="row mt-4" id="registroManual" style="display: none;">
+        <b>Registrar Manualmente</b>
+        <br>
         <div class="col">
         <label for="inicio" class="form-label">Início:</label>
-        <input type="datetime-local" id="inicio" name="inicio" class="form-control border-0" required>
+        <input type="datetime-local" id="inicio" name="inicio" class="form-control border-0" >
         </div>
         <div class="col">
         <label for="fim" class="form-label">Fim:</label>
-        <input type="datetime-local" id="fim" name="fim" class="form-control border-0" required>
+        <input type="datetime-local" id="fim" name="fim" class="form-control border-0">
         </div>
+    </div>
+    <div class="row" id="registroContador" >
+        <div class="col">
+        <b>Cronometro:</b>
+        <br>
+        <p>Tempo decorrido: <b id="tempoDecorrido">00:00</b></p> 
+        <button type="button" class="mt-4" id="timeStart">Começar contagem de tempo</button>
+        </div>
+        
     </div>
     <br>
     
     <input type="text" id="horasGastas" class="form-control border-0" name="horasGastas" required readonly hidden>
 
     <input type="text" id="horasGastasShow" class="form-control border-0" name="horasGastasShow" required readonly>
+
+    
 
     <button type="submit" name="submit_alteracao" class="mb-3 mt-4">Salvar</button>
 
@@ -243,6 +267,32 @@ document.getElementById('buscarTrabalho').addEventListener('click', () => {
     buscarTrabalho();
 });
 
+document.addEventListener('DOMContentLoaded', () => {
+    // Seleciona os elementos relevantes
+    const radioManual = document.getElementById('manual');
+    const radioContador = document.getElementById('contador');
+    const rowRegistroManual = document.getElementById('registroManual');
+    const rowRegistroContador = document.getElementById('registroContador');
+
+    // Função para alternar visibilidade
+    function toggleRegistroTempo() {
+        if (radioManual.checked) {
+            rowRegistroManual.style.display = 'block';
+            rowRegistroContador.style.display = 'none';
+        } else if (radioContador.checked) {
+            rowRegistroManual.style.display = 'none';
+            rowRegistroContador.style.display = 'block';
+        }
+    }
+
+    // Adiciona os eventos de mudança nos botões de rádio
+    radioManual.addEventListener('change', toggleRegistroTempo);
+    radioContador.addEventListener('change', toggleRegistroTempo);
+
+    // Chamada inicial para ajustar a visibilidade
+    toggleRegistroTempo();
+});
+
 function preencherCampos(trabalho) {
     document.getElementById('idTrabalho').value =trabalho.idTrabalho || '';
     document.getElementById('idCliente').value =trabalho.idCliente || '';
@@ -266,26 +316,122 @@ function preencherCampos(trabalho) {
 document.getElementById('fim').addEventListener('input', calcularHorasGastas);
 document.getElementById('inicio').addEventListener('input', calcularHorasGastas);
 
+
+document.getElementById('timeStart').addEventListener('click', () => {
+   registrarHora();
+});
+
+
+
+
+var isRegistrando = false;
+
+var inicio;
+var fim;
+
+function registrarHora(){
+    if (isRegistrando == false){
+        isRegistrando = true;
+
+        alert('atenção, o contador de tempo será iniciado, NÃO saia da pagina');
+        var dataAtualInicio = new Date();
+        inicio = dataAtualInicio.getTime();
+
+        document.getElementById('timeStart').innerText = 'Finalizar contagem de tempo';
+
+        inicioFormatado = dataAtualInicio.toISOString().slice(0, 16);
+        document.getElementById('inicio').value = inicioFormatado;
+ 
+    } else {
+        isRegistrando = false;
+
+        alert('contador de tempo finalizado'); 
+        var dataAtualFim = new Date();
+        fim = dataAtualFim.getTime();
+
+        fimFormatado = dataAtualFim.toISOString().slice(0, 16);
+        document.getElementById('fim').value = fimFormatado;
+
+
+        calcularHorasGastas();
+    }
+    
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    let isRegistrando = false; // Estado inicial
+    let startTime = null; // Armazena o horário inicial
+    let timerInterval = null; // Referência para o intervalo do cronômetro
+
+    const timeStartButton = document.getElementById('timeStart');
+    const tempoDecorridoElement = document.getElementById('tempoDecorrido');
+
+    // Formata o tempo em HH:MM:SS
+    function formatTime(milliseconds) {
+        const totalSeconds = Math.floor(milliseconds / 1000);
+        const hours = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
+        const minutes = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
+        const seconds = String(totalSeconds % 60).padStart(2, '0');
+        return `${hours}:${minutes}:${seconds}`;
+    }
+
+    // Atualiza o cronômetro no elemento #tempoDecorrido
+    function updateCronometro() {
+        const currentTime = Date.now();
+        const elapsedTime = currentTime - startTime;
+        tempoDecorridoElement.textContent = formatTime(elapsedTime);
+    }
+
+    // Lógica do botão timeStart
+    timeStartButton.addEventListener('click', () => {
+        if (!isRegistrando) {
+            // Inicia o cronômetro
+            isRegistrando = true;
+            startTime = Date.now();
+            timeStartButton.textContent = 'Parar contagem de tempo';
+
+            // Atualiza o cronômetro a cada segundo
+            timerInterval = setInterval(updateCronometro, 1000);
+        } else {
+            // Para o cronômetro
+            isRegistrando = false;
+            clearInterval(timerInterval);
+            timeStartButton.textContent = 'Começar contagem de tempo';
+
+            // Calcula o tempo final decorrido
+            const finalTime = Date.now() - startTime;
+            tempoDecorridoElement.textContent = formatTime(finalTime);
+
+        }
+    });
+});
+
+
 function calcularHorasGastas() {
-    const inicio = document.getElementById('inicio').value;
-    const fim = document.getElementById('fim').value;
+        inicioCampo = document.getElementById('inicio').value;
+        fimCampo = document.getElementById('fim').value;
+        if(inicioCampo && fimCampo){
+            inicio= inicioCampo;
+            fim = fimCampo;
+        }
 
-    if (inicio && fim) {
-        const diff = (new Date(fim) - new Date(inicio)) / 3600000; // Diferença em horas decimais
-        const diffFormatado = formatarHorasDecimais(diff); // Converte para o formato 00h00min
-
-        if (diff < 0) {
-            alert("O horário de início não pode ser maior que o horário de fim.");
-            return;
-        }else{
-            // Atualiza os campos com os valores
-        document.getElementById('horasGastas').value = diff.toFixed(2); // Decimal
-        document.getElementById('horasGastasShow').value = diffFormatado; // Formatado
+        if(inicio && fim){
+            const diff = (new Date(fim) - new Date(inicio)) / 3600000; // Diferença em horas decimais
+            const diffFormatado = formatarHorasDecimais(diff); // Converte para o formato 00h00min
+            if (diff < 0) {
+                alert("O horário de início não pode ser maior que o horário de fim.");
+                return;
+            }else{
+                // Atualiza os campos com os valores
+            document.getElementById('horasGastas').value = diff.toFixed(2); // Decimal
+            document.getElementById('horasGastasShow').value = diffFormatado; // Formatado
+        }
         }
 
         
-    }
-    x
+
+        
+    
 }
 
 function formatarHorasDecimais(horasDecimais) {
