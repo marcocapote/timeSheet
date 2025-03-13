@@ -125,7 +125,7 @@ include(plugin_dir_path(__FILE__) . '../header.php');
                     <option value="">Selecione um vendedor</option>
                     <option value="Vendedor1">Vendedor1</option>
                     <option value="Vendedor2">Vendedor2</option>
-                    <option value="Vendedor3">Vendedor3</option>
+                    <option value="Vendedor3">Beto</option>
                 </select><br><br>
             </div>
         </div>
